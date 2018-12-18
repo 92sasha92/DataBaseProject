@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>main page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="text/html; charset=iso-8859-2" http-equiv="Content-Type">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
+
+
+<style>
+.mySlides {display:none;}
+img {vertical-align: middle;   max-height: 600px;}
+
+body {
+font-family: 'Gaegu';
+  margin: 0;
+  font-size: 20px;
+}
+
+h1{
+  background-color:	rgb(153, 153, 255);
+  color:white;
+  font-size: 35px;
+  font-family: 'Gaegu';
+}
+ul {
+height:75px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+background-color: white;
+width: 100%;
+  border-width: 5px;
+    border-color: lightgrey;
+}
+
+
+li {
+  float: right;
+  font-size: 25px;
+
+}
+
+li a {
+  width: 100%;
+  display: block;
+  color: 	#00008B;
+  text-align: center;
+  padding: 20px 20px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color:  	#00008B;
+color: white;
+}
+.active {
+  background-color: 	white;
+color: 	#8B0000;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 2s;
+  animation-name: fade;
+  animation-duration: 2s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+.mycolor{
+backgrund-color: #8B0000;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- Navbar (sit on top) -->
+<div class= "w3-top">
+<div class= "w3-center">
+<ul style="background-color: white;">
+<li ><a href="#about">About</a></li>
+<li ><a href="#contact">Contact</a></li>
+<li ><a href="#choose">Plan Your Event</a></li>
+
+<li style="float:left"><img src="pic/logo.png" style="height:75px;" ></li>
+</ul>
+</div>
+</div>
+
+<!-- slideshow -->
+<div class="header">
+<div class="mySlides fade">
+  <img src="pic/animation1.jpg" style="width:100%">
+</div>
+
+<div class="mySlides fade">
+  <img src="pic/animation2.jpg" style="width:100%">
+</div>
+
+<div class="mySlides fade">
+  <img src="pic/animation3.jpg" style="width:100%">
+</div>
+
+<div class="mySlides fade">
+  <img src="pic/animation4.jpg" style="width:100%">
+</div>
+
+</div>
+
+<script>
+var myIndex = 0;
+carousel();
+
+function carousel() {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";  
+    }
+    myIndex++;
+    if (myIndex > x.length) {myIndex = 1}    
+    x[myIndex-1].style.display = "block";  
+    setTimeout(carousel, 4000); // Change image every 2 seconds
+}
+</script>
+</div>
+
+    
+
+
+
+
+<!-- Project Section -->
+  <div class="w3-container w3-padding-32" id="choose">
+<h1>Plan Food Event</h1>
+<pre>
+</pre>
+  <div class="w3-row-padding">
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-padding w3-black">World Food</div>
+<a href="worldfood.start.html"> 
+        <img src="pic/worldfood.jpg" alt="worldfood" style="width:100%; height:200px;">
+  </a>      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-padding w3-black" >Holiday Dinner</div>
+<a href="holiday.start.html"> 
+        <img src="pic/family.jpg" alt="holiday" style="width:100%; height:200px;">
+      </a></div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">Cocktail Party</div>
+<a href="cocktail.start.html"> 
+        <img src="pic/cocktail.jpg" alt="cocktail" style="width:100%; height:200px;">
+      </div>
+   </a> </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">Birthday Party</div>
+<a href="birthday.start.html"> 
+        <img src="pic/birthday.jpg" alt="birthday" style="width:100%; height:200px;">
+  </a>    </div>
+    </div>
+<div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">BBQ</div>
+<a href="bbq.start.html"> 
+      <img src="pic/bbq.jpg" alt="bbq" style="width:100%;height:200px;"> </a>
+      </div>
+    </div>
+<div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">Romantic dinner</div>
+<a href="romantic.start.html"> 
+        <img src="pic/romantic.jpg" alt="romantic" style="width:100%;height:200px;">
+    </a>  </div>
+    </div>
+<div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">Picnic</div>
+<a href="picnic.start.html"> 
+        <img src="pic/picnic.jpg" alt="picnic" style="width:100%;height:200px;">
+   </a>   </div>
+    </div>
+<div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">Breakfast</div>
+<a href="breakfast.start.html"> 
+        <img src="pic/breackfast.jpg" alt="breackfast" style="width:100%;height:200px;">
+    </a>  </div>
+    </div>
+
+
+
+  </div>
+
+  <!-- Contact Section -->
+  <div class="w3-container w3-padding-32" id="contact">
+    <h1>Contact</h1>
+    <p>Lets get in touch and talk about your next project.</p>
+    <form action="/action_page.php" target="_blank">
+      <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+      <input class="w3-input w3-section w3-border" type="text" placeholder="Email" required name="Email">
+      <input class="w3-input w3-section w3-border" type="text" placeholder="Subject" required name="Subject">
+      <input class="w3-input w3-section w3-border" type="text" placeholder="Comment" required name="Comment">
+      <button class="w3-button w3-black w3-section" type="submit">
+        <i class="fa fa-paper-plane"></i> SEND MESSAGE
+      </button>
+    </form>
+  </div>
+  
+<!-- Image of location -->
+<img src="pic/banner.png" >
+
+<!-- End page content -->
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <pre></pre>
+</footer>
+
+	
+</body>
+</html>
