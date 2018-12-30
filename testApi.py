@@ -1,23 +1,16 @@
+# importing the requests library
 import requests
 import json
+import MySQLdb
+import mysql_queries
+# authentication
+X_Yummly_App_ID = "e5eade25"
+X_Yummly_App_Key = "b3c6badec10eed98cb5e2580a4bbffdc"
 
-# X_Yummly_App_ID = "e5eade25"
-# X_Yummly_App_Key = "b3c6badec10eed98cb5e2580a4bbffdc"
-#
-#
-# #url = "http://api.yummly.com/v1/api/recipe/French-Onion-Soup-The-Pioneer-Woman-Cooks-_-Ree-Drummond-41364?_app_id=" + X_Yummly_App_ID + "&_app_key=" + X_Yummly_App_Key
-# # r.content[28:-3] cuisine + holiday name
-# # r.content[27:-3] course name
-# #
-# url = "http://api.yummly.com/v1/api/metadata/course?_app_id="+X_Yummly_App_ID+"&_app_key=" + X_Yummly_App_Key
-#
-# r = requests.get(url=url)
-#
-# print(r.content)
-
-arr = {"h":1,"g":2}
-if "a" not in arr:
-    print("error")
-else:
-    print(arr["a"])
-
+# api-endpoint
+base_url = "http://api.yummly.com/v1/api/recipes"
+base_metadata_url = "http://api.yummly.com/v1/api/metadata/"
+base_url_auth = "?_app_id={}&_app_key={}".format(X_Yummly_App_ID, X_Yummly_App_Key)
+recipe_id = '0'
+api_by_id_url = base_url + recipe_id + base_url_auth
+print(api_by_id_url)
