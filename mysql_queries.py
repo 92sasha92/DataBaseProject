@@ -1,7 +1,8 @@
 
 def insert_name_to_db(table_name, obj_name, conn):
     x = conn.cursor()
-    x.execute("""INSERT INTO %s VALUES (%s)""", (table_name, obj_name))
+    query = "INSERT INTO "+table_name+" VALUES (%s)"
+    x.execute(query, (obj_name,))
     try:
         conn.commit()
     except:
@@ -12,7 +13,8 @@ def insert_name_to_db(table_name, obj_name, conn):
 def insert_multi_data_to_db(table_name, names, id, conn):
     x = conn.cursor()
     for name in names:
-        x.execute("""INSERT INTO %s VALUES (%s, %s)""", (table_name, name, id))
+        sql = "INSERT INTO "+table_name+" VALUES (%s, %s)"
+        x.execute(sql, (name, id))
         try:
             conn.commit()
         except:
