@@ -76,16 +76,16 @@ CREATE TABLE if NOT EXISTS Drink(
 
 CREATE TABLE if NOT EXISTS DrinkIngredients(
 	ingredient_name varchar(128) NOT NULL,
-	ingredient_mesure varchar(128) NOT NULL,
-	PRIMARY KEY(ingredient_name, ingredient_mesure)
+	ingredient_measure varchar(128) NOT NULL,
+	PRIMARY KEY(ingredient_name, ingredient_measure)
 );
 
 CREATE TABLE if NOT EXISTS ListOfDrinkIngredients(
 	drink_id int NOT NULL,
 	ingredient_name varchar(128) NOT NULL,
-	ingredient_mesure varchar(128) NOT NULL,
-	PRIMARY KEY(drink_id,ingredient_name, ingredient_mesure),
-	FOREIGN KEY(ingredient_name, ingredient_mesure) REFERENCES DrinkIngredients(ingredient_name, ingredient_mesure),
+	ingredient_measure varchar(128) NOT NULL,
+	PRIMARY KEY(drink_id,ingredient_name, ingredient_measure),
+	FOREIGN KEY(ingredient_name, ingredient_measure) REFERENCES DrinkIngredients(ingredient_name, ingredient_measure),
 	FOREIGN KEY(drink_id) REFERENCES Drink(drink_id)
 );
 
