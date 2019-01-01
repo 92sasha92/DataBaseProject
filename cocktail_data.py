@@ -37,8 +37,9 @@ def insert_cocktails():
             drink_image = drink_details['strDrinkThumb']
             instructions = drink_details['strInstructions']
             glass = drink_details['strGlass']
+            is_alcoholic = drink_details['strAlcoholic']
             mysql_queries.insert_drink_to_db(drink_id, drink_name, drink_category,
-                                             drink_image, instructions, glass, conn)
+                                             drink_image, instructions, glass, is_alcoholic, conn)
             for i in range(1, 15):
                 drink_ingredient = drink_details['strIngredient%d' % i]
                 drink_measure = drink_details['strMeasure%d' % i]

@@ -71,6 +71,7 @@ CREATE TABLE if NOT EXISTS Drink(
 	drink_image varchar(128),
 	instructions varchar(4096),
 	glass varchar(128),
+	is_alcoholic varchar(128),
 	PRIMARY KEY(drink_id)
 );
 
