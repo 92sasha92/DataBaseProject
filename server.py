@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
@@ -21,6 +21,9 @@ def ethnic_cuisines_page():
 @app.route('/ethnic_cuisines')
 def ethnic_cuisines():
     return render_template('pages/ethnic_cuisines.html')
+
+
+    #return 'failed to load page or to send request'
 
 
 @app.route('/picnic_start')
@@ -78,10 +81,25 @@ def birthday_page():
     return render_template('pages/birthday_start.html')
 
 
-@app.route('/birthday')
+@app.route('/birthday', methods=['POST', 'GET'])
 def birthday():
-    return render_template('pages/birthday.html')
+    if request.method == 'GET':
+        return render_template('pages/birthday.html')
+    elif request.method == 'POST':
+        print("in  POST")
+        prepTime = request.form['Maximum Preparation Time']
+        numOfGuests = request.form['Number Of Guests']
+        includeChildren = request.form['with children']
+        special = request.form.getlist('Special')
+        #allergy = request.form['Allergy']
 
+        print("3.type special", type(special))
+        print("special   ==== ",special)
+        print("4.prep time ======= ", prepTime)
+        #redirect to results page instead of "hi"
+        return 'hi'
+    else:
+        return 'failed to load page or to send request'
 
 if __name__ == "__main__":
     app.run()
