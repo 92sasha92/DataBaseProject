@@ -1,7 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import MySQLdb
 
 app = Flask(__name__)
 
+conn = MySQLdb.connect(host="mysqlsrv1.cs.tau.ac.il",
+                       user="DbMysql06",
+                       passwd="DbMysql06",
+                       db="DbMysql06",
+                       use_unicode=True, charset="utf8")
 
 @app.route('/')
 def start():
@@ -81,6 +87,12 @@ def birthday_page():
 @app.route('/birthday')
 def birthday():
     return render_template('pages/birthday.html')
+
+
+@app.route('/cocktail', methods=['POST'])
+def cocktail_p():
+    print(request.get_json())
+    return "hi"
 
 
 if __name__ == "__main__":
