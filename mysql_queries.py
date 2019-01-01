@@ -51,7 +51,7 @@ def insert_multi_data_to_db(table_list_name, table_name, names, id, col_name, co
                 print("Error")
                 conn.rollback()
         except:
-            print("failed to insert data into db. table: " + table_list_name + " failed to insert name: " + name)
+            print("failed to insert data into db. table: " + table_list_name + " failed to insert id: " + id + " ,name: " + name)
             pass
 
 
