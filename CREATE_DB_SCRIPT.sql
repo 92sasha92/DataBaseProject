@@ -4,8 +4,8 @@ use DbMysql06;
 CREATE TABLE if NOT EXISTS Recipe(
 	recipe_id varchar(128) NOT NULL,
 	name varchar(128) NOT NULL,
-	recipe_image varchar(128),
-	recipe_instructions varchar(128),
+	recipe_image varchar(4096),
+	recipe_instructions varchar(4096),
 	prep_time int,
 	num_of_servings int,
 	rating int,	
