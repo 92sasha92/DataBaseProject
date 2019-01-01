@@ -51,7 +51,7 @@ def insert_multi_data_to_db(table_list_name, table_name, names, id, col_name, co
                 print("Error")
                 conn.rollback()
         except:
-            print("failed to insert data into db. table: " + table_list_name + " failed to insert name: " + name)
+            print("failed to insert data into db. table: " + table_list_name + " failed to insert id: " + id + " ,name: " + name)
             pass
 
 
@@ -84,16 +84,15 @@ def insert_drink_to_db(drink_id, drink_name, drink_category, drink_image, instru
         conn.rollback()
 
 
-def insert_drink_ingredient_to_db(drink_ingredient, drink_measure, conn):
+def insert_drink_ingredient_to_db(drink_ingredient, conn):
     x = conn.cursor()
-    sql = "INSERT INTO DrinkIngredients VALUES (%s, %s)"
+    sql = "INSERT INTO DrinkIngredients VALUES (%s)"
     sql_get = "SELECT *" \
               " FROM DrinkIngredients" + \
-              (" WHERE ingredient_name='%s'" % drink_ingredient) + \
-              (" AND ingredient_measure='%s'" % drink_measure)
+              " WHERE ingredient_name='%s'" % drink_ingredient
     is_exit = x.execute(sql_get)
     if is_exit == 0:
-        x.execute(sql, (drink_ingredient, drink_measure))
+        x.execute(sql, (drink_ingredient,))
     try:
         conn.commit()
     except:
@@ -106,8 +105,7 @@ def insert_to_drink_ingredient_list_db(drink_id, drink_ingredient, drink_measure
     sql = "INSERT INTO ListOfDrinkIngredients VALUES (%s, %s, %s)"
     sql_get = "SELECT drink_id, ingredient_name, ingredient_measure" + \
               (" FROM ListOfDrinkIngredients WHERE drink_id=%s" % drink_id) +\
-              (" AND ingredient_name='%s'" % drink_ingredient) +\
-              (" AND ingredient_measure='%s'" % drink_measure)
+              (" AND ingredient_name='%s'" % drink_ingredient)
     is_exit = x.execute(sql_get)
     if is_exit == 0:
         x.execute(sql, (drink_id, drink_ingredient, drink_measure))

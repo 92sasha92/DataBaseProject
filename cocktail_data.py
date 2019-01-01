@@ -53,7 +53,7 @@ def insert_cocktails():
                 drink_measure = drink_measure.replace("-", " ")
                 drink_ingredient = drink_ingredient.rstrip()
                 drink_measure = drink_measure.rstrip()
-                mysql_queries.insert_drink_ingredient_to_db(drink_ingredient, drink_measure, conn)
+                mysql_queries.insert_drink_ingredient_to_db(drink_ingredient, conn)
                 mysql_queries.insert_to_drink_ingredient_list_db(drink_id, drink_ingredient, drink_measure, conn)
 
     conn.close()

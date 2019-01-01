@@ -101,26 +101,42 @@ def insert_recipe(recipe_id):
                                       num_of_servings, rating, conn)
 
 
-cuisines = mysql_queries.load_names_from_db("Cuisines", "cuisine_name", conn)
+# cuisines = mysql_queries.load_names_from_db("Cuisines", "cuisine_name", conn)
+#
+# # defining a params dict for the parameters to be sent to the API
+# for cuisine in cuisines:
+#     api_url = base_url + base_url_auth + \
+#               "&requirePictures=true&maxResult=800&start=0&allowedCuisine[]=cuisine^cuisine-" + cuisine.lower()
+#     print(api_url)
+#     if " " in cuisine:
+#         continue
+#     # sending get request and saving the response as response object
+#     r = requests.get(url=api_url)
+#     # extracting data in json format
+#     data = r.json()
+#     with open(cuisine + "_recipes.json", 'w') as outfile:
+#         json.dump(data, outfile)
+#     outfile.close()
 
-# defining a params dict for the parameters to be sent to the API
-for cuisine in cuisines:
-    api_url = base_url + base_url_auth + \
-              "&requirePictures=true&maxResult=800&start=0&allowedCuisine[]=cuisine^cuisine-" + cuisine
-    print(api_url)
-    if " " in cuisine:
-        continue
-    # sending get request and saving the response as response object
-    r = requests.get(url=api_url)
-    # extracting data in json format
-    data = r.json()
-    with open(cuisine + "_recipes.json", 'w') as outfile:
-        json.dump(data, outfile)
+#
+# # CONTINUE NEXT TIME !!!!! :
+# for cuisine in cuisines:
+#     write_json_recipes_to_db_from_file(cuisine + "_recipes.json", cuisine)
+#
+#
+
+cuisine = 'Asian'
+
+api_url = base_url + base_url_auth + \
+              "&requirePictures=true&maxResult=800&start=0&allowedCuisine[]=cuisine^cuisine-" + cuisine.lower()
+print(api_url)
+# sending get request and saving the response as response object
+r = requests.get(url=api_url)
+# extracting data in json format
+data = r.json()
+with open(cuisine + "_recipes.json", 'w') as outfile:
+    json.dump(data, outfile)
     outfile.close()
 
-
-# CONTINUE NEXT TIME !!!!! :
-for cuisine in cuisines:
-    write_json_recipes_to_db_from_file(cuisine + "_recipes.json", cuisine)
-
+write_json_recipes_to_db_from_file(cuisine+"_recipes.json", cuisine)
 

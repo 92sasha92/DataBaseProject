@@ -4,8 +4,8 @@ use DbMysql06;
 CREATE TABLE if NOT EXISTS Recipe(
 	recipe_id varchar(128) NOT NULL,
 	name varchar(128) NOT NULL,
-	recipe_image varchar(128),
-	recipe_instructions varchar(128),
+	recipe_image varchar(4096),
+	recipe_instructions varchar(4096),
 	prep_time int,
 	num_of_servings int,
 	rating int,	
@@ -77,16 +77,15 @@ CREATE TABLE if NOT EXISTS Drink(
 
 CREATE TABLE if NOT EXISTS DrinkIngredients(
 	ingredient_name varchar(128) NOT NULL,
-	ingredient_measure varchar(128) NOT NULL,
-	PRIMARY KEY(ingredient_name, ingredient_measure)
+	PRIMARY KEY(ingredient_name)
 );
 
 CREATE TABLE if NOT EXISTS ListOfDrinkIngredients(
 	drink_id int NOT NULL,
 	ingredient_name varchar(128) NOT NULL,
 	ingredient_measure varchar(128) NOT NULL,
-	PRIMARY KEY(drink_id,ingredient_name, ingredient_measure),
-	FOREIGN KEY(ingredient_name, ingredient_measure) REFERENCES DrinkIngredients(ingredient_name, ingredient_measure),
+	PRIMARY KEY(drink_id, ingredient_name),
+	FOREIGN KEY(ingredient_name) REFERENCES DrinkIngredients(ingredient_name),
 	FOREIGN KEY(drink_id) REFERENCES Drink(drink_id)
 );
 

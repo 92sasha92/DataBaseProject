@@ -2,6 +2,11 @@ from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
+#conn = MySQLdb.connect(host="mysqlsrv1.cs.tau.ac.il",
+ #                      user="DbMysql06",
+  #                     passwd="DbMysql06",
+   #                    db="DbMysql06",
+    #                   use_unicode=True, charset="utf8")
 
 @app.route('/')
 def start():
@@ -21,9 +26,6 @@ def ethnic_cuisines_page():
 @app.route('/ethnic_cuisines')
 def ethnic_cuisines():
     return render_template('pages/ethnic_cuisines.html')
-
-
-    #return 'failed to load page or to send request'
 
 
 @app.route('/picnic_start')
@@ -100,6 +102,12 @@ def birthday():
         return 'hi'
     else:
         return 'failed to load page or to send request'
+
+@app.route('/cocktail', methods=['POST'])
+def cocktail_p():
+    print(request.get_json())
+    return "hi"
+
 
 if __name__ == "__main__":
     app.run()

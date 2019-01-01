@@ -13,4 +13,5 @@ base_metadata_url = "http://api.yummly.com/v1/api/metadata/"
 base_url_auth = "?_app_id={}&_app_key={}".format(X_Yummly_App_ID, X_Yummly_App_Key)
 recipe_id = '0'
 api_by_id_url = base_url + recipe_id + base_url_auth
-print(api_by_id_url)
+name = "Hello"
+print(name.lower())
