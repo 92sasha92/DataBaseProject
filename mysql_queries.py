@@ -70,13 +70,13 @@ def insert_recipe_to_db(recipe_id, recipe_name, recipe_img, recipe_ins, prep_tim
         print("failed to insert data into db. table: Recipe failed to insert name: " + recipe_name)
 
 
-def insert_drink_to_db(drink_id, drink_name, drink_category, drink_image, instructions, glass, conn):
+def insert_drink_to_db(drink_id, drink_name, drink_category, drink_image, instructions, glass, is_alcoholic, conn):
     x = conn.cursor()
-    sql = "INSERT INTO Drink VALUES (%s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO Drink VALUES (%s, %s, %s, %s, %s, %s, %s)"
     sql_get = "SELECT drink_id FROM Drink Where drink_id=%s" % drink_id
     is_exit = x.execute(sql_get)
     if is_exit == 0:
-        x.execute(sql, (drink_id, drink_name, drink_category, drink_image, instructions, glass))
+        x.execute(sql, (drink_id, drink_name, drink_category, drink_image, instructions, glass, is_alcoholic))
     try:
         conn.commit()
     except:
