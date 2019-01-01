@@ -1,7 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
+#conn = MySQLdb.connect(host="mysqlsrv1.cs.tau.ac.il",
+ #                      user="DbMysql06",
+  #                     passwd="DbMysql06",
+   #                    db="DbMysql06",
+    #                   use_unicode=True, charset="utf8")
 
 @app.route('/')
 def start():
@@ -78,9 +83,30 @@ def birthday_page():
     return render_template('pages/birthday_start.html')
 
 
-@app.route('/birthday')
+@app.route('/birthday', methods=['POST', 'GET'])
 def birthday():
-    return render_template('pages/birthday.html')
+    if request.method == 'GET':
+        return render_template('pages/birthday.html')
+    elif request.method == 'POST':
+        print("in  POST")
+        prepTime = request.form['Maximum Preparation Time']
+        numOfGuests = request.form['Number Of Guests']
+        includeChildren = request.form['with children']
+        special = request.form.getlist('Special')
+        #allergy = request.form['Allergy']
+
+        print("3.type special", type(special))
+        print("special   ==== ",special)
+        print("4.prep time ======= ", prepTime)
+        #redirect to results page instead of "hi"
+        return 'hi'
+    else:
+        return 'failed to load page or to send request'
+
+@app.route('/cocktail', methods=['POST'])
+def cocktail_p():
+    print(request.get_json())
+    return "hi"
 
 
 if __name__ == "__main__":
