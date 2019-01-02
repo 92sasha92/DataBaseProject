@@ -18,7 +18,7 @@ html{
 }
 
 .column {
-  width: 33.33%;
+  width: 25%;
   padding: 10px;
     float: left;
     background-color:regba(0,0,0,0);
@@ -218,6 +218,7 @@ p {color:white;}
             cursor: pointer;
             transition: background-color 0.15s;
         }
+
         .toggle-check-text:after {
             content: ' ';
             display: block;
@@ -232,6 +233,7 @@ p {color:white;}
         }
         .toggle-check-text:before {
             content: 'No';
+
         }
         .toggle-check-input:checked ~ .toggle-check-text {
             background: white;
@@ -251,7 +253,7 @@ p {color:white;}
 </head>
 <body>
 
-<form action="/birthday" method="POST">
+<form action="/birthday" method="POST" id="birthdayForm">
 <!-- Navbar (sit on top) -->
 <div class= "w3-top">
 <div class= "w3-center">
@@ -261,7 +263,7 @@ p {color:white;}
 </ul>
 </div>
 </div>
-<form action="/birthday" method="POST" id="birthdayForm">
+
 <!--1 row -->
 <div class="row">
 <div class="column">
@@ -306,55 +308,93 @@ p {color:white;}
     </label>
 </div>
 </div><!-- end 3 col -->
+<div class="column">
+   <div class="mybox">
+   <p></p>
+      <p>What Time Is It?</p>
+<div class="custom-select" style="width:200px;">
+  <select name="Time">
+    <option value="Winter">Winter</option>
+    <option value="Spring">Spring</option>
+    <option value="Summer">Summer</option>
+    <option value="Autumn">Autumn</option>
+  </select>
+</div>
+</div>
+</div><!-- end 4 col -->
 </div><!-- end 1 row -->
 
 
 <!--2 row -->
 <div class="row">
-<div class="column">
+    <div class="column">
    <div class="mybox">
-     <h3 style="text-align:right;">(optional)</h3>
-   <p>Special</p>
+   <p>Cake Flavor</p>
 <div class="custom-select w3-card-4 mycheck">
  <select >
-  <input class="w3-check" type="checkbox" name="Special[]" value="Vegetarian">
-  <label> Vegetarian  </label>
-    <div class="row"> 
-  <input class="w3-check" type="checkbox" name="Special[]" value="Vegan">
-  <label> Vegan</label> 
+  <input class="w3-check" type="checkbox" name="Cake Flavor" value="Chocolate">
+  <label> Chocolate</label>
+     <div class="row">
+  <input class="w3-check" type="checkbox" name="Cake Flavor" value="Cheese">
+  <label> Cheese</label>
+         </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Cake Flavor" value="Mousse">
+  <label> Mousse</label>
+      </div>
+     <div class="row">
+  <input class="w3-check" type="checkbox" name="Cake Flavor" value="Pie">
+  <label> Pie</label>
   </div>
-  <div class="row"> 
-  <input class="w3-check" type="checkbox" name="Special[]" value="Without meat">
-  <label> Without meat </label>
-</div>
+
   </select>
 </div>
 </div>
 </div><!-- end 1 col -->
 <div class="column">
    <div class="mybox">
-    <h3 style="text-align:right;">(optional)</h3>
-   <p>Allergy</p>
+     <h3 style="text-align:right;">(optional)</h3>
+   <p>Special</p>
 <div class="custom-select w3-card-4 mycheck">
  <select >
-  <input class="w3-check" type="checkbox" name="Allergy[]" value="Sesame">
-  <label> Sesame  </label>
-  <input class="w3-check" type="checkbox" name="Allergy[]" value="Egg">
-  <label> Egg</label> 
-  <div class="row"> 
-  <input class="w3-check" type="checkbox" name="Allergy[]" value="Peanuts">
-  <label> Peanuts</label>
-  <input class="w3-check" type="checkbox" name="Allergy[]" value="Dairy">
-  <label> Dairy</label>
+  <input class="w3-check" type="checkbox" name="Special" value="Vegetarian">
+  <label> Vegetarian  </label>
+    <div class="row"> 
+  <input class="w3-check" type="checkbox" name="Special" value="Vegan">
+  <label> Vegan</label> 
   </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox" name="Allergy[]" value="Gluten">
-  <label> Gluten</label>
+  <div class="row"> 
+  <input class="w3-check" type="checkbox" name="Special" value="Without meat">
+  <label> Without meat </label>
 </div>
   </select>
 </div>
 </div>
 </div><!-- end 2 col -->
+<div class="column">
+   <div class="mybox">
+    <h3 style="text-align:right;">(optional)</h3>
+   <p>Allergy</p>
+<div class="custom-select w3-card-4 mycheck">
+ <select >
+  <input class="w3-check" type="checkbox" name="Allergy" value="Sesame">
+  <label> Sesame  </label>
+  <input class="w3-check" type="checkbox" name="Allergy" value="Egg">
+  <label> Egg</label> 
+  <div class="row"> 
+  <input class="w3-check" type="checkbox" name="Allergy" value="Peanuts">
+  <label> Peanuts</label>
+  <input class="w3-check" type="checkbox" name="Allergy" value="Dairy">
+  <label> Dairy</label>
+  </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Allergy" value="Gluten">
+  <label> Gluten</label>
+</div>
+  </select>
+</div>
+</div>
+</div><!-- end 3 col -->
 <div class="column">
    <div class="mybox">
    <p style="font-size:20px; color:red;">finish?!</p>
@@ -364,9 +404,9 @@ p {color:white;}
    <div class="row"><p> </p></div>
     <input type="submit" value="Submit">
 </div>
-</div><!-- end 3 col -->
+</div><!-- end 4 col -->
 </div><!-- end 2 row -->
-</form>
+
 
 
 </form>

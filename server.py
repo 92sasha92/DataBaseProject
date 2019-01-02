@@ -43,19 +43,37 @@ def holiday_page():
     return render_template('pages/holiday_start.html')
 
 
-@app.route('/holiday')
+@app.route('/holiday', methods=['POST', 'GET'])
 def holiday():
-    return render_template('pages/holiday.html')
-
+    if request.method == 'GET':
+        return render_template('pages/holiday.html')
+    elif request.method == 'POST':
+        prepTime = request.form['Maximum Preparation Time']
+        holiday= request.form['Holiday']
+        numberOfDishes = request.form['Number Of Dishes']
+        numberOfGuests = request.form['Number Of Guests']
+        return 'RESULT PAGE'
+    else:
+        return 'failed to load page or to send request'
 
 @app.route('/romantic_start')
 def romantic_page():
     return render_template('pages/romantic_start.html')
 
 
-@app.route('/romantic')
+@app.route('/romantic', methods=['POST', 'GET'])
 def romantic():
-    return render_template('pages/romantic.html')
+    if request.method == 'GET':
+        return render_template('pages/romantic.html')
+    elif request.method == 'POST':
+        prepTime = request.form['Maximum Preparation Time']
+        firstPortion = request.form['First Portion']
+        mainPortion = request.form['Main Portion']
+        dessert = request.form['Dessert']
+
+        return 'RESULT PAGE'
+    else:
+        return 'failed to load page or to send request'
 
 
 @app.route('/breakfast_start')
@@ -88,18 +106,17 @@ def birthday():
     if request.method == 'GET':
         return render_template('pages/birthday.html')
     elif request.method == 'POST':
-        print("in  POST")
+        #print("in  POST")
         prepTime = request.form['Maximum Preparation Time']
         numOfGuests = request.form['Number Of Guests']
         includeChildren = request.form['with children']
+        season = request.form['Time']
+        cakeFlavor = request.form.getlist('Cake Flavor')
         special = request.form.getlist('Special')
-        #allergy = request.form['Allergy']
+        allergy = request.form.getlist('Allergy')
 
-        print("3.type special", type(special))
-        print("special   ==== ",special)
-        print("4.prep time ======= ", prepTime)
-        #redirect to results page instead of "hi"
-        return 'hi'
+        #redirect to results page instead of just writing "RESULT PAGE"
+        return 'RESULT PAGE'
     else:
         return 'failed to load page or to send request'
 

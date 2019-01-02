@@ -200,7 +200,7 @@ position: relative;
 </style>
 </head>
 <body>
-
+<form action="/holiday" method="POST" id="holidayForm">
 <!-- Navbar (sit on top) -->
 <div class= "w3-top">
 <div class= "w3-center">
@@ -212,12 +212,29 @@ position: relative;
 </div>
 <!--1 row -->
 <div class="row">
+    <div class="column">
+  <div class="mybox">
+   <p >Holiday</p>
+   <div class="row"> <p></p></div>
+   <div class="row"><p></p> </div>
+<div class="custom-select" style="width:200px;">
+  <select name="Holiday">
+   <option value="Christmas">Chrismas</option>
+    <option value="Thanksgiving">Thanksgiving</option>
+    <option value="Rosh-Hashana ">Rosh-Hashana </option>
+    <option value="Shavuot">Shavuot</option>
+    <option value="Hanukkah">Hanukkah</option>
+    <option value="Independence Day">Independence Day</option>
+      </select>
+</div>
+</div>
+</div><!-- end 1 col -->
 <div class="column">
    <div class="mybox">
    <p></p>
       <p>Maximum Preparation Time</p>
 <div class="custom-select" style="width:200px;">
-  <select>
+  <select name="Maximum Preparation Time">
     <option value="1">1 hour</option>
     <option value="2">2 hours</option>
     <option value="3">3 hours</option>
@@ -225,14 +242,14 @@ position: relative;
   </select>
 </div>
 </div>
-</div><!-- end 1 col -->
+</div><!-- end 2 col -->
 <div class="column">
     <div class="mybox">
    <p>Number Of Guests</p>
    <div class="row"><p> </p></div>
    <div class="row"><p> </p></div>
 <div class="custom-select" style="width:200px;">
-  <select>
+  <select name="Number Of Guests">
     <option value="1">2-4</option>
     <option value="2">5-10</option>
     <option value="3">10-15</option>
@@ -241,75 +258,29 @@ position: relative;
   </select>
 </div>
    </div>
-</div><!-- end 2 col -->
-<div class="column">
-  <div class="mybox">
-   <p >Holiday</p>
-   <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>  
-   <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>
-<div class="custom-select" style="width:200px;">
-  <select>
-   <option value="Chrismas">Chrismas</option>
-    <option value="Thanksgiving">Thanksgiving</option>
-    <option value="Rosh-hashana ">Rosh-hashana </option>
-    <option value="Shavuot">Shavuot</option>
-    <option value="Hanukkah">Hanukkah</option>
-    <option value="Independence Day">Independence Day</option>
-      </select>
-</div>
-</div>
 </div><!-- end 3 col -->
+
 </div><!-- end 1 row -->
 
 
 <!--2 row -->
-<div class="row">
 <div class="column">
-   <div class="mybox">
-     <h3 style="text-align:right;">(optional)</h3>
-   <p>Special</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox">
-  <label> Vegetarian  </label>
-    <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Vegan</label> 
-  </div>
-  <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Without meat </label>
-</div>
+    <div class="mybox">
+   <p>Number Of Dishes</p>
+   <div class="row"><p> </p></div>
+   <div class="row"><p> </p></div>
+<div class="custom-select" style="width:200px;">
+  <select name="Number Of Dishes">
+    <option value="1">2-4</option>
+    <option value="2">5-10</option>
+    <option value="3">10-15</option>
+    <option value="4">15-20</option>
+    <option value="5">20+</option>
   </select>
 </div>
-</div>
+   </div>
 </div><!-- end 1 col -->
-<div class="column">
-   <div class="mybox">
-    <h3 style="text-align:right;">(optional)</h3>
-   <p>Allergy</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox">
-  <label> Sesame  </label>
-  <input class="w3-check" type="checkbox">
-  <label> Egg</label> 
-  <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Peanuts</label>
-  <input class="w3-check" type="checkbox">
-  <label> Dairy</label>
-  </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox">
-  <label> Gluten</label>
-</div>
-  </select>
-</div>
-</div>
-</div><!-- end 2 col -->
+
 <div class="column">
    <div class="mybox">
    <p style="font-size:20px; color:red;">finish?!</p>
@@ -319,11 +290,14 @@ position: relative;
    <div class="row"><p> </p></div>
     <input type="submit" value="Submit">
 </div>
-</div><!-- end 3 col -->
+</div><!-- end 2 col -->
+
+
+
 </div><!-- end 2 row -->
 
 
-
+</form>
 
 </body>
 <script>

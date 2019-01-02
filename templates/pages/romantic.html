@@ -202,7 +202,7 @@ position: relative;
 </head>
 <body>
 
-
+<form action="/romantic" method="POST" id="romanticForm">
 <!-- Navbar (sit on top) -->
 <div class= "w3-top">
 <div class= "w3-center">
@@ -214,24 +214,12 @@ position: relative;
 </div>
 <!--1 row -->
 <div class="row">
-<div class="column">
-   <div class="mybox">
-   <p></p>
-      <p>Type Of Whine</p>
-<div class="custom-select" style="width:200px;">
-  <select>
-    <option value="red">Red</option>
-    <option value="white">White</option>
-    <option value="none">Witout</option>
-  </select>
-</div>
-</div>
-</div><!-- end 1 col -->
+
 <div class="column">
     <div class="mybox">
-   <p> Firsy Portion</p>
+   <p> First Portion</p>
 <div class="custom-select" style="width:200px;">
-  <select>
+  <select name="First Portion">
     <option value="meat">Meat</option>
     <option value="seafood">Sea-Food</option>
     <option value="vegan">Vegan</option>
@@ -240,30 +228,26 @@ position: relative;
   </select>
 </div>
    </div>
-</div><!-- end 2 col -->
+</div><!-- end 1 col -->
 <div class="column">
     <div class="mybox">
    <p> Main Portion</p>
 <div class="custom-select" style="width:200px;">
-  <select>
+  <select name="Main Portion">
     <option value="meat">Meat</option>
     <option value="pasta">Pasta</option>
     <option value="seafood">seafood</option>
   </select>
 </div>
 </div>
-</div><!-- end 3 col -->
-</div><!-- end 1 row -->
+</div><!-- end 2 col -->
 
-
-<!--2 row -->
-<div class="row">
 <div class="column">
     <div class="mybox">
-    <div class="row"><p> </p> </div>
-   <p>Desert</p>
+
+   <p>Dessert</p>
 <div class="custom-select" style="width:200px;">
-  <select>
+  <select name="Dessert">
     <option value="chocolate">Chocolate</option>
     <option value="cheese">Cheese</option>
     <option value="fruit">Fruit</option>
@@ -271,47 +255,44 @@ position: relative;
   </select>
 </div>
 </div>
-</div><!-- end 1 col -->
+</div><!-- end 3 col -->
+
+</div><!-- end 1 row -->
+
+
+<!--2 row -->
+<div class="row">
 <div class="column">
-<div class="mybox">
-    <h3 style="text-align:right;">(optional)</h3>
-   <p>Allergy</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox">
-  <label> Sesame  </label>
-  <input class="w3-check" type="checkbox">
-  <label> Egg</label> 
-  <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Peanuts</label>
-  <input class="w3-check" type="checkbox">
-  <label> Dairy</label>
-  </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox">
-  <label> Gluten</label>
-</div>
+   <div class="mybox">
+   <p></p>
+      <p>Maximum Preparation Time</p>
+<div class="custom-select" style="width:200px;">
+  <select name="Maximum Preparation Time">
+    <option value="1">1 hour</option>
+    <option value="2">2 hours</option>
+    <option value="3">3 hours</option>
+    <option value="4">4+ hours</option>
   </select>
 </div>
 </div>
-</div><!-- end 2 col -->
+</div><!-- end 1 col -->
+
+
+
 <div class="column">
    <div class="mybox">
        <div class="row"><p> </p> </div>
    <p style="font-size:20px; color:red;">finish?!</p>
    <div class="row"><p> </p></div>
    <div class="row"><p> </p></div>
-      <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
     <input type="submit" value="Submit">
 </div>
-</div><!-- end 3 col -->
+</div><!-- end 2 col -->
 </div><!-- end 2 row -->
 
 
 
-
+</form>
 </body>
 <script>
 var x, i, j, selElmnt, a, b, c;
