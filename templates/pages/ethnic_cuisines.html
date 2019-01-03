@@ -14,7 +14,7 @@ html{
 }
 
 .column {
-  width: 33.33%;
+  width: 25%;
   padding: 10px;
     float: left;
     background-color:regba(0,0,0,0);
@@ -188,6 +188,17 @@ position: relative;
     font-weight: bold;
   }
 
+.mybox2 {
+  width: 260px;
+  height: 280px;
+  padding: 10px;
+  margin: 10px;
+  background-color: rgba(0,0,0, 0.4);
+  border: 3px solid #f1f1f1;
+  text-align: center;
+    font-weight: bold;
+  }
+
 .mybox:hover {
   box-shadow: 0 0 3px 1px rgba(0, 140, 186, 0.5);
   background-color:  rgb(209, 209, 224);
@@ -199,6 +210,7 @@ position: relative;
 </head>
 <body>
 
+<form action="/ethnic_cuisines" method="POST" id="ethnic_cuisinesForm">
 
 <!-- Navbar (sit on top) -->
 <div class= "w3-top">
@@ -217,7 +229,7 @@ position: relative;
    <p></p>
       <p>Maximum Preparation Time</p>
 <div class="custom-select" style="width:200px;">
-  <select>
+  <select name="Maximum Preparation Time">
     <option value="1">1 hour</option>
     <option value="2">2 hours</option>
     <option value="3">3 hours</option>
@@ -226,93 +238,68 @@ position: relative;
 </div>
 </div>
 </div><!-- end 1 col -->
-<div class="column">
-    <div class="mybox">
-   <p>Number Of Guests</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select>
-    <option value="1">2-4</option>
-    <option value="2">5-10</option>
-    <option value="3">10-15</option>
-    <option value="4">15-20</option>
-    <option value="5">20+</option>
+        <div class="column">
+   <div class="mybox">
+   <p>Type Of Meal</p>
+<div class="custom-select w3-card-4 mycheck">
+ <select >
+  <input class="w3-check" type="checkbox" name="Type Of Meal" value="First">
+  <label> First</label>
+     <div class="row">
+  <input class="w3-check" type="checkbox" name="Type Of Meal" value="Main">
+  <label> Main</label>
+         </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Type Of Meal" value="Dessert">
+  <label> Dessert</label>
+      </div>
+
   </select>
 </div>
-   </div>
+</div>
 </div><!-- end 2 col -->
-<div class="column">
-  <div class="mybox">
-   <p >Country</p>
-   <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>  
-   <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>
-<div class="custom-select" style="width:200px;">
-  <select>
-   <option value="american">American</option>
-    <option value="italy">Italy</option>
-    <option value="asian">Asian</option>
-    <option value="england">England</option>
-    <option value="greece">Greece</option>
-    <option value="france">France</option>
-    <option value="indian">Indian</option>
-    <option value="israeli">Israeli</option>
-    <option value="mexican">Mexican</option>
-      </select>
+
+
+    <div class="column">
+   <div class="mybox2">
+   <p>Cuisine</p>
+<div class="custom-select w3-card-4 mycheck">
+ <select >
+  <input class="w3-check" type="checkbox" name="Cuisine" value="American">
+  <label> American</label>
+     <div class="row">
+  <input class="w3-check" type="checkbox" name="Cuisine" value="Italian">
+  <label> Italian</label>
+         </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Cuisine" value="Asian">
+  <label> Asian</label>
+      </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Cuisine" value="Greek">
+  <label> Greek</label>
+      </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Cuisine" value="French">
+  <label> French</label>
+      </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Cuisine" value="Indian">
+  <label> Indian</label>
+      </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Cuisine" value="Mediterranean">
+  <label> Mediterranean</label>
+      </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Cuisine" value="Mexican">
+  <label> Mexican</label>
+      </div>
+
+  </select>
 </div>
 </div>
 </div><!-- end 3 col -->
-</div><!-- end 1 row -->
-
-
-<!--2 row -->
-<div class="row">
-<div class="column">
-   <div class="mybox">
-     <h3 style="text-align:right;">(optional)</h3>
-   <p>Special</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox">
-  <label> Vegetarian  </label>
-    <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Vegan</label> 
-  </div>
-  <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Without meat </label>
-</div>
-  </select>
-</div>
-</div>
-</div><!-- end 1 col -->
-<div class="column">
-   <div class="mybox">
-    <h3 style="text-align:right;">(optional)</h3>
-   <p>Allergy</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox">
-  <label> Sesame  </label>
-  <input class="w3-check" type="checkbox">
-  <label> Egg</label> 
-  <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Peanuts</label>
-  <input class="w3-check" type="checkbox">
-  <label> Dairy</label>
-  </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox">
-  <label> Gluten</label>
-</div>
-  </select>
-</div>
-</div>
-</div><!-- end 2 col -->
 <div class="column">
    <div class="mybox">
    <p style="font-size:20px; color:red;">finish?!</p>
@@ -322,9 +309,18 @@ position: relative;
    <div class="row"><p> </p></div>
     <input type="submit" value="Submit">
 </div>
-</div><!-- end 3 col -->
-</div><!-- end 2 row -->
+</div><!-- end 4 col -->
+</div><!-- end 1 row -->
 
+
+<!--2 row
+<div class="row">
+
+
+</div>
+ end 2 row -->
+
+</form>
 
 
 

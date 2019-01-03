@@ -23,9 +23,17 @@ def ethnic_cuisines_page():
     return render_template('pages/ethnic_cuisines_start.html')
 
 
-@app.route('/ethnic_cuisines')
+@app.route('/ethnic_cuisines', methods=['POST', 'GET'])
 def ethnic_cuisines():
-    return render_template('pages/ethnic_cuisines.html')
+    if request.method == 'GET':
+        return render_template('pages/ethnic_cuisines.html')
+    elif request.method == 'POST':
+        prepTime = request.form['Maximum Preparation Time']
+        typeOfMeal = request.form.getlist('Type Of Meal')
+        cuisine = request.form.getlist('Cuisine')
+        return 'RESULT PAGE'
+    else:
+        return 'failed to load page or to send request'
 
 
 @app.route('/picnic_start')
@@ -81,9 +89,17 @@ def breakfast_page():
     return render_template('pages/breakfast_start.html')
 
 
-@app.route('/breakfast')
+@app.route('/breakfast', methods=['POST', 'GET'])
 def breakfast():
-    return render_template('pages/breakfast.html')
+    if request.method == 'GET':
+        return render_template('pages/breakfast.html')
+    elif request.method == 'POST':
+        typeOfBreakfast = request.form['Type Of Breakfast']
+        numberOfSalads = request.form['Number Of Salads']
+        typeOfBread = request.form['Type Of Bread']
+        return 'RESULT PAGE'
+    else:
+        return 'failed to load page or to send request'
 
 
 @app.route('/bbq_start')
@@ -91,9 +107,17 @@ def bbq_page():
     return render_template('pages/bbq_start.html')
 
 
-@app.route('/bbq')
+@app.route('/bbq', methods=['POST', 'GET'])
 def bbq():
-    return render_template('pages/bbq.html')
+    if request.method == 'GET':
+        return render_template('pages/bbq.html')
+    elif request.method == 'POST':
+        kindOfMeat = request.form['Kind Of Meat']
+        numberOfSideDishes = request.form['Number Of Side Dishes']
+        vegan = request.form['Vegan']
+        return 'RESULT PAGE'
+    else:
+        return 'failed to load page or to send request'
 
 
 @app.route('/birthday_start')
@@ -120,10 +144,24 @@ def birthday():
     else:
         return 'failed to load page or to send request'
 
-@app.route('/cocktail', methods=['POST'])
-def cocktail_p():
-    print(request.get_json())
-    return "hi"
+@app.route('/cocktail_start')
+def cocktail_page():
+    return render_template('pages/cocktail_start.html')
+
+@app.route('/cocktail', methods=['POST', 'GET'])
+def cocktail():
+    if request.method == 'GET':
+        return render_template('pages/cocktail.html')
+    elif request.method == 'POST':
+        side_dish = request.form['side dish']
+        alcoholic = request.form['Alcoholic']
+        mainIngredient = request.form['Main Ingredient']
+        preferableGlasses = request.form.getlist('Preferable Glasses')
+
+        #redirect to results page instead of just writing "RESULT PAGE"
+        return 'RESULT PAGE'
+    else:
+        return 'failed to load page or to send request'
 
 
 if __name__ == "__main__":

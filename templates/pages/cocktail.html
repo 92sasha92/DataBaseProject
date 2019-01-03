@@ -12,12 +12,12 @@ html{
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url("static/images/breackfast.blur.jpg");
+  background-image: url("static/images/cocktail.jpg");
   background-attachment: fixed;
 }
 
 .column {
-  width: 25%;
+  width: 33.33%;
   padding: 10px;
     float: left;
     background-color:regba(0,0,0,0);
@@ -41,7 +41,7 @@ html{
   box-sizing: border-box;
 }
 input[type=submit] {
-  background-color: rgba(0,0,0, 0.4); 
+  background-color: rgba(0,0,0, 0.4);
   padding: 12px 20px;
   width: 100%;
   border: none;
@@ -51,7 +51,7 @@ input[type=submit] {
   font-family: 'Gaegu';
   color:white;
   font-size: 15px;
-      letter-spacing: 6px; 
+      letter-spacing: 6px;
     font-weight: bold;
 
 }
@@ -105,13 +105,13 @@ color: 	#8B0000;
 
 body {
     background-repeat: no-repeat;
-    letter-spacing: 6px; 
+    letter-spacing: 6px;
     font-weight: bold;
 font-family: 'Gaegu';
     color: white;
       margin: 0;
   font-size: 15px;
-} 
+}
 
 /*the container must be positioned relative:*/
 .custom-select {
@@ -123,7 +123,7 @@ position: relative;
 }
 
 .select-selected {
-  background-color: rgba(0,0,0, 0.4); 
+  background-color: rgba(0,0,0, 0.4);
  color: black;
   padding: 10px;
   text-align: center;
@@ -181,10 +181,10 @@ position: relative;
 
 .mybox {
   width: 260px;
-    height: 200px;
+  height: 215px;
   padding: 10px;
   margin: 10px;
-  background-color: rgba(0,0,0, 0.4); 
+  background-color: rgba(0,0,0, 0.4);
   border: 3px solid #f1f1f1;
   text-align: center;
     font-weight: bold;
@@ -195,13 +195,60 @@ position: relative;
   background-color:  rgb(209, 209, 224);
   color: black;
 }
+.toggle-check-input {
+            width: 1px;
+            height: 1px;
+            position: absolute;
+        }
+        .toggle-check-text {
+            display: inline-block;
+            position: relative;
+            text-transform: uppercase;
+            background: black;
+            padding: 0.25em 0.5em 0.25em 2em;
+            border-radius: 1em;
+            min-width: 2em;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
 
+        .toggle-check-text:after {
+            content: ' ';
+            display: block;
+            background: red;
+            width: 1.1em;
+            height: 1.1em;
+            border-radius: 1em;
+            position: absolute;
+            left: 0.3em;
+            top: 0.25em;
+            transition: left 0.15s, margin-left 0.15s;
+        }
+        .toggle-check-text:before {
+            content: 'No';
+
+        }
+        .toggle-check-input:checked ~ .toggle-check-text {
+            background: white;
+            padding-left: 0.5em;
+            padding-right: 2em;
+        }
+        .toggle-check-input:checked ~ .toggle-check-text:before {
+            content: 'Yes';
+            color:black;
+        }
+
+        .toggle-check-input:checked ~ .toggle-check-text:after {
+            left: 100%;
+            margin-left: -1.4em;
+        }
 
 </style>
 </head>
 <body>
 
-<form action="/breakfast" method="POST" id="breakfastForm">
+<form action="/cocktail" method="POST" id="cocktailForm">
 
 <!-- Navbar (sit on top) -->
 <div class= "w3-top">
@@ -216,70 +263,91 @@ position: relative;
 <!--1 row -->
 <div class="row">
 <div class="column">
-   <div class="mybox">
-   <p></p>
-      <p>Type Of Breakfast</p>
-<div class="custom-select" style="width:200px;">
-  <select name="Type Of Breakfast">
-    <option value="Israeli">Israeli</option>
-    <option value="American">American</option>
-    <option value="Italian">Italian</option>
-    <option value="French">French</option>
-  </select>
-</div>
-</div>
-</div><!-- end 1 col -->
-    <!-- USE WIKIPEDIA: SALAD to llok for examples -->
-<div class="column">
     <div class="mybox">
-   <p>Number Of Salad</p>
+   <p>Alcoholic?</p>
+   <div class="row"><p> </p></div>
    <div class="row"><p> </p></div>
 <div class="custom-select" style="width:200px;">
-  <select name="Number Of Salads">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4+</option>
+  <select name="Alcoholic">
+    <option value="both">Alcoholic & Non Alcoholic</option>
+    <option value="Alcoholic">Alcoholic</option>
+    <option value="Non Alcoholic">Non Alcoholic</option>
+  </select>
+</div>
+   </div>
+</div><!-- end 1 col -->
+    <div class="column">
+    <div class="mybox">
+   <p>Main Ingredient</p>
+   <div class="row"><p> </p></div>
+   <div class="row"><p> </p></div>
+<div class="custom-select" style="width:200px;">
+  <select name="Main Ingredient">
+    <option value="Vodka">Vodka</option>
+    <option value="Light rum">Light rum</option>
+    <option value="Lemon juice">Lemon juice</option>
+    <option value="Gin">Gin</option>
   </select>
 </div>
    </div>
 </div><!-- end 2 col -->
+   <div class="column">
+   <div class="mybox">
+   <p>Preferable Glasses</p>
+<div class="custom-select w3-card-4 mycheck">
+ <select >
+  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Cocktail glass">
+  <label> Cocktail glass</label>
+     <div class="row">
+  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Old-fashioned glass">
+  <label> Old-fashioned glass</label>
+         </div>
+  <div class="row">
+  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Collins glass">
+  <label> Collins glass</label>
+      </div>
+     <div class="row">
+  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Highball glass">
+  <label> Highball glass</label>
+  </div>
 
-<div class="column">
-    <div class="mybox">
-   <p>Type Of Bread</p>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Type Of Bread">
-    <option value="Brown">Brown</option>
-    <option value="White">White</option>
-    <option value="Gluten-Free">Gluten-Free</option>
   </select>
 </div>
-   </div>
+</div>
+</div><!-- end 3 col -->
+
+</div><!-- end 1 row -->
+
+
+<!--2 row -->
+<div class="row">
+
+
+<div class="column">
+  <div class="mybox">
+   <p >With A Side Dish?</p>
+      <div class="row"> <p></p></div>
+   <div class="row"><p></p> </div>
+  <label class="toggle-check">
+        <input type="checkbox" name="side dish" value="true" class="toggle-check-input" />
+        <input type="hidden"   name="side dish" value="false" />
+        <span class="toggle-check-text"></span>
+    </label>
+</div>
 </div><!-- end 3 col -->
 
 <div class="column">
    <div class="mybox">
    <p style="font-size:20px; color:red;">finish?!</p>
    <div class="row"><p> </p></div>
-      <div class="row"><p> </p></div>
    <div class="row"><p> </p></div>
     <input type="submit" value="Submit">
 </div>
-</div><!-- end 4 col -->
-
-</div><!-- end 1 row -->
-
-
-<!--2 row
-<div class="row">
-
-
-</div> end 2 row -->
-
+</div><!-- end 3 col -->
+</div><!-- end 2 row -->
 
 </form>
+
 
 
 </body>

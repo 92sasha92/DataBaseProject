@@ -195,12 +195,60 @@ position: relative;
   background-color:  rgb(209, 209, 224);
   color: black;
 }
+.toggle-check-input {
+            width: 1px;
+            height: 1px;
+            position: absolute;
+        }
+        .toggle-check-text {
+            display: inline-block;
+            position: relative;
+            text-transform: uppercase;
+            background: black;
+            padding: 0.25em 0.5em 0.25em 2em;
+            border-radius: 1em;
+            min-width: 2em;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
 
+        .toggle-check-text:after {
+            content: ' ';
+            display: block;
+            background: red;
+            width: 1.1em;
+            height: 1.1em;
+            border-radius: 1em;
+            position: absolute;
+            left: 0.3em;
+            top: 0.25em;
+            transition: left 0.15s, margin-left 0.15s;
+        }
+        .toggle-check-text:before {
+            content: 'No';
+
+        }
+        .toggle-check-input:checked ~ .toggle-check-text {
+            background: white;
+            padding-left: 0.5em;
+            padding-right: 2em;
+        }
+        .toggle-check-input:checked ~ .toggle-check-text:before {
+            content: 'Yes';
+            color:black;
+        }
+
+        .toggle-check-input:checked ~ .toggle-check-text:after {
+            left: 100%;
+            margin-left: -1.4em;
+        }
 
 </style>
 </head>
 <body>
 
+<form action="/bbq" method="POST" id="bbqForm">
 
 <!-- Navbar (sit on top) -->
 <div class= "w3-top">
@@ -214,32 +262,29 @@ position: relative;
 
 <!--1 row -->
 <div class="row">
-<div class="column">
-   <div class="mybox">
-   <p></p>
-      <p>Maximum Preparation Time</p>
-<div class="custom-select" style="width:200px;">
-  <select>
-    <option value="1">1 hour</option>
-    <option value="2">2 hours</option>
-    <option value="3">3 hours</option>
-    <option value="4">4+ hours</option>
-  </select>
-</div>
+    <div class="column">
+  <div class="mybox">
+   <p >Vegan?</p>
+      <div class="row"> <p></p></div>
+   <div class="row"><p></p> </div>
+  <label class="toggle-check">
+        <input type="checkbox" name="Vegan" value="true" class="toggle-check-input" />
+        <input type="hidden"   name="Vegan" value="false" />
+        <span class="toggle-check-text"></span>
+    </label>
 </div>
 </div><!-- end 1 col -->
+
 <div class="column">
     <div class="mybox">
-   <p>Number Of Guests</p>
+   <p>Kind Of Meat</p>
    <div class="row"><p> </p></div>
    <div class="row"><p> </p></div>
 <div class="custom-select" style="width:200px;">
-  <select>
-    <option value="1">2-4</option>
-    <option value="2">5-10</option>
-    <option value="3">10-15</option>
-    <option value="4">15-20</option>
-    <option value="5">20+</option>
+  <select name="Kind Of Meat">
+    <option value="sausage">Sausage</option>
+    <option value="burger">Burger</option>
+    <option value="steak">Steak</option>
   </select>
 </div>
    </div>
@@ -252,50 +297,23 @@ position: relative;
 
 <!--2 row -->
 <div class="row">
-<div class="column">
-   <div class="mybox">
-     <h3 style="text-align:right;">(optional)</h3>
-   <p>Special</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox">
-  <label> Vegetarian  </label>
-    <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Vegan</label> 
-  </div>
-  <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Without meat </label>
-</div>
+
+    <div class="column">
+    <div class="mybox">
+   <p>Number Of Side Dishes</p>
+   <div class="row"><p> </p></div>
+   <div class="row"><p> </p></div>
+<div class="custom-select" style="width:200px;">
+  <select name="Number Of Side Dishes">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4+</option>
   </select>
 </div>
-</div>
+   </div>
 </div><!-- end 1 col -->
-<div class="column">
-<div class="mybox">
-    <h3 style="text-align:right;">(optional)</h3>
-   <p>Allergy</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox">
-  <label> Sesame  </label>
-  <input class="w3-check" type="checkbox">
-  <label> Egg</label> 
-  <div class="row"> 
-  <input class="w3-check" type="checkbox">
-  <label> Peanuts</label>
-  <input class="w3-check" type="checkbox">
-  <label> Dairy</label>
-  </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox">
-  <label> Gluten</label>
-</div>
-  </select>
-</div>
-</div>
-</div><!-- end 2 col -->
+
 <div class="column">
    <div class="mybox">
    <p style="font-size:20px; color:red;">finish?!</p>
@@ -308,6 +326,7 @@ position: relative;
 </div><!-- end 3 col -->
 </div><!-- end 2 row -->
 
+</form>
 
 
 
