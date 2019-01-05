@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!--<link rel="stylesheet" type="text/css" href="static/styles/regular.css">-->
+
+</head>
+<body>
+<div class="w3-main" style="margin-left:auto">
+      {% for drink in rows %}
+          {% if (loop.index - 1) is divisibleby 3 %}
+            <div class="w3-row-padding">
+          {% endif%}
+              <div class="w3-third w3-container w3-margin-bottom">
+                <img src="{{ drink['drink_image'] }}" alt="Norway" style="width:100%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    <p><b>{{drink['drink_name']}}</b></p>
+                    <p>{{drink['instructions']}}</p>
+                </div>
+              </div>
+          {% if loop.index is divisibleby 3 %}
+             </div>
+          {% endif%}
+      {% endfor %}
+</div>
+</body>
+</html>

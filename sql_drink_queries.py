@@ -44,7 +44,7 @@ def get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients):
                            passwd="DbMysql06",
                            db="DbMysql06",
                            use_unicode=True, charset="utf8")
-    x = conn.cursor()
+    cur = conn.cursor(MySQLdb.cursors.DictCursor)
     sql_get = "SELECT Drink.* FROM Drink, ListOfDrinkIngredients WHERE"
 
     if glasses:
@@ -56,17 +56,18 @@ def get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients):
         sql_get = add_drink_ingredients_list_constraints(sql_get, ingredients, 'ingredient_name')
 
     if alcoholic != "both":
-        sql_get += "AND Drink.is_alcoholic=%s" % alcoholic
+        sql_get += " AND Drink.is_alcoholic='%s'" % alcoholic
 
     if max_ingredients:
         sql_get += " AND (Drink.drink_id IN (SELECT ListOfDrinkIngredients.drink_id " \
                    "FROM ListOfDrinkIngredients "\
                    "GROUP BY ListOfDrinkIngredients.drink_id "\
                    "HAVING COUNT(*) <= %s))" % max_ingredients
-    res = x.execute(sql_get)
+    print(sql_get)
+    cur.execute(sql_get)
     try:
         conn.commit()
     except:
         print("Error")
         conn.rollback()
-    return res
+    return cur.fetchall()

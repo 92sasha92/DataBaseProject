@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
-<style>
 h1{font-size: 70px; text-align: center; color:white;}
 h2{font-size: 20px; text-align: center;color:white;}
 h3{font-size: 10px;text-align:right;color:red;}
@@ -12,7 +6,7 @@ html{
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url("static/images/cocktail.jpg");
+  background-image: url("/static/images/cocktail.jpg");
   background-attachment: fixed;
 }
 
@@ -243,118 +237,3 @@ position: relative;
             left: 100%;
             margin-left: -1.4em;
         }
-
-</style>
-    <!-- Navbar (sit on top) -->
-<div class= "w3-top">
-    <div class= "w3-center">
-        <ul style="background-color: white;">
-            <li ><a href="/home_page">Main</a></li>
-            <li style="float:left"><img src="static/images/logo.png" style="height:75px;" ></li>
-        </ul>
-    </div>
-</div>
-</head>
-<body>
-
-
-
-
-
-<form action="/cocktail" method="POST" id="cocktailForm">
-
-
-
-<!--1 row -->
-<div class="row">
-<div class="column">
-    <div class="mybox">
-   <p>Alcoholic?</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Alcoholic">
-    <option value="both">Alcoholic & Non Alcoholic</option>
-    <option value="Alcoholic">Alcoholic</option>
-    <option value="Non Alcoholic">Non Alcoholic</option>
-  </select>
-</div>
-   </div>
-</div><!-- end 1 col -->
-    <div class="column">
-    <div class="mybox">
-   <p>Main Ingredient</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Main Ingredient">
-    <option value="Vodka">Vodka</option>
-    <option value="Light rum">Light rum</option>
-    <option value="Lemon juice">Lemon juice</option>
-    <option value="Gin">Gin</option>
-  </select>
-</div>
-   </div>
-</div><!-- end 2 col -->
-   <div class="column">
-   <div class="mybox">
-   <p>Preferable Glasses</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Cocktail glass">
-  <label> Cocktail glass</label>
-     <div class="row">
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Old-fashioned glass">
-  <label> Old-fashioned glass</label>
-         </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Collins glass">
-  <label> Collins glass</label>
-      </div>
-     <div class="row">
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Highball glass">
-  <label> Highball glass</label>
-  </div>
-
-  </select>
-</div>
-</div>
-</div><!-- end 3 col -->
-
-</div><!-- end 1 row -->
-
-
-<!--2 row -->
-<div class="row">
-
-
-<div class="column">
-  <div class="mybox">
-   <p >With A Side Dish?</p>
-      <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>
-  <label class="toggle-check">
-        <input type="checkbox" name="side dish" value="true" class="toggle-check-input" />
-        <input type="hidden"   name="side dish" value="false" />
-        <span class="toggle-check-text"></span>
-    </label>
-</div>
-</div><!-- end 3 col -->
-
-<div class="column">
-   <div class="mybox">
-   <p style="font-size:20px; color:red;">finish?!</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-    <input type="submit" value="Submit">
-</div>
-</div><!-- end 3 col -->
-</div><!-- end 2 row -->
-
-</form>
-
-
-
-</body>
-<script src="/static/scripts/cocktail.js"></script>
-</html>
