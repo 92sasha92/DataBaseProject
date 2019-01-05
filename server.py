@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request
+#import sql_drink_queries
 
 app = Flask(__name__)
 
@@ -144,9 +145,11 @@ def birthday():
     else:
         return 'failed to load page or to send request'
 
+
 @app.route('/cocktail_start')
 def cocktail_page():
     return render_template('pages/cocktail_start.html')
+
 
 @app.route('/cocktail', methods=['POST', 'GET'])
 def cocktail():
@@ -157,8 +160,10 @@ def cocktail():
         alcoholic = request.form['Alcoholic']
         mainIngredient = request.form['Main Ingredient']
         preferableGlasses = request.form.getlist('Preferable Glasses')
-
+        print(side_dish+" "+alcoholic+" "+mainIngredient)
+       # qry = sql_drink_queries.get_drinks_from_db(alcoholic, mainIngredient, preferableGlasses, 0)
         #redirect to results page instead of just writing "RESULT PAGE"
+     #   results = qry.all()
         return 'RESULT PAGE'
     else:
         return 'failed to load page or to send request'
