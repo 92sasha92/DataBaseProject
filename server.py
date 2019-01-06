@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request
-#import sql_drink_queries
+import sql_drink_queries
 
 app = Flask(__name__)
 
@@ -220,14 +220,11 @@ def cocktail():
     elif request.method == 'POST':
         side_dish = request.form['side dish']
         alcoholic = request.form['Alcoholic']
-        mainIngredient = request.form['Main Ingredient']
-        preferableGlasses = request.form.getlist('Preferable Glasses')
-        print(side_dish+" "+alcoholic+" "+mainIngredient)
-       # qry = sql_drink_queries.get_drinks_from_db(alcoholic, mainIngredient, preferableGlasses, 0)
-        print(rows)
-        #redirect to results page instead of just writing "RESULT PAGE"
-     #   results = qry.all()
-        return render_template('cocktail_results.html', rows=rows)
+        main_ingredient = (request.form['Main Ingredient'],)
+        preferable_glasses = request.form.getlist('Preferable Glasses')
+        qry = sql_drink_queries.get_drinks_from_db(alcoholic, main_ingredient, preferable_glasses, 0)
+        print(qry)
+        return render_template('cocktail_results.html', drinks=qry)
     else:
         return 'failed to load page or to send request'
 
