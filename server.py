@@ -9,9 +9,6 @@ import sshtunnel
 pymysql.install_as_MySQLdb()
 import MySQLdb
 
-#with sshtunnel.SSHTunnelForwarder(('nova.cs.tau.ac.il', 22), ssh_password='baSM9292', ssh_username='aleksandrm',
-#                                 remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306), local_bind_address=('0.0.0.0', 3306)) as server:
-
 #conn = MySQLdb.connect(host="mysqlsrv1.cs.tau.ac.il",
               #             port=server.local_bind_port,
  #                      user="DbMysql06",
