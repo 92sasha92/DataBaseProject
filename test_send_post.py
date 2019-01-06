@@ -14,6 +14,6 @@ rows = sql_drink_queries.get_drinks_from_db(alcoholic, mainIngredient, preferabl
 # redirect to results page instead of just writing "RESULT PAGE"
 #results = qry.fetchall()
 print(rows)
-for row in rows:
-    print(row['is_alcoholic'])
+# for row in rows:
+#     print(row['is_alcoholic'])
 #print(qry)

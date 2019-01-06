@@ -3,11 +3,11 @@ from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
-import pymysql
-import sshtunnel
+#import pymysql
+#import sshtunnel
 
-pymysql.install_as_MySQLdb()
-import MySQLdb
+#pymysql.install_as_MySQLdb()
+#import MySQLdb
 
 #conn = MySQLdb.connect(host="mysqlsrv1.cs.tau.ac.il",
               #             port=server.local_bind_port,
