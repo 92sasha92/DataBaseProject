@@ -57,7 +57,7 @@ def get_recipe_and_ingredients_by_id(recipe_id):
         x.execute(ingredients_query)
         ingredients = x.fetchall()
 
-        res['dish'] = recipe
+        res['dish'] = recipe[0]
         res['ingredients'] = ingredients
 
         try:
