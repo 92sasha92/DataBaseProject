@@ -40,7 +40,30 @@ def ethnic_cuisines():
         prepTime = request.form['Maximum Preparation Time']
         typeOfMeal = request.form.getlist('Type Of Meal')
         cuisine = request.form.getlist('Cuisine')
-        return 'RESULT PAGE'
+        print("hi")
+        meals = ({'first': {'dish': {'name': "Agave Margaritas",
+                                     'recipe_image': 'http://lh5.ggpht.com/zblCKFWJO9N9_a5YMXQp7iAvP23DCY7RAqq7Iww9jAM9-XpnY2tLXPVTmRx4W1vo7t5a-ROnJJ1VgzQrwNBllw=s360',
+                                     'recipe_instructions': 'http://camillestyles.com/drinks/bottoms-up-agave-margaritas/',
+                                     'prep_time': 600,
+                                     'rating': 4}, 'ingredients': ['1', '2', '3']},
+                  'main': {'dish': {'name': "Agave Margaritas",
+                                    'recipe_image': 'http://lh5.ggpht.com/zblCKFWJO9N9_a5YMXQp7iAvP23DCY7RAqq7Iww9jAM9-XpnY2tLXPVTmRx4W1vo7t5a-ROnJJ1VgzQrwNBllw=s360',
+                                    'recipe_instructions': 'http://camillestyles.com/drinks/bottoms-up-agave-margaritas/',
+                                    'prep_time': 600,
+                                    'rating': 4}, 'ingredients': ['hi', '2', '3', '4']}
+                 },
+                 {'first': {'dish': {'name': "Agave Margaritas",
+                                     'recipe_image': 'http://lh5.ggpht.com/zblCKFWJO9N9_a5YMXQp7iAvP23DCY7RAqq7Iww9jAM9-XpnY2tLXPVTmRx4W1vo7t5a-ROnJJ1VgzQrwNBllw=s360',
+                                     'recipe_instructions': 'http://camillestyles.com/drinks/bottoms-up-agave-margaritas/',
+                                     'prep_time': 600,
+                                     'rating': 4}, 'ingredients': ['1', '2', '3']},
+                  'main':  {'dish': {'name': "Agave Margaritas",
+                                     'recipe_image': 'http://lh5.ggpht.com/zblCKFWJO9N9_a5YMXQp7iAvP23DCY7RAqq7Iww9jAM9-XpnY2tLXPVTmRx4W1vo7t5a-ROnJJ1VgzQrwNBllw=s360',
+                                     'recipe_instructions': 'http://camillestyles.com/drinks/bottoms-up-agave-margaritas/',
+                                     'prep_time': 600,
+                                     'rating': 4}, 'ingredients': ['hi', '2', '3', '4']}
+                 })
+        return render_template('ethnic_cuisines_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
