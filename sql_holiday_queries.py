@@ -21,7 +21,8 @@ def get_holiday_meal_results_by_params(holiday, max_prep_time, min_num_of_guests
         res = []
         max_prep_time_in_sec = str(max_prep_time*3600)
         print(max_prep_time_in_sec)
-        meals_by_id = get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec, min_num_of_guests, num_of_dishes, conn)
+        meals_by_id = get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec,
+                                                                min_num_of_guests, num_of_dishes, conn)
         for meal_res in meals_by_id:
             meals = {}
             for num in range(1, num_of_dishes+1):
@@ -45,7 +46,7 @@ def get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec, min
                 min_num_of_guests + " AND EXISTS (SELECT recipe_id FROM ListOfCourses " \
                 "WHERE (" + get_courses_join_to_options(num_of_dishes) + \
                 ") AND course_name IN ('Main Dishes', 'Lunch')) " \
-                "ORDER BY RAND() LIMIT 10"
+                "LIMIT 10"
         print(query)
         x.execute(query)
 

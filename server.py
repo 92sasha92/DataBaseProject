@@ -63,8 +63,10 @@ def holiday():
         min_num_of_servings = request.form['Number Of Guests']
 
         meals = sql_holiday_queries.get_holiday_meal_results_by_params(holiday, prep_time,
-            min_num_of_servings, number_of_dishes)
-        return render_template('holiday_results.html', meals=meals)
+                                                                       min_num_of_servings,
+                                                                       number_of_dishes)
+        print(meals)
+        return render_template('holiday_results.html', meals=meals, num_of_dishes=number_of_dishes)
     else:
         return 'failed to load holiday result page or to send request'
 
