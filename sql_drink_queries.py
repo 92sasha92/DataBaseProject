@@ -148,7 +148,7 @@ def get_snack_ingredients_from_db(snack_id, conn):
 
 
 def get_snacks_results(side_dish, conn):
-    if side_dish == "ddffd":
+    if side_dish == "false":
         return
 
     res = []
