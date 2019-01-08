@@ -1,33 +1,8 @@
 import MySQLdb
-
-# def get_recipe_from_db_by_filter(max_prep_time_in_sec, num_of_servings_min, num_of_servings_max,  filter_col_name
-#                                  , filter_val, filter_table_name,  ingredients_to_include, ingredients_to_exclude, conn):
-#     x = conn.cursor()
-#     try:
-#         query = "SELECT * FROM Recipe, " + filter_table_name + " WHERE Recipe.recipe_id = "+ filter_table_name +\
-#                 ".recipe_id AND "+filter_col_name+" = " + filter_val + " AND prep_time <= " + max_prep_time_in_sec + \
-#                 " AND num_of_servings >= " + num_of_servings_min + "AND num_of_servings <= " + num_of_servings_max
-#         if ingredients_to_exclude:
-#             query += " AND Recipe.recipe_id NOT IN (SELECT recipe_id FROM ListOfIngredients WHERE " + \
-#                      get_recipes_includes_ingredient(ingredients_to_exclude)
-#         if ingredients_to_include:
-#             query += " AND Recipe.recipe_id IN (SELECT recipe_id FROM ListOfIngredients WHERE " + \
-#                      get_recipes_includes_ingredient(ingredients_to_include)
-#
-#         x.execute(query)
-#         try:
-#             conn.commit()
-#         except:
-#             print("Error")
-#             conn.rollback()
-#     except:
-#         print("failed to get recipe from db by user filters. query: " + query)
-#         pass
-
-conn = MySQLdb.connect(host="mysqlsrv1.cs.tau.ac.il",
-                      user="DbMysql06",
-                      passwd="DbMysql06",
-                      db="DbMysql06", use_unicode=True, charset="utf8")
+import my_details
+import sshtunnel
+import pymysql
+from paramiko import SSHClient
 
 
 def get_ethnic_meal_results_by_params(max_prep_time, courses, cuisine):
@@ -45,53 +20,81 @@ def get_ethnic_meal_results_by_params(max_prep_time, courses, cuisine):
 
 
 def get_recipe_and_ingredients_by_id(recipe_id):
-    x = conn.cursor(MySQLdb.cursors.DictCursor)
-    res = {}
-
-    try:
-        recipe_query = "SELECT * FROM Recipe WHERE Recipe.recipe_id = '" + recipe_id + "'"
-        ingredients_query = "SELECT ingredient_name FROM ListOfIngredients WHERE recipe_id = '" + recipe_id + "'"
-
-        x.execute(recipe_query)
-        recipe = x.fetchall()
-        x.execute(ingredients_query)
-        ingredients = x.fetchall()
-
-        res['dish'] = recipe[0]
-        res['ingredients'] = ingredients
+    with sshtunnel.SSHTunnelForwarder(
+            ('nova.cs.tau.ac.il', 22),
+            ssh_username=my_details.username,
+            ssh_password=my_details.password,
+            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
+            local_bind_address=('localhost', 3305)
+    ) as server:
+        print(server.local_bind_port)
+        conn = pymysql.connect(host="localhost",
+                               port=3305,
+                               user="DbMysql06",
+                               passwd="DbMysql06",
+                               db="DbMysql06")
+        x = conn.cursor(MySQLdb.cursors.DictCursor)
+        res = {}
 
         try:
-            conn.commit()
-        except:
-            print("Error")
-            conn.rollback()
-    except:
-        print("failed to get recipe from db by id. query: " + query)
-        pass
+            recipe_query = "SELECT * FROM Recipe WHERE Recipe.recipe_id = '" + recipe_id + "'"
+            ingredients_query = "SELECT ingredient_name FROM ListOfIngredients WHERE recipe_id = '" + recipe_id + "'"
 
-    return res
+            x.execute(recipe_query)
+            recipe = x.fetchall()
+            x.execute(ingredients_query)
+            ingredients = x.fetchall()
+
+            res['dish'] = recipe[0]
+            res['ingredients'] = ingredients
+
+            try:
+                conn.commit()
+            except:
+                print("Error")
+                conn.rollback()
+        except:
+            print("failed to get recipe from db by id. query: " + recipe_query + " or: " + ingredients_query)
+            pass
+
+        conn.close()
+        return res
 
 
 def get_recipe_from_db_by_ethnic_meal_filter(max_prep_time_in_sec, courses, cuisine):
-    x = conn.cursor(MySQLdb.cursors.DictCursor)
-
-    try:
-        query = "SELECT DISTINCT " + get_courses_to_select(courses) + \
-                " FROM " + get_inner_tables_by_courses_and_cuisine(courses, cuisine) + \
-                "WHERE (" + get_sum_of_preps(courses) + ") <= " + max_prep_time_in_sec + \
-                get_course_difference(courses)
-
-        x.execute(query)
+    with sshtunnel.SSHTunnelForwarder(
+            ('nova.cs.tau.ac.il', 22),
+            ssh_username=my_details.username,
+            ssh_password=my_details.password,
+            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
+            local_bind_address=('localhost', 3305)
+    ) as server:
+        print(server.local_bind_port)
+        conn = pymysql.connect(host="localhost",
+                               port=3305,
+                               user="DbMysql06",
+                               passwd="DbMysql06",
+                               db="DbMysql06")
+        x = conn.cursor(MySQLdb.cursors.DictCursor)
 
         try:
-            conn.commit()
+            query = "SELECT DISTINCT " + get_courses_to_select(courses) + \
+                    " FROM " + get_inner_tables_by_courses_and_cuisine(courses, cuisine) + \
+                    "WHERE (" + get_sum_of_preps(courses) + ") <= " + max_prep_time_in_sec + \
+                    get_course_difference(courses)
+
+            x.execute(query)
+
+            try:
+                conn.commit()
+            except:
+                print("Error")
+                conn.rollback()
         except:
-            print("Error")
-            conn.rollback()
-    except:
-        print("failed to get recipe from db by user filters. query: " + query)
-        pass
-    return x.fetchall()
+            print("failed to get recipe from db by user filters. query: " + query)
+            pass
+        conn.close()
+        return x.fetchall()
 
 
 def get_courses_to_select(courses):
