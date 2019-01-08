@@ -85,7 +85,7 @@ def romantic():
         side_ingredient = request.form['Side Ingredient']
         dessert = request.form['Dessert']
         meals = sql_romantic_queries.get_romantic_meal_results_by_params(main_ingredient, side_ingredient, dessert, prep_time)
-        return render_template('holiday_results.html', meals=meals)
+        return render_template('romantic_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 

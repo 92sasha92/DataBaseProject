@@ -167,20 +167,9 @@ def get_course_difference(courses):
     if len(courses) == 1:
         return res
 
-    for course in courses:
-        if idx == 0:
-            res += " AND "
-        if idx == 2:
-            res += ("AND " + courses[0].lower() + "s.recipe_id != ")
-        if course.lower() == "first":
-            res += "firsts.recipe_id "
-        elif course.lower() == "main":
-            res += "mains.recipe_id "
-        elif course.lower() == "dessert":
-            res += "desserts.recipe_id "
-        if idx == 0:
-            res += "!= "
-        idx += 1
+    for i in range(1, len(courses)+1):
+        for j in range(i+1, len(courses)+1):
+            res += (" AND " + courses[i-1].lower() + "s.recipe_id != " + courses[j-1].lower() + "s.recipe_id")
     return res
 
 
