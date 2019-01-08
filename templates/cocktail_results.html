@@ -5,6 +5,18 @@
     <link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!--<link rel="stylesheet" type="text/css" href="static/styles/regular.css">-->
+    <style>
+        tr:hover {background-color: #f5f5f5;}
+        table {
+          border-spacing: 5px;
+
+        }
+
+        table, th, td {
+          border: 1px #f5f5f5;
+          border-collapse: collapse;
+        }
+    </style>
 
 </head>
 <body>
@@ -14,10 +26,22 @@
             <div class="w3-row-padding">
           {% endif%}
               <div class="w3-third w3-container w3-margin-bottom">
-                <img src="{{ drink['drink_image'] }}" alt="Norway" style="width:100%" class="w3-hover-opacity">
+                <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
                 <div class="w3-container w3-white">
-                    <p><b>{{drink['drink_name']}}</b></p>
-                    <p>{{drink['instructions']}}</p>
+                    <p><b>{{drink['drink']['drink_name']}}</b></p>
+                    <p>{{drink['drink']['instructions']}}</p>
+                    <table>
+                          <tr>
+                            <th>Ingredient Name</th>
+                            <th>Ingredient Measure</th>
+                          </tr>
+                     {% for ingredient in drink['ingredients'] %}
+                        <tr>
+                           <td> {{ ingredient['ingredient_name'] }} </td>
+                           <td> {{ ingredient['ingredient_measure'] }} </td>
+                        </tr>
+                     {% endfor %}
+                    </table>
                 </div>
               </div>
           {% if loop.index is divisibleby 3 %}

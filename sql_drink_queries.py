@@ -2,6 +2,7 @@
 import pymysql
 import sshtunnel
 from paramiko import SSHClient
+import my_details
 
 
 def add_drink_list_constraints(sql_get, l, col_name):
@@ -41,11 +42,56 @@ def add_join_list_not_wanted(sql_get, l, col_name):
     return sql_get
 
 
-def get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients):
+def get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients, conn):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    sql_get = "SELECT Drink.* FROM Drink, ListOfDrinkIngredients WHERE"
+
+    if glasses:
+        sql_get = add_drink_list_constraints(sql_get, glasses, 'glass')
+    if glasses and ingredients:
+        sql_get += " AND"
+        sql_get = add_drink_ingredients_list_constraints(sql_get, ingredients, 'ingredient_name')
+    elif ingredients:
+        sql_get = add_drink_ingredients_list_constraints(sql_get, ingredients, 'ingredient_name')
+
+    if alcoholic != "both":
+        sql_get += " AND Drink.is_alcoholic='%s'" % alcoholic
+
+    if max_ingredients:
+        sql_get += " AND (Drink.drink_id IN (SELECT ListOfDrinkIngredients.drink_id " \
+                   "FROM ListOfDrinkIngredients "\
+                   "GROUP BY ListOfDrinkIngredients.drink_id "\
+                   "HAVING COUNT(*) <= %s))" % max_ingredients
+    print(sql_get)
+    cur.execute(sql_get)
+    try:
+        conn.commit()
+    except:
+        print("Error")
+        conn.rollback()
+    return cur.fetchall()
+
+
+def get_drink_ingredients_from_db(drink_id, conn):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    sql_get = "SELECT ListOfDrinkIngredients.ingredient_name, ListOfDrinkIngredients.ingredient_measure" \
+              " FROM Drink, ListOfDrinkIngredients" \
+              " WHERE Drink.drink_id='%s' AND ListOfDrinkIngredients.drink_id=Drink.drink_id" % drink_id
+
+    cur.execute(sql_get)
+    try:
+        conn.commit()
+    except:
+        print("Error")
+        conn.rollback()
+    return cur.fetchall()
+
+
+def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients):
     with sshtunnel.SSHTunnelForwarder(
             ('nova.cs.tau.ac.il', 22),
-            ssh_username="",
-            ssh_password="",
+            ssh_username="%s" % my_details.username,
+            ssh_password="%s" % my_details.password,
             remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
             local_bind_address=('localhost', 3305)
     ) as server:
@@ -55,32 +101,16 @@ def get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients):
                                user="DbMysql06",
                                passwd="DbMysql06",
                                db="DbMysql06")
-        print("ok")
-        cur = conn.cursor(pymysql.cursors.DictCursor)
-        sql_get = "SELECT Drink.* FROM Drink, ListOfDrinkIngredients WHERE"
-
-        if glasses:
-            sql_get = add_drink_list_constraints(sql_get, glasses, 'glass')
-        if glasses and ingredients:
-            sql_get += " AND"
-            sql_get = add_drink_ingredients_list_constraints(sql_get, ingredients, 'ingredient_name')
-        elif ingredients:
-            sql_get = add_drink_ingredients_list_constraints(sql_get, ingredients, 'ingredient_name')
-
-        if alcoholic != "both":
-            sql_get += " AND Drink.is_alcoholic='%s'" % alcoholic
-
-        if max_ingredients:
-            sql_get += " AND (Drink.drink_id IN (SELECT ListOfDrinkIngredients.drink_id " \
-                       "FROM ListOfDrinkIngredients "\
-                       "GROUP BY ListOfDrinkIngredients.drink_id "\
-                       "HAVING COUNT(*) <= %s))" % max_ingredients
-        print(sql_get)
-        cur.execute(sql_get)
-        try:
-            conn.commit()
-        except:
-            print("Error")
-            conn.rollback()
+        res = []
+        drinks_by_id = get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients, conn)
+        print("hi")
+        for drink_res in drinks_by_id:
+            drink = {}
+            drink_id = drink_res['drink_id']
+            drink['drink'] = drink_res
+            drink['ingredients'] = get_drink_ingredients_from_db(drink_id, conn)
+            print(drink['ingredients'])
+            res.append(drink)
+        print(res)
         conn.close()
-        return cur.fetchall()
+        return res
