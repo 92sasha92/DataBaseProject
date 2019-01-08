@@ -44,7 +44,7 @@
                     <p>Prep time: {{meal['main']['dish']['prep_time']}}</p>
                     <p>Ingredients:
                         {% for ingredient in meal['main']['ingredients'] %}
-                            {{ ingredient }}{% if loop.nextitem is defined %},{% endif %}
+                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
                         {% endfor %}
                     </p>
                 </div>
@@ -53,7 +53,7 @@
           {% if meal['dessert'] %}
               <div class="w3-third w3-container w3-margin-bottom">
                   <h3 style="text-align: center">Dessert</h3>
-                <a href="{{meal['main']['dish']['recipe_instructions']}}">
+                <a href="{{meal['dessert']['dish']['recipe_instructions']}}">
                     <img src="{{ meal['dessert']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
                 </a>
                 <div class="w3-container w3-white">
@@ -61,7 +61,7 @@
                     <p>Prep time: {{meal['dessert']['dish']['prep_time']}}</p>
                     <p>Ingredients:
                         {% for ingredient in meal['dessert']['ingredients'] %}
-                            {{ ingredient }}{% if loop.nextitem is defined %},{% endif %}
+                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
                         {% endfor %}
                     </p>
                 </div>

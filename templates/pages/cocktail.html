@@ -256,105 +256,133 @@ position: relative;
 </div>
 </head>
 <body>
+    <form action="/cocktail" method="POST" id="cocktailForm">
+        <!--1 row -->
+        <div class="row">
+            <div class="column">
+                <div class="mybox">
+                    <p>Alcoholic?</p>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="custom-select" style="width:200px;">
+                        <select name="Alcoholic">
+                            <option value="both">Alcoholic & Non Alcoholic</option>
+                            <option value="Alcoholic">Alcoholic</option>
+                            <option value="Non Alcoholic">Non Alcoholic</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 1 col -->
+            <div class="column">
+                <div class="mybox">
+                    <p>Main Ingredient</p>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="custom-select" style="width:200px;">
+                        <select name="Main Ingredient">
+                            <option value="Vodka">Vodka</option>
+                            <option value="Tequila">Tequila</option>
+                            <option value="Rum">Rum</option>
+                            <option value="Whiskey">Whiskey</option>
+                            <option value="Gin">Gin</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 2 col -->
+           <div class="column">
+                <div class="mybox">
+                    <p>Max Ingredients</p>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="custom-select" style="width:200px;">
+                        <select name="Max Ingredients">
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 3 col -->
+        </div>
+        <!-- end 1 row -->
+        <!--2 row -->
+        <div class="row">
+            <div class="column">
+                <div class="mybox">
+                    <p>With A Side Dish?</p>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <label class="toggle-check">
+                        <input type="checkbox" name="side dish" value="true" class="toggle-check-input" />
+                        <input type="hidden" name="side dish" value="false" />
+                        <span class="toggle-check-text"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="mybox">
+                    <p>Preferable Glasses</p>
+                    <div class="custom-select w3-card-4 mycheck">
+                        <select>
+                            <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Cocktail glass">
+                            <label> Cocktail glass</label>
+                            <div class="row">
+                                <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Old-fashioned glass">
+                                <label> Old-fashioned glass</label>
+                            </div>
+                            <div class="row">
+                                <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Collins glass">
+                                <label> Collins glass</label>
+                            </div>
+                            <div class="row">
+                                <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Highball glass">
+                                <label> Highball glass</label>
+                            </div>
 
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-
-
-
-<form action="/cocktail" method="POST" id="cocktailForm">
-
-
-
-<!--1 row -->
-<div class="row">
-<div class="column">
-    <div class="mybox">
-   <p>Alcoholic?</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Alcoholic">
-    <option value="both">Alcoholic & Non Alcoholic</option>
-    <option value="Alcoholic">Alcoholic</option>
-    <option value="Non Alcoholic">Non Alcoholic</option>
-  </select>
-</div>
-   </div>
-</div><!-- end 1 col -->
-    <div class="column">
-    <div class="mybox">
-   <p>Main Ingredient</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Main Ingredient">
-    <option value="Vodka">Vodka</option>
-    <option value="Light rum">Light rum</option>
-    <option value="Lemon juice">Lemon juice</option>
-    <option value="Gin">Gin</option>
-  </select>
-</div>
-   </div>
-</div><!-- end 2 col -->
-   <div class="column">
-   <div class="mybox">
-   <p>Preferable Glasses</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Cocktail glass">
-  <label> Cocktail glass</label>
-     <div class="row">
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Old-fashioned glass">
-  <label> Old-fashioned glass</label>
-         </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Collins glass">
-  <label> Collins glass</label>
-      </div>
-     <div class="row">
-  <input class="w3-check" type="checkbox" name="Preferable Glasses" value="Highball glass">
-  <label> Highball glass</label>
-  </div>
-
-  </select>
-</div>
-</div>
-</div><!-- end 3 col -->
-
-</div><!-- end 1 row -->
-
-
-<!--2 row -->
-<div class="row">
-
-
-<div class="column">
-  <div class="mybox">
-   <p >With A Side Dish?</p>
-      <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>
-  <label class="toggle-check">
-        <input type="checkbox" name="side dish" value="true" class="toggle-check-input" />
-        <input type="hidden"   name="side dish" value="false" />
-        <span class="toggle-check-text"></span>
-    </label>
-</div>
-</div><!-- end 3 col -->
-
-<div class="column">
-   <div class="mybox">
-   <p style="font-size:20px; color:red;">finish?!</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-    <input type="submit" value="Submit">
-</div>
-</div><!-- end 3 col -->
-</div><!-- end 2 row -->
-
-</form>
-
-
-
+            <!-- end 3 col -->
+            <div class="column">
+                <div class="mybox">
+                    <p style="font-size:20px; color:red;">finish?!</p>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <input type="submit" value="Submit">
+                </div>
+            </div>
+            <!-- end 3 col -->
+        </div>
+        <!-- end 2 row -->
+    </form>
 </body>
 <script src="/static/scripts/cocktail.js"></script>
 </html>

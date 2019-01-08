@@ -1,4 +1,3 @@
-import MySQLdb
 import my_details
 import sshtunnel
 import pymysql
@@ -7,19 +6,6 @@ from paramiko import SSHClient
 
 def get_ethnic_meal_results_by_params(max_prep_time, courses, cuisine):
     # TODO: take care of case 4+ hours max prep time
-    res = []
-    max_prep_time_in_sec = max_prep_time*3600
-    meals_by_id = get_recipe_from_db_by_ethnic_meal_filter(max_prep_time_in_sec, courses, cuisine)
-    for meal_res in meals_by_id:
-        meals = {}
-        for course in courses:
-            recipe_id = meal_res[course.lower()+"_recipe_id"]
-            meals[course] = get_recipe_and_ingredients_by_id(recipe_id)
-        res.append(meals)
-    return res
-
-
-def get_recipe_and_ingredients_by_id(recipe_id):
     with sshtunnel.SSHTunnelForwarder(
             ('nova.cs.tau.ac.il', 22),
             ssh_username=my_details.username,
@@ -33,68 +19,69 @@ def get_recipe_and_ingredients_by_id(recipe_id):
                                user="DbMysql06",
                                passwd="DbMysql06",
                                db="DbMysql06")
-        x = conn.cursor(MySQLdb.cursors.DictCursor)
-        res = {}
-
-        try:
-            recipe_query = "SELECT * FROM Recipe WHERE Recipe.recipe_id = '" + recipe_id + "'"
-            ingredients_query = "SELECT ingredient_name FROM ListOfIngredients WHERE recipe_id = '" + recipe_id + "'"
-
-            x.execute(recipe_query)
-            recipe = x.fetchall()
-            x.execute(ingredients_query)
-            ingredients = x.fetchall()
-
-            res['dish'] = recipe[0]
-            res['ingredients'] = ingredients
-
-            try:
-                conn.commit()
-            except:
-                print("Error")
-                conn.rollback()
-        except:
-            print("failed to get recipe from db by id. query: " + recipe_query + " or: " + ingredients_query)
-            pass
-
+        print("ok")
+        res = []
+        max_prep_time_in_sec = int(max_prep_time)*3600
+        print(max_prep_time_in_sec)
+        meals_by_id = get_recipe_from_db_by_ethnic_meal_filter(max_prep_time_in_sec, courses, cuisine, conn)
+        print(meals_by_id)
+        for meal_res in meals_by_id:
+            meals = {}
+            for course in courses:
+                recipe_id = meal_res[course.lower()+"_recipe_id"]
+                meals[course.lower()] = get_recipe_and_ingredients_by_id(recipe_id, conn)
+            res.append(meals)
         conn.close()
         return res
 
 
-def get_recipe_from_db_by_ethnic_meal_filter(max_prep_time_in_sec, courses, cuisine):
-    with sshtunnel.SSHTunnelForwarder(
-            ('nova.cs.tau.ac.il', 22),
-            ssh_username=my_details.username,
-            ssh_password=my_details.password,
-            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
-            local_bind_address=('localhost', 3305)
-    ) as server:
-        print(server.local_bind_port)
-        conn = pymysql.connect(host="localhost",
-                               port=3305,
-                               user="DbMysql06",
-                               passwd="DbMysql06",
-                               db="DbMysql06")
-        x = conn.cursor(MySQLdb.cursors.DictCursor)
+def get_recipe_and_ingredients_by_id(recipe_id, conn):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    res = {}
+    try:
+        recipe_query = "SELECT * FROM Recipe WHERE Recipe.recipe_id = '" + recipe_id + "'"
+        ingredients_query = "SELECT ingredient_name FROM ListOfIngredients WHERE recipe_id = '" + recipe_id + "'"
+
+        cur.execute(recipe_query)
+        recipe = cur.fetchall()
+        cur.execute(ingredients_query)
+        ingredients = cur.fetchall()
+
+        res['dish'] = recipe[0]
+        res['ingredients'] = ingredients
 
         try:
-            query = "SELECT DISTINCT " + get_courses_to_select(courses) + \
-                    " FROM " + get_inner_tables_by_courses_and_cuisine(courses, cuisine) + \
-                    "WHERE (" + get_sum_of_preps(courses) + ") <= " + max_prep_time_in_sec + \
-                    get_course_difference(courses)
-
-            x.execute(query)
-
-            try:
-                conn.commit()
-            except:
-                print("Error")
-                conn.rollback()
+            conn.commit()
         except:
-            print("failed to get recipe from db by user filters. query: " + query)
-            pass
-        conn.close()
-        return x.fetchall()
+            print("Error")
+            conn.rollback()
+    except:
+        print("failed to get recipe from db by id. query: " + recipe_query + " or: " + ingredients_query)
+        pass
+
+    return res
+
+
+def get_recipe_from_db_by_ethnic_meal_filter(max_prep_time_in_sec, courses, cuisine, conn):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    try:
+        query = "SELECT DISTINCT " + get_courses_to_select(courses) + \
+                " FROM " + get_inner_tables_by_courses_and_cuisine(courses, cuisine) + \
+                "WHERE (" + get_sum_of_preps(courses) + (") <= %d" % max_prep_time_in_sec) + \
+                get_course_difference(courses) + " ORDER BY RANDOM() LIMIT 20"
+        print(query)
+
+        cur.execute(query)
+
+        try:
+            conn.commit()
+        except:
+            print("Error")
+            conn.rollback()
+    except:
+        print("failed to get recipe from db by user filters. query: " + query)
+        pass
+    return cur.fetchall()
 
 
 def get_courses_to_select(courses):
@@ -137,6 +124,7 @@ def get_inner_tables_by_courses_and_cuisine(courses, cuisine):
         else:
             res += " "
         idx += 1
+    print(res)
     return res
 
 
@@ -182,7 +170,7 @@ def get_course_difference(courses):
         if idx == 0:
             res += " AND "
         if idx == 2:
-            res += ("AND " + course.lower() + "s.recipe_id != ")
+            res += ("AND " + courses[0].lower() + "s.recipe_id != ")
         if course.lower() == "first":
             res += "firsts.recipe_id "
         elif course.lower() == "main":
@@ -204,9 +192,6 @@ def get_recipes_includes_ingredient(ingredients):
         query += "LOWER(ingredient_name) LIKE ('%" + ingredient + "%')"
         idx += 1
     return query
-
-
-print(get_ethnic_meal_results_by_params("1200", ["first"], "American"))
 
 # cuisine = 'Italian'
 #
