@@ -1,58 +1,104 @@
 import MySQLdb
+import pymysql
+import my_details
+import sshtunnel
+from paramiko import SSHClient
 
 
-def load_names_from_db(table_name, col_name, conn):
-    x = conn.cursor(MySQLdb.cursors.DictCursor)
-    res = []
-    sql = "SELECT * FROM "+table_name
+def load_names_from_db(table_name, col_name):
+    with sshtunnel.SSHTunnelForwarder(
+            ('nova.cs.tau.ac.il', 22),
+            ssh_username=my_details.username,
+            ssh_password=my_details.password,
+            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
+            local_bind_address=('localhost', 3305)
+    ) as server:
+        print(server.local_bind_port)
+        conn = pymysql.connect(host="localhost",
+                               port=3305,
+                               user="DbMysql06",
+                               passwd="DbMysql06",
+                               db="DbMysql06")
+        x = conn.cursor(MySQLdb.cursors.DictCursor)
+        res = []
+        sql = "SELECT * FROM "+table_name
 
-    try:
-        x.execute(sql)
-        for row in x.fetchall():
-            res.append(row[col_name])
-        return res
-    except:
-        print("Error in fetching data from table %s" % table_name)
-
-
-def insert_name_to_db(table_name, obj_name, col_name, conn):
-    x = conn.cursor()
-    try:
-        is_exist = x.execute("SELECT * FROM "+table_name+" WHERE "+col_name+"='%s'" % obj_name)
-        if is_exist == 0:
-            query = "INSERT INTO "+table_name+" VALUES (%s)"
-            x.execute(query, (obj_name,))
         try:
-            conn.commit()
+            x.execute(sql)
+            for row in x.fetchall():
+                res.append(row[col_name])
+            return res
         except:
-            print("Error")
-            conn.rollback()
-    except:
-        print("failed to insert data into db. table: " + table_name + " failed to insert name: " + obj_name)
-        pass
+            print("Error in fetching data from table %s" % table_name)
+        conn.close()
 
 
-def insert_multi_data_to_db(table_list_name, table_name, names, id, col_name, conn):
-    x = conn.cursor()
-    for name in names:
-        name = name.replace("'", "")
-        name = name.replace("-", " ")
+def insert_name_to_db(table_name, obj_name, col_name):
+    with sshtunnel.SSHTunnelForwarder(
+            ('nova.cs.tau.ac.il', 22),
+            ssh_username=my_details.username,
+            ssh_password=my_details.password,
+            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
+            local_bind_address=('localhost', 3305)
+    ) as server:
+        print(server.local_bind_port)
+        conn = pymysql.connect(host="localhost",
+                               port=3305,
+                               user="DbMysql06",
+                               passwd="DbMysql06",
+                               db="DbMysql06")
+        x = conn.cursor()
         try:
-            insert_name_to_db(table_name, name, col_name, conn)
-
-            is_exist = x.execute("SELECT * FROM " + table_list_name + (" WHERE recipe_id='%s'" % id) +
-                                 " AND " + col_name + "='%s'" % name)
+            is_exist = x.execute("SELECT * FROM "+table_name+" WHERE "+col_name+"='%s'" % obj_name)
             if is_exist == 0:
-                sql = "INSERT INTO "+table_list_name+" VALUES (%s, %s)"
-                x.execute(sql, (id, name))
+                query = "INSERT INTO "+table_name+" VALUES (%s)"
+                x.execute(query, (obj_name,))
             try:
                 conn.commit()
             except:
                 print("Error")
                 conn.rollback()
         except:
-            print("failed to insert data into db. table: " + table_list_name + " failed to insert id: " + id + " ,name: " + name)
+            print("failed to insert data into db. table: " + table_name + " failed to insert name: " + obj_name)
             pass
+        conn.close()
+
+
+def insert_multi_data_to_db(table_list_name, table_name, names, id, col_name):
+    with sshtunnel.SSHTunnelForwarder(
+            ('nova.cs.tau.ac.il', 22),
+            ssh_username=my_details.username,
+            ssh_password=my_details.password,
+            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
+            local_bind_address=('localhost', 3305)
+    ) as server:
+        print(server.local_bind_port)
+        conn = pymysql.connect(host="localhost",
+                               port=3305,
+                               user="DbMysql06",
+                               passwd="DbMysql06",
+                               db="DbMysql06")
+        x = conn.cursor()
+        for name in names:
+            name = name.replace("'", "")
+            name = name.replace("-", " ")
+            try:
+                insert_name_to_db(table_name, name, col_name, conn)
+
+                is_exist = x.execute("SELECT * FROM " + table_list_name + (" WHERE recipe_id='%s'" % id) +
+                                     " AND " + col_name + "='%s'" % name)
+                if is_exist == 0:
+                    sql = "INSERT INTO "+table_list_name+" VALUES (%s, %s)"
+                    x.execute(sql, (id, name))
+                try:
+                    conn.commit()
+                except:
+                    print("Error")
+                    conn.rollback()
+            except:
+                print("failed to insert data into db. table: " + table_list_name + " failed to insert id: " + id + " ,name: " + name)
+                pass
+            conn.close()
 
 
 def insert_recipe_to_db(recipe_id, recipe_name, recipe_img, recipe_ins, prep_time, num_of_servings, rating, conn):
