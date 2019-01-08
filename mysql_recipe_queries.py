@@ -48,6 +48,7 @@ def get_recipe_and_ingredients_by_id(recipe_id, conn):
         ingredients = cur.fetchall()
 
         res['dish'] = recipe[0]
+        res['dish']['prep_time'] = str(round(int(res['dish']['prep_time'])/60)) + ' minutes'
         res['ingredients'] = ingredients
 
         try:
@@ -193,14 +194,14 @@ def get_recipes_includes_ingredient(ingredients):
         idx += 1
     return query
 
-# cuisine = 'Italian'
-#
-# max_prep_time_in_sec = '1200'
-#
-# query = "SELECT DISTINCT " + get_courses_to_select(['first', 'main']) + \
-#                 " FROM " + get_inner_tables_by_courses_and_cuisine(['first', 'main'], cuisine) + \
-#                 "WHERE (" + get_sum_of_preps(['first', 'main']) + ") <= " + max_prep_time_in_sec + " AND " + \
-#                 get_course_difference(['first', 'main'])
+cuisine = 'Italian'
+
+max_prep_time_in_sec = '1200'
+
+query = "SELECT DISTINCT " + get_courses_to_select(['first', 'main']) + \
+                " FROM " + get_inner_tables_by_courses_and_cuisine(['first', 'main'], cuisine) + \
+                "WHERE (" + get_sum_of_preps(['first', 'main']) + ") <= " + max_prep_time_in_sec + " AND " + \
+                get_course_difference(['first', 'main'])
 
 
-
+print(query)

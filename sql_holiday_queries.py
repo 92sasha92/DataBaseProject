@@ -45,8 +45,8 @@ def get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec, min
                 get_query_sum_of_attribute(num_of_dishes, "num_of_servings") + ") >= " + \
                 min_num_of_guests + " AND EXISTS (SELECT recipe_id FROM ListOfCourses " \
                 "WHERE (" + get_courses_join_to_options(num_of_dishes) + \
-                ") AND course_name IN ('Main Dishes', 'Lunch')) " \
-                "LIMIT 10"
+                ") AND course_name IN ('Main Dishes', 'Lunch')) " + get_recipe_difference(num_of_dishes) + \
+                "ORDER BY RAND() LIMIT 10"
         print(query)
         x.execute(query)
 
@@ -101,4 +101,16 @@ def get_courses_join_to_options(num_of_dishes):
         res += ("ListOfCourses.recipe_id = options" + str(i) + ".recipe_id")
         if i != num_of_dishes:
             res += " OR "
+    return res
+
+
+def get_recipe_difference(num_of_dishes):
+    res = ""
+
+    if num_of_dishes == 1:
+        return res
+
+    for i in range(1, num_of_dishes+1):
+        for j in range(i+1, num_of_dishes + 1):
+            res += (" AND options" + str(i) + ".recipe_id != options" + str(j) + ".recipe_id ")
     return res

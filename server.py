@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request
 import sql_drink_queries
 import mysql_recipe_queries
 import sql_holiday_queries
+import sql_romantic_queries
 
 app = Flask(__name__)
 
@@ -81,12 +82,12 @@ def romantic():
     if request.method == 'GET':
         return render_template('pages/romantic.html')
     elif request.method == 'POST':
-        prepTime = request.form['Maximum Preparation Time']
-        firstPortion = request.form['First Portion']
-        mainPortion = request.form['Main Portion']
+        prep_time = int(request.form['Maximum Preparation Time'])
+        main_ingredient = request.form['Main Ingredient']
+        side_ingredient = request.form['Side Ingredient']
         dessert = request.form['Dessert']
-
-        return 'RESULT PAGE'
+        meals = sql_romantic_queries.get_romantic_meal_results_by_params(main_ingredient, side_ingredient, dessert, prep_time)
+        return render_template('holiday_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
