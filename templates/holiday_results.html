@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="static/styles/regular.css">-->
+
+</head>
+<body>
+<h3>For getting the full recipe description click on the recipe image</h3>
+<div class="w3-main" style="margin-left:auto">
+      {% for meal in meals %}
+        <div class="w3-row-padding">
+          {% if meal['first'] %}
+              <div class="w3-third w3-container w3-margin-bottom">
+                <h3 style="text-align: center">First course</h3>
+                <a href="{{meal['first']['dish']['recipe_instructions']}}">
+                    <img src="{{ meal['first']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                </a>
+                <div class="w3-container w3-white">
+                    <p><b>{{meal['first']['dish']['name']}}</b></p>
+                    <p>Prep time: {{meal['first']['dish']['prep_time']}}</p>
+                    <p>Ingredients:
+                        {% for ingredient in meal['first']['ingredients'] %}
+                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+              </div>
+          {% endif%}
+          {% if meal['main'] %}
+              <div class="w3-third w3-container w3-margin-bottom">
+                  <h3 style="text-align: center">Main course</h3>
+                <a href="{{meal['main']['dish']['recipe_instructions']}}">
+                    <img src="{{ meal['main']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                </a>
+                <div class="w3-container w3-white">
+                    <p><b>{{meal['main']['dish']['name']}}</b></p>
+                    <p>Prep time: {{meal['main']['dish']['prep_time']}}</p>
+                    <p>Ingredients:
+                        {% for ingredient in meal['main']['ingredients'] %}
+                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+              </div>
+          {% endif%}
+          {% if meal['dessert'] %}
+              <div class="w3-third w3-container w3-margin-bottom">
+                  <h3 style="text-align: center">Dessert</h3>
+                <a href="{{meal['dessert']['dish']['recipe_instructions']}}">
+                    <img src="{{ meal['dessert']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                </a>
+                <div class="w3-container w3-white">
+                    <p><b>{{meal['dessert']['dish']['name']}}</b></p>
+                    <p>Prep time: {{meal['dessert']['dish']['prep_time']}}</p>
+                    <p>Ingredients:
+                        {% for ingredient in meal['dessert']['ingredients'] %}
+                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+              </div>
+          {% endif%}
+        </div>
+      {% endfor %}
+</div>
+</body>
+</html>
+
+
+
+
+<!--({first:{dish:{}, ingredients: {}}, main:{dish:{}, ingredients: {}}, dessert:{dish:{}, ingredients: {}}}, {})-->

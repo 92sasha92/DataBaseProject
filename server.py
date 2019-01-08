@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
 import sql_drink_queries
 import mysql_recipe_queries
+import sql_holiday_queries
 
 app = Flask(__name__)
 
@@ -56,13 +57,16 @@ def holiday():
     if request.method == 'GET':
         return render_template('pages/holiday.html')
     elif request.method == 'POST':
-        prepTime = request.form['Maximum Preparation Time']
-        holiday= request.form['Holiday']
-        numberOfDishes = request.form['Number Of Dishes']
-        numberOfGuests = request.form['Number Of Guests']
-        return 'RESULT PAGE'
+        prep_time = int(request.form['Maximum Preparation Time'])
+        holiday = request.form['Holiday']
+        number_of_dishes = int(request.form['Number Of Dishes'])
+        min_num_of_servings = request.form['Number Of Guests']
+
+        meals = sql_holiday_queries.get_holiday_meal_results_by_params(holiday, prep_time,
+            min_num_of_servings, number_of_dishes)
+        return render_template('holiday_results.html', meals=meals)
     else:
-        return 'failed to load page or to send request'
+        return 'failed to load holiday result page or to send request'
 
 
 @app.route('/romantic_start')
