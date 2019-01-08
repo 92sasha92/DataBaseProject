@@ -87,7 +87,7 @@ def get_drink_ingredients_from_db(drink_id, conn):
     return cur.fetchall()
 
 
-def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients):
+def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients, side_dish):
     with sshtunnel.SSHTunnelForwarder(
             ('nova.cs.tau.ac.il', 22),
             ssh_username="%s" % my_details.username,
@@ -112,5 +112,55 @@ def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients
             print(drink['ingredients'])
             res.append(drink)
         print(res)
+        res_snacks = get_snacks_results(side_dish, conn)
         conn.close()
-        return res
+        return res, res_snacks
+
+
+def get_snacks_from_db(conn):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    sql_get = "SELECT Recipe.* " \
+              "FROM Recipe, ListOfCourses " \
+              "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Snacks' LIMIT 30"
+
+    cur.execute(sql_get)
+    try:
+        conn.commit()
+    except:
+        print("Error")
+        conn.rollback()
+    return cur.fetchall()
+
+
+def get_snack_ingredients_from_db(snack_id, conn):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    sql_get = "SELECT ListOfIngredients.ingredient_name" \
+              " FROM Recipe, ListOfIngredients" \
+              " WHERE Recipe.recipe_id='%s' AND ListOfIngredients.recipe_id=Recipe.recipe_id" % snack_id
+    print(sql_get)
+    cur.execute(sql_get)
+    try:
+        conn.commit()
+    except:
+        print("Error")
+        conn.rollback()
+    return cur.fetchall()
+
+
+def get_snacks_results(side_dish, conn):
+    if side_dish == "false":
+        return
+
+    res = []
+    snacks_by_id = get_snacks_from_db(conn)
+    print(snacks_by_id)
+    for snack_res in snacks_by_id:
+        snack = {}
+        snack_id = snack_res['recipe_id']
+        snack['snack'] = snack_res
+        snack['ingredients'] = get_snack_ingredients_from_db(snack_id, conn)
+        print(snack['ingredients'])
+        res.append(snack)
+    print(res)
+    return res
+

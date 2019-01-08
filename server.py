@@ -166,10 +166,12 @@ def cocktail():
         main_ingredient = (request.form['Main Ingredient'],)
         preferable_glasses = request.form.getlist('Preferable Glasses')
         max_ingredients = request.form['Max Ingredients']
-        qry = sql_drink_queries.get_drink_results_by_params(alcoholic, main_ingredient,
-                                                            preferable_glasses, max_ingredients)
+        qry, snacks = sql_drink_queries.get_drink_results_by_params(alcoholic, main_ingredient,
+                                                                    preferable_glasses, max_ingredients,
+                                                                    side_dish)
         print(qry)
-        return render_template('cocktail_results.html', drinks=qry)
+        print(snacks)
+        return render_template('cocktail_results.html', drinks=qry, snacks=snacks)
     else:
         return 'failed to load page or to send request'
 

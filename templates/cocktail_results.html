@@ -22,31 +22,72 @@
 <body>
 <div class="w3-main" style="margin-left:auto">
       {% for drink in drinks %}
-          {% if (loop.index - 1) is divisibleby 3 %}
+          {% if ((snacks and (loop.index0 is divisibleby 2)) or ((not snacks) and (loop.index0 is divisibleby 3))) %}
             <div class="w3-row-padding">
           {% endif%}
+          {% if (snacks and (loop.index0 is divisibleby 2)) %}
               <div class="w3-third w3-container w3-margin-bottom">
-                <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
-                <div class="w3-container w3-white">
-                    <p><b>{{drink['drink']['drink_name']}}</b></p>
-                    <p>{{drink['drink']['instructions']}}</p>
-                    <table>
-                          <tr>
-                            <th>Ingredient Name</th>
-                            <th>Ingredient Measure</th>
-                          </tr>
-                     {% for ingredient in drink['ingredients'] %}
-                        <tr>
-                           <td> {{ ingredient['ingredient_name'] }} </td>
-                           <td> {{ ingredient['ingredient_measure'] }} </td>
-                        </tr>
-                     {% endfor %}
-                    </table>
-                </div>
+                    <a href="{{ snacks[loop.index0]['snack']['recipe_instructions'] }}">
+                        <img src="{{ snacks[loop.index0]['snack']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    </a>
+                    <div class="w3-container w3-white">
+                        <p><b>{{ snacks[loop.index0]['snack']['name'] }}</b></p>
+                        <p>Prep time: {{ snacks[loop.index0]['snack']['prep_time'] }}</p>
+                        <table>
+                              <tr>
+                                <th>Ingredient Name</th>
+                              </tr>
+                         {% for ingredient in snacks[loop.index0]['ingredients'] %}
+                            <tr>
+                               <td> {{ ingredient['ingredient_name'] }} </td>
+                            </tr>
+                         {% endfor %}
+                        </table>
+                    </div>
               </div>
-          {% if loop.index is divisibleby 3 %}
+              <div class="w3-third w3-container w3-margin-bottom">
+                    <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <div class="w3-container w3-white">
+                        <p><b>{{drink['drink']['drink_name']}}</b></p>
+                        <p>{{drink['drink']['instructions']}}</p>
+                        <table>
+                              <tr>
+                                <th>Ingredient Name</th>
+                                <th>Ingredient Measure</th>
+                              </tr>
+                        {% for ingredient in drink['ingredients'] %}
+                            <tr>
+                               <td> {{ ingredient['ingredient_name'] }} </td>
+                               <td> {{ ingredient['ingredient_measure'] }} </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+              </div>
+          {% else %}
+                <div class="w3-third w3-container w3-margin-bottom">
+                    <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <div class="w3-container w3-white">
+                        <p><b>{{drink['drink']['drink_name']}}</b></p>
+                        <p>{{drink['drink']['instructions']}}</p>
+                        <table>
+                              <tr>
+                                <th>Ingredient Name</th>
+                                <th>Ingredient Measure</th>
+                              </tr>
+                         {% for ingredient in drink['ingredients'] %}
+                            <tr>
+                               <td> {{ ingredient['ingredient_name'] }} </td>
+                               <td> {{ ingredient['ingredient_measure'] }} </td>
+                            </tr>
+                         {% endfor %}
+                        </table>
+                    </div>
+                </div>
+          {% endif %}
+          {% if ((snacks and (loop.index is divisibleby 2)) or ((not snacks) and (loop.index is divisibleby 3))) %}
              </div>
-          {% endif%}
+          {% endif %}
       {% endfor %}
 </div>
 </body>
