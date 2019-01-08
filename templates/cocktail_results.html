@@ -22,11 +22,11 @@
 <body>
 <div class="w3-main" style="margin-left:auto">
       {% for drink in drinks %}
-          {% if ((snacks and (loop.index0 is divisibleby 2)) or ((not snacks) and (loop.index0 is divisibleby 3))) %}
+          {% if ((snacks and (loop.index0 is divisibleby 3)) or ((not snacks) and (loop.index0 is divisibleby 4))) %}
             <div class="w3-row-padding">
           {% endif%}
-          {% if (snacks and (loop.index0 is divisibleby 2)) %}
-              <div class="w3-third w3-container w3-margin-bottom">
+          {% if (snacks and (loop.index0 is divisibleby 3)) %}
+              <div class="w3-quarter w3-container w3-margin-bottom">
                     <a href="{{ snacks[loop.index0]['snack']['recipe_instructions'] }}">
                         <img src="{{ snacks[loop.index0]['snack']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
                     </a>
@@ -45,7 +45,7 @@
                         </table>
                     </div>
               </div>
-              <div class="w3-third w3-container w3-margin-bottom">
+              <div class="w3-quarter w3-container w3-margin-bottom">
                     <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
                     <div class="w3-container w3-white">
                         <p><b>{{drink['drink']['drink_name']}}</b></p>
@@ -65,7 +65,7 @@
                     </div>
               </div>
           {% else %}
-                <div class="w3-third w3-container w3-margin-bottom">
+                <div class="w3-quarter w3-container w3-margin-bottom">
                     <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
                     <div class="w3-container w3-white">
                         <p><b>{{drink['drink']['drink_name']}}</b></p>
@@ -85,7 +85,7 @@
                     </div>
                 </div>
           {% endif %}
-          {% if ((snacks and (loop.index is divisibleby 2)) or ((not snacks) and (loop.index is divisibleby 3))) %}
+          {% if ((snacks and (loop.index is divisibleby 3)) or ((not snacks) and (loop.index is divisibleby 4))) %}
              </div>
           {% endif %}
       {% endfor %}
