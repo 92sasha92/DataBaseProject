@@ -5,6 +5,7 @@ import sql_holiday_queries
 import sql_romantic_queries
 import sql_easy_recipes_queries
 import sql_birthday_queries
+import sql_professional_recipes_queries
 import sql_veggie_queries
 
 app = Flask(__name__)
@@ -41,14 +42,15 @@ def ethnic_cuisines():
         return 'failed to load page or to send request'
 
 
-@app.route('/picnic_start')
-def picnic_page():
-    return render_template('pages/picnic_start.html')
+@app.route('/professional_recipes_start')
+def professional_recipes_page():
+    return render_template('pages/picnic_start.html', type="Professional Recipes", goto_url="professional_recipes")
 
 
-@app.route('/picnic')
-def picnic_cuisines():
-    return render_template('pages/picnic.html')
+@app.route('/professional_recipes')
+def professional_recipes():
+    meals = sql_professional_recipes_queries.get_professional_meals_results()
+    return render_template('recipes_results.html', meals=meals)
 
 
 @app.route('/holiday_start')
@@ -129,7 +131,7 @@ def easy_recipes():
         ingredients_common_level = request.form['Common Level']
         meals = sql_easy_recipes_queries.get_easy_meals_results_by_params(max_prep_time, max_ingredients,
                                                                           ingredients_common_level)
-        return render_template('easy_recipes_results.html', meals=meals)
+        return render_template('recipes_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
