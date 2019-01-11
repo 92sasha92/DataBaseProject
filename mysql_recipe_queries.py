@@ -35,6 +35,24 @@ def get_ethnic_meal_results_by_params(max_prep_time, courses, cuisine):
         return res
 
 
+def get_recipe_ingredients_from_db(recipe_id, conn):
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    sql_get = "SELECT ingredient_name" \
+              " FROM ListOfIngredients" \
+              " WHERE recipe_id='%s'" % recipe_id
+    cur.execute(sql_get)
+    try:
+        conn.commit()
+    except:
+        print("Error")
+        conn.rollback()
+    return cur.fetchall()
+
+
+def get_time_str(str_seconds):
+    return str(round(int(str_seconds) / 60)) + ' minutes'
+
+
 def get_recipe_and_ingredients_by_id(recipe_id, conn):
     cur = conn.cursor(pymysql.cursors.DictCursor)
     res = {}
@@ -183,14 +201,3 @@ def get_recipes_includes_ingredient(ingredients):
         idx += 1
     return query
 
-cuisine = 'Italian'
-
-max_prep_time_in_sec = '1200'
-
-query = "SELECT DISTINCT " + get_courses_to_select(['first', 'main']) + \
-                " FROM " + get_inner_tables_by_courses_and_cuisine(['first', 'main'], cuisine) + \
-                "WHERE (" + get_sum_of_preps(['first', 'main']) + ") <= " + max_prep_time_in_sec + " AND " + \
-                get_course_difference(['first', 'main'])
-
-
-print(query)

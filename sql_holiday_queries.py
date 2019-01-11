@@ -1,23 +1,12 @@
-import my_details
-import sshtunnel
 import pymysql
 import mysql_recipe_queries
+import my_connect
 
 
 def get_holiday_meal_results_by_params(holiday, max_prep_time, min_num_of_guests, num_of_dishes):
-    with sshtunnel.SSHTunnelForwarder(
-            ('nova.cs.tau.ac.il', 22),
-            ssh_username=my_details.username,
-            ssh_password=my_details.password,
-            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
-            local_bind_address=('localhost', 3305)
-    ) as server:
+    with my_connect.tunnel() as server:
         print(server.local_bind_port)
-        conn = pymysql.connect(host="localhost",
-                               port=3305,
-                               user="DbMysql06",
-                               passwd="DbMysql06",
-                               db="DbMysql06")
+        conn = my_connect.connect_to_db()
         res = []
         max_prep_time_in_sec = str(max_prep_time*3600)
         print(max_prep_time_in_sec)

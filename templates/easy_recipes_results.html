@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+    </style>
+</head>
+<body>
+    <h3>For getting the full recipe description click on the recipe image</h3>
+    <div class="w3-main" style="margin-left:auto">
+          {% for meal in meals %}
+              {% if loop.index0 is divisibleby 4 %}
+                <div class="w3-row-padding">
+              {% endif%}
+                <div class="w3-quarter w3-container w3-margin-bottom">
+                    <a href="{{meal['meal']['recipe_instructions']}}">
+                        <img src="{{ meal['meal']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    </a>
+                    <div class="w3-container w3-white">
+                        <p><b>{{meal['meal']['name']}}</b></p>
+                        <p>Prep time: {{meal['meal']['prep_time']}}</p>
+                        <p>Ingredients:
+                            {% for ingredient in meal['ingredients'] %}
+                                {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+              {% if loop.index is divisibleby 4 %}
+                 </div>
+              {% endif %}
+          {% endfor %}
+    </div>
+</body>
+</html>
