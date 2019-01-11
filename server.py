@@ -22,7 +22,8 @@ def home_page():
 
 @app.route('/ethnic_cuisines_start')
 def ethnic_cuisines_page():
-    return render_template('pages/ethnic_cuisines_start.html')
+    return render_template('pages/intro_animation.html', type="Ethnic Cuisines",
+                           goto_url="ethnic_cuisines", image="worldfood.jpg")
 
 
 @app.route('/ethnic_cuisines', methods=['POST', 'GET'])
@@ -33,7 +34,6 @@ def ethnic_cuisines():
         prep_time = request.form['Maximum Preparation Time']
         type_of_meals = request.form.getlist('Type Of Meal')
         cuisine = request.form['Cuisine']
-
         meals = mysql_recipe_queries.get_ethnic_meal_results_by_params(prep_time, type_of_meals, cuisine)
         print(meals)
         return render_template('ethnic_cuisines_results.html', meals=meals)
@@ -43,7 +43,8 @@ def ethnic_cuisines():
 
 @app.route('/professional_recipes_start')
 def professional_recipes_page():
-    return render_template('pages/picnic_start.html', type="Professional Recipes", goto_url="professional_recipes")
+    return render_template('pages/intro_animation.html', type="Professional Recipes",
+                           goto_url="professional_recipes", image="family.jpg")
 
 
 @app.route('/professional_recipes')
@@ -54,7 +55,8 @@ def professional_recipes():
 
 @app.route('/holiday_start')
 def holiday_page():
-    return render_template('pages/holiday_start.html')
+    return render_template('pages/intro_animation.html', type="Holiday Dinner",
+                           goto_url="holiday", image="family.jpg")
 
 
 @app.route('/holiday', methods=['POST', 'GET'])
@@ -78,7 +80,8 @@ def holiday():
 
 @app.route('/romantic_start')
 def romantic_page():
-    return render_template('pages/romantic_start.html')
+    return render_template('pages/intro_animation.html', type="Romantic Dinner",
+                           goto_url="romantic", image="romantic.jpg")
 
 
 @app.route('/romantic', methods=['POST', 'GET'])
@@ -117,7 +120,8 @@ def breakfast():
 
 @app.route('/easy_recipes_start')
 def easy_recipe_page():
-    return render_template('pages/easy_recipes_start.html')
+    return render_template('pages/intro_animation.html', type="Easy Recipes",
+                           goto_url="easy_recipes", image="easy_recipes.jpg")
 
 
 @app.route('/easy_recipes', methods=['POST', 'GET'])
@@ -138,7 +142,8 @@ def easy_recipes():
 
 @app.route('/birthday_start')
 def birthday_page():
-    return render_template('pages/birthday_start.html')
+    return render_template('pages/intro_animation.html', type="Birthday Party",
+                           goto_url="birthday", image="birthday.jpg")
 
 
 @app.route('/birthday', methods=['POST', 'GET'])
@@ -159,7 +164,8 @@ def birthday():
 
 @app.route('/cocktail_start')
 def cocktail_page():
-    return render_template('pages/cocktail_start.html')
+    return render_template('pages/intro_animation.html', type="Cocktail Party",
+                           goto_url="cocktail", image="cocktail.jpg")
 
 
 @app.route('/cocktail', methods=['POST', 'GET'])
