@@ -247,89 +247,90 @@ position: relative;
 </style>
 </head>
 <body>
+    <form action="/easy_recipes" method="POST" id="bbqForm">
+        <!-- Navbar (sit on top) -->
+        <div class="w3-top">
+            <div class="w3-center">
+                <ul style="background-color: white;">
+                    <li><a href="/home_page">Main</a></li>
+                    <li style="float:left"><img src="static/images/logo.png" style="height:75px;"></li>
+                </ul>
+            </div>
+        </div>
 
-<form action="/bbq" method="POST" id="bbqForm">
-
-<!-- Navbar (sit on top) -->
-<div class= "w3-top">
-<div class= "w3-center">
-<ul style="background-color: white;">
-<li ><a href="/home_page">Main</a></li>
-<li style="float:left"><img src="static/images/logo.png" style="height:75px;" ></li>
-</ul>
-</div>
-</div>
-
-<!--1 row -->
-<div class="row">
-    <div class="column">
-  <div class="mybox">
-   <p >Vegan?</p>
-      <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>
-  <label class="toggle-check">
-        <input type="checkbox" name="Vegan" value="true" class="toggle-check-input" />
-        <input type="hidden"   name="Vegan" value="false" />
-        <span class="toggle-check-text"></span>
-    </label>
-</div>
-</div><!-- end 1 col -->
-
-<div class="column">
-    <div class="mybox">
-   <p>Kind Of Meat</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Kind Of Meat">
-    <option value="sausage">Sausage</option>
-    <option value="burger">Burger</option>
-    <option value="steak">Steak</option>
-  </select>
-</div>
-   </div>
-</div><!-- end 2 col -->
-<div class="column">
-<img src="static/images/bbq.1.jpg" style="width: 260px; height: 200px; padding: 10px; margin: 10px;">
-</div><!-- end 3 col -->
-</div><!-- end 1 row -->
-
-
-<!--2 row -->
-<div class="row">
-
-    <div class="column">
-    <div class="mybox">
-   <p>Number Of Side Dishes</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Number Of Side Dishes">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4+</option>
-  </select>
-</div>
-   </div>
-</div><!-- end 1 col -->
-
-<div class="column">
-   <div class="mybox">
-   <p style="font-size:20px; color:red;">finish?!</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-      <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-    <input type="submit" value="Submit">
-</div>
-</div><!-- end 3 col -->
-</div><!-- end 2 row -->
-
-</form>
-
-
-
+        <!--1 row -->
+        <div class="row">
+            <div class="column">
+                <div class="mybox">
+                    <p></p>
+                    <p>Maximum Preparation Time</p>
+                    <div class="custom-select" style="width:200px;">
+                        <select name="Maximum Preparation Time">
+                            <option value="30">30 minutes</option>
+                            <option value="60">1 hour</option>
+                            <option value="90">1 hour and a half</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 1 col -->
+            <div class="column">
+                <div class="mybox">
+                    <p></p>
+                    <p>Maximum Ingredients</p>
+                    <div class="custom-select" style="width:200px;">
+                        <select name="Maximum Ingredients">
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 2 col -->
+            <div class="column">
+                <div class="mybox">
+                    <p></p>
+                    <p>How Common do you want your Ingredients</p>
+                    <div class="custom-select" style="width:200px;">
+                        <select name="Common Level">
+                            <option value="100">common</option>
+                            <option value="200">average</option>
+                            <option value="300">very common</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 3 col -->
+        </div>
+        <!-- end 1 row -->
+        <!--2 row -->
+        <div class="row">
+            <div class="column">
+                <div class="mybox">
+                    <p style="font-size:20px; color:red;">finish?!</p>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <input type="submit" value="Submit">
+                </div>
+            </div>
+            <!-- end 1 col -->
+        </div>
+        <!-- end 2 row -->
+    </form>
 </body>
 <script>
 var x, i, j, selElmnt, a, b, c;

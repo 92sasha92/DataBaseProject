@@ -1,8 +1,6 @@
-#import MySQLdb
 import pymysql
-import sshtunnel
-from paramiko import SSHClient
-import my_details
+import my_connect
+import mysql_recipe_queries
 
 
 def add_drink_list_constraints(sql_get, l, col_name):
@@ -88,21 +86,12 @@ def get_drink_ingredients_from_db(drink_id, conn):
 
 
 def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients, side_dish):
-    with sshtunnel.SSHTunnelForwarder(
-            ('nova.cs.tau.ac.il', 22),
-            ssh_username="%s" % my_details.username,
-            ssh_password="%s" % my_details.password,
-            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
-            local_bind_address=('localhost', 3305)
-    ) as server:
+    with my_connect.tunnel() as server:
         print(server.local_bind_port)
-        conn = pymysql.connect(host="localhost",
-                               port=3305,
-                               user="DbMysql06",
-                               passwd="DbMysql06",
-                               db="DbMysql06")
+        conn = my_connect.connect_to_db()
         res = []
         drinks_by_id = get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients, conn)
+
         print("hi")
         for drink_res in drinks_by_id:
             drink = {}
@@ -118,26 +107,12 @@ def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients
 
 
 def get_snacks_from_db(conn):
-    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur = conn.cursor(my_connect.my_cursor)
     sql_get = "SELECT Recipe.* " \
               "FROM Recipe, ListOfCourses " \
-              "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Snacks' LIMIT 30"
+              "WHERE Recipe.recipe_id = ListOfCourses.recipe_id " \
+              "AND course_name = 'Snacks' LIMIT 30"
 
-    cur.execute(sql_get)
-    try:
-        conn.commit()
-    except:
-        print("Error")
-        conn.rollback()
-    return cur.fetchall()
-
-
-def get_snack_ingredients_from_db(snack_id, conn):
-    cur = conn.cursor(pymysql.cursors.DictCursor)
-    sql_get = "SELECT ListOfIngredients.ingredient_name" \
-              " FROM Recipe, ListOfIngredients" \
-              " WHERE Recipe.recipe_id='%s' AND ListOfIngredients.recipe_id=Recipe.recipe_id" % snack_id
-    print(sql_get)
     cur.execute(sql_get)
     try:
         conn.commit()
@@ -158,7 +133,7 @@ def get_snacks_results(side_dish, conn):
         snack = {}
         snack_id = snack_res['recipe_id']
         snack['snack'] = snack_res
-        snack['ingredients'] = get_snack_ingredients_from_db(snack_id, conn)
+        snack['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(snack_id, conn)
         print(snack['ingredients'])
         res.append(snack)
     print(res)

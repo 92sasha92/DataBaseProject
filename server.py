@@ -3,6 +3,7 @@ import sql_drink_queries
 import mysql_recipe_queries
 import sql_holiday_queries
 import sql_romantic_queries
+import sql_easy_recipes_queries
 import sql_birthday_queries
 
 app = Flask(__name__)
@@ -87,7 +88,8 @@ def romantic():
         main_ingredient = request.form['Main Ingredient']
         side_ingredient = request.form['Side Ingredient']
         dessert = request.form['Dessert']
-        meals = sql_romantic_queries.get_romantic_meal_results_by_params(main_ingredient, side_ingredient, dessert, prep_time)
+        meals = sql_romantic_queries.get_romantic_meal_results_by_params(main_ingredient, side_ingredient,
+                                                                         dessert, prep_time)
         return render_template('romantic_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
@@ -111,20 +113,23 @@ def breakfast():
         return 'failed to load page or to send request'
 
 
-@app.route('/bbq_start')
-def bbq_page():
-    return render_template('pages/bbq_start.html')
+@app.route('/easy_recipes_start')
+def easy_recipe_page():
+    return render_template('pages/easy_recipes_start.html')
 
 
-@app.route('/bbq', methods=['POST', 'GET'])
-def bbq():
+@app.route('/easy_recipes', methods=['POST', 'GET'])
+def easy_recipes():
     if request.method == 'GET':
-        return render_template('pages/bbq.html')
+        return render_template('pages/easy_recipes.html')
     elif request.method == 'POST':
-        kindOfMeat = request.form['Kind Of Meat']
-        numberOfSideDishes = request.form['Number Of Side Dishes']
-        vegan = request.form['Vegan']
-        return 'RESULT PAGE'
+        # get the time in minutes
+        max_prep_time = request.form['Maximum Preparation Time']
+        max_ingredients = request.form['Maximum Ingredients']
+        ingredients_common_level = request.form['Common Level']
+        meals = sql_easy_recipes_queries.get_easy_meals_results_by_params(max_prep_time, max_ingredients,
+                                                                          ingredients_common_level)
+        return render_template('easy_recipes_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
