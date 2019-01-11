@@ -41,8 +41,8 @@ def ethnic_cuisines():
         return 'failed to load page or to send request'
 
 
-@app.route('/picnic_start')
-def picnic_page():
+@app.route('/professional_recipes_start')
+def professional_recipes_page():
     return render_template('pages/picnic_start.html', type="Professional Recipes", goto_url="professional_recipes")
 
 
