@@ -3,7 +3,8 @@ import sshtunnel
 import pymysql
 import mysql_recipe_queries
 
-meat_keywords = ['beef', 'chicken', 'lamb', 'turkey', 'pork', 'meat', 'steak']
+meat_keywords = ['beef', 'chicken', 'lamb', 'turkey', 'pork', 'meat', 'steak', 'burger', 'sausage', 'kebab',
+                 'chops']
 
 seafood_keywords = ['seafood', 'shrimp', 'crab', 'lobster', 'scallop', 'calamari', 'octopus', 'mussels', 'oyster']
 
