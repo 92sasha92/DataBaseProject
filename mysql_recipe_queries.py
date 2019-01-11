@@ -50,7 +50,20 @@ def get_recipe_ingredients_from_db(recipe_id, conn):
 
 
 def get_time_str(str_seconds):
-    return str(round(int(str_seconds) / 60)) + ' minutes'
+    time = int(str_seconds)
+    hours = time // 3600
+    time %= 3600
+    minutes = time // 60
+    if hours == 0:
+        return str(minutes) + ' minutes'
+    elif hours == 1 and minutes == 0:
+        return "1 hour"
+    elif hours == 1:
+        return "1 hour and " + str(minutes) + " minutes"
+    elif minutes == 0:
+        return str(hours) + " hours"
+    else:
+        return str(hours) + " hours and " + str(minutes) + " minutes"
 
 
 def get_recipe_and_ingredients_by_id(recipe_id, conn):
@@ -66,7 +79,7 @@ def get_recipe_and_ingredients_by_id(recipe_id, conn):
         ingredients = cur.fetchall()
 
         res['dish'] = recipe[0]
-        res['dish']['prep_time'] = str(round(int(res['dish']['prep_time'])/60)) + ' minutes'
+        res['dish']['prep_time'] = get_time_str(res['dish']['prep_time'])
         res['ingredients'] = ingredients
 
         try:
