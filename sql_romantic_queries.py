@@ -54,30 +54,30 @@ def get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient,
     try:
         query = "SELECT DISTINCT sides.recipe_id AS side_recipe_id, mains.recipe_id AS main_recipe_id," \
                 " desserts.recipe_id AS dessert_recipe_id FROM " \
-                "(SELECT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
+                "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
                 "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Side Dishes') AS sides, " \
-                "(SELECT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
+                "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
                 "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Main Dishes') AS mains, " \
-                "(SELECT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
+                "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
                 "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Desserts') AS desserts " \
                 "WHERE (sides.prep_time + mains.prep_time + desserts.prep_time) <= " + max_prep_time_in_sec + \
                 " AND (" + get_query_of_recipes_like_keywords(main_ingredient) + ") AND "
         if side_ingredient.lower() == 'salad':
             query += ("(" + get_query_of_recipes_like_keywords(side_ingredient) + ") ")
         else:
-            query += ("sides.recipe_id IN (SELECT recipe_id FROM ListOfIngredients "
+            query += ("sides.recipe_id IN (SELECT DISTINCT recipe_id FROM ListOfIngredients "
                       "WHERE LOWER(ingredient_name) LIKE '%" + side_ingredient + "%') ")
 
         if dessert_ingredient.lower() == "nosugar":
-            query += "AND desserts.recipe_id NOT IN (SELECT recipe_id FROM ListOfIngredients " \
+            query += "AND desserts.recipe_id NOT IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
                      "WHERE LOWER(ingredient_name) LIKE '%sugar%')"
         elif dessert_ingredient.lower() == "fruit":
             print("fruitttttt")
             query += ("AND (" + get_query_of_recipes_like_keywords(dessert_ingredient) + ") ")
             print(query)
         else:
-            query += "AND desserts.recipe_id IN (SELECT recipe_id FROM ListOfIngredients WHERE LOWER(ingredient_name) " \
-                "LIKE '%" + dessert_ingredient + "%')"
+            query += "AND desserts.recipe_id IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
+                     "WHERE LOWER(ingredient_name) LIKE '%" + dessert_ingredient + "%')"
         print("haha")
         query += get_recipe_difference() + " LIMIT 20"
         print(query)

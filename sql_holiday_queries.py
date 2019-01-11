@@ -43,7 +43,7 @@ def get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec, min
                 get_query_sum_of_attribute(num_of_dishes, "prep_time") + \
                 ") <= " + max_prep_time_in_sec + " AND (" + \
                 get_query_sum_of_attribute(num_of_dishes, "num_of_servings") + ") >= " + \
-                min_num_of_guests + " AND EXISTS (SELECT recipe_id FROM ListOfCourses " \
+                min_num_of_guests + " AND EXISTS (SELECT DISTINCT recipe_id FROM ListOfCourses " \
                 "WHERE (" + get_courses_join_to_options(num_of_dishes) + \
                 ") AND course_name IN ('Main Dishes', 'Lunch')) " + get_recipe_difference(num_of_dishes) + \
                 "ORDER BY RAND() LIMIT 10"
@@ -73,7 +73,7 @@ def get_recipe_ids_to_select(num_of_dishes):
 
 def get_inner_selection(num_of_dishes, holiday):
     res = ""
-    base_query = "(SELECT ListOfHolidays.recipe_id, prep_time, num_of_servings " \
+    base_query = "(SELECT DISTINCT ListOfHolidays.recipe_id, prep_time, num_of_servings " \
                  "FROM Recipe, ListOfHolidays, ListOfCourses " \
                  "WHERE Recipe.recipe_id = ListOfHolidays.recipe_id " \
                  "AND Recipe.recipe_id = ListOfCourses.recipe_id " \

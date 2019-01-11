@@ -106,7 +106,7 @@ def get_courses_to_select(courses):
 def get_inner_tables_by_courses_and_cuisine(courses, cuisine):
     res = ""
     idx = 0
-    base_query = "(SELECT Recipe.recipe_id, prep_time " \
+    base_query = "(SELECT DISTINCT Recipe.recipe_id, prep_time " \
                  "FROM ListOfCuisines, Recipe, ListOfCourses " \
                  "WHERE Recipe.recipe_id = ListOfCourses.recipe_id " \
                  "AND Recipe.recipe_id = ListOfCuisines.recipe_id AND (course_name = "

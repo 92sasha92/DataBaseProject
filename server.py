@@ -3,6 +3,7 @@ import sql_drink_queries
 import mysql_recipe_queries
 import sql_holiday_queries
 import sql_romantic_queries
+import sql_birthday_queries
 
 app = Flask(__name__)
 
@@ -138,17 +139,13 @@ def birthday():
     if request.method == 'GET':
         return render_template('pages/birthday.html')
     elif request.method == 'POST':
-        #print("in  POST")
-        prepTime = request.form['Maximum Preparation Time']
-        numOfGuests = request.form['Number Of Guests']
-        includeChildren = request.form['with children']
-        season = request.form['Time']
-        cakeFlavor = request.form.getlist('Cake Flavor')
-        special = request.form.getlist('Special')
-        allergy = request.form.getlist('Allergy')
-
-        #redirect to results page instead of just writing "RESULT PAGE"
-        return 'RESULT PAGE'
+        prep_time = int(request.form['Maximum Preparation Time'])
+        num_of_guests = request.form['Number Of Guests']
+        include_children = request.form['with children'] == 'True'
+        allergies = request.form.getlist('Allergy')
+        meals = sql_birthday_queries.get_birthday_meal_results_by_params(allergies, include_children,
+                                                                         num_of_guests, prep_time)
+        return render_template('birthday_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
