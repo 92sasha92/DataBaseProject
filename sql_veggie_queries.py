@@ -16,7 +16,7 @@ def get_all_ingredients_like_items_in_list(keywords):
     res = ""
     idx = 0
     for keyword in keywords:
-        res += "ingredient_name LIKE '" + keyword + "%' "
+        res += "ingredient_name LIKE '%" + keyword + "%' "
         if idx < len(keywords)-1:
             res += "OR "
         idx += 1

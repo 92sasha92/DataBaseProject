@@ -1,7 +1,5 @@
-import my_details
-import sshtunnel
-import pymysql
 import mysql_recipe_queries
+import my_connect
 
 gluten_keywords = ['gluten', 'flour', 'wheat', 'durum', 'emmer', 'semolina', 'spelt', 'farina',
                    'farro', 'graham', 'rye', 'barely', 'triticale', 'malt', 'yeast', 'pasta', 'spaghetti', 'ravioli',
@@ -20,24 +18,15 @@ peanut_keywords = ['peanut', 'arachis', 'nut', 'goobers', 'lupin', 'mandelonas',
 
 
 def get_birthday_meal_results_by_params(allergies, is_kids_party, min_num_of_servings, max_prep_time):
-    with sshtunnel.SSHTunnelForwarder(
-            ('nova.cs.tau.ac.il', 22),
-            ssh_username=my_details.username,
-            ssh_password=my_details.password,
-            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
-            local_bind_address=('localhost', 3305)
-    ) as server:
+    with my_connect.tunnel() as server:
         print(server.local_bind_port)
-        conn = pymysql.connect(host="localhost",
-                               port=3305,
-                               user="DbMysql06",
-                               passwd="DbMysql06",
-                               db="DbMysql06")
+        conn = my_connect.connect_to_db()
+        print("ok")
         res = []
         max_prep_time_in_sec = str(max_prep_time*3600)
-
+        print(is_kids_party)
         meals_by_id = get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party,
-                                                                  min_num_of_servings, max_prep_time_in_sec,  conn)
+                                                                 min_num_of_servings, max_prep_time_in_sec, conn)
         for meal_res in meals_by_id:
             meals = {}
             recipe_id = meal_res["snack_recipe_id"]
@@ -54,9 +43,14 @@ def get_birthday_meal_results_by_params(allergies, is_kids_party, min_num_of_ser
         return res
 
 
-def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time,  conn):
-    x = conn.cursor(pymysql.cursors.DictCursor)
+def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time, conn):
+    x = conn.cursor(my_connect.my_cursor)
     try:
+        print("hi")
+        print("SELECT DISTINCT snacks.recipe_id AS snack_recipe_id, sides.recipe_id AS side_recipe_id, "
+              "mains.recipe_id AS main_recipe_id, cakes.recipe_id AS cake_recipe_id " +
+              "FROM (SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses" +
+              (", ListOfCuisines" if is_kids_party else ""))
         query = "SELECT DISTINCT snacks.recipe_id AS snack_recipe_id, sides.recipe_id AS side_recipe_id, " \
                 "mains.recipe_id AS main_recipe_id, cakes.recipe_id AS cake_recipe_id " \
                 "FROM (SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses" + \
@@ -98,7 +92,6 @@ def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_pre
 
 
 def get_ingredient_related_related(is_kids_party, allergies):
-
     res = ""
     if len(allergies) == 0 and (not is_kids_party):
         return res
@@ -113,9 +106,8 @@ def get_ingredient_related_related(is_kids_party, allergies):
     return res
 
 
-def get_query_of_ingredients_like_keywords(allregies):
-
-    if len(allregies) == 0:
+def get_query_of_ingredients_like_keywords(allergies):
+    if len(allergies) == 0:
         return ""
 
     res = "WHERE "
@@ -123,7 +115,7 @@ def get_query_of_ingredients_like_keywords(allregies):
     keywords = []
 
     idx = 0
-    for allergy in allregies:
+    for allergy in allergies:
         if allergy.lower() == 'sesame':
             keywords = sesame_keywords
         elif allergy.lower() == 'peanuts':

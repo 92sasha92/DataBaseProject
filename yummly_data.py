@@ -74,7 +74,7 @@ def write_json_recipes_to_db_from_file(file_name, cuisine):
             mysql_queries.insert_multi_data_to_db("ListOfIngredients", "Ingredients", ingredients, recipe_id, "ingredient_name", conn)
             if 'holiday' in match['attributes']:
                 holidays = match['attributes']['holiday']
-                mysql_queries.insert_multi_data_to_db("ListOfHolidays", "Holidays", holidays, recipe_id, "holiday_name" , conn)
+                mysql_queries.insert_multi_data_to_db("ListOfHolidays", "Holidays", holidays, recipe_id, "holiday_name", conn)
             if 'course' in match['attributes']:
                 courses = match['attributes']['course']
                 mysql_queries.insert_multi_data_to_db("ListOfCourses", "Courses", courses, recipe_id, "course_name", conn)

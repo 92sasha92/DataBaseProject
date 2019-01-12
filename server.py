@@ -45,7 +45,7 @@ def ethnic_cuisines():
 @app.route('/professional_recipes_start')
 def professional_recipes_page():
     return render_template('pages/intro_animation.html', type="Professional Recipes",
-                           goto_url="professional_recipes", image="family.jpg")
+                           goto_url="professional_recipes", image="professional_recipes.jpg")
 
 
 @app.route('/professional_recipes')
@@ -103,20 +103,22 @@ def romantic():
 
 @app.route('/meatless_monday_start')
 def meatless_monday_page():
-    return render_template('pages/meatless_monday_start.html')
+    return render_template('pages/intro_animation.html', type="Meatless Monday",
+                           goto_url="meatless_monday", image="meatless_monday.jpg")
 
 
-@app.route('/meatless-monday', methods=['POST', 'GET'])
+@app.route('/meatless_monday', methods=['POST', 'GET'])
 def meatless_monday():
     if request.method == 'GET':
-        return render_template('pages/meatless-monday.html')
+        return render_template('pages/meatless_monday.html')
     elif request.method == 'POST':
         # get the time in minutes
-        min_veg_num = request.form['Minimun Vegtables']
+        min_veg_num = request.form['Minimum Vegetables']
         meals = sql_veggie_queries.get_veg_recipes_results_by_params(min_veg_num)
-        return render_template('easy_recipes_results.html', meals=meals)
+        return render_template('recipes_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
+
 
 @app.route('/easy_recipes_start')
 def easy_recipe_page():

@@ -27,17 +27,17 @@
           {% endif%}
           {% if (snacks and (loop.index0 is divisibleby 3)) %}
               <div class="w3-quarter w3-container w3-margin-bottom">
-                    <a href="{{ snacks[loop.index0]['snack']['recipe_instructions'] }}">
-                        <img src="{{ snacks[loop.index0]['snack']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <a href="{{ snacks[loop.index0//3]['snack']['recipe_instructions'] }}">
+                        <img src="{{ snacks[loop.index0//3]['snack']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
                     </a>
                     <div class="w3-container w3-white">
-                        <p><b>{{ snacks[loop.index0]['snack']['name'] }}</b></p>
-                        <p>Prep time: {{ snacks[loop.index0]['snack']['prep_time'] }}</p>
+                        <p><b>{{ snacks[loop.index0//3]['snack']['name'] }}</b></p>
+                        <p>Prep time: {{ snacks[loop.index0//3]['snack']['prep_time'] }}</p>
                         <table>
                               <tr>
                                 <th>Ingredient Name</th>
                               </tr>
-                         {% for ingredient in snacks[loop.index0]['ingredients'] %}
+                         {% for ingredient in snacks[loop.index0//3]['ingredients'] %}
                             <tr>
                                <td> {{ ingredient['ingredient_name'] }} </td>
                             </tr>
@@ -46,7 +46,7 @@
                     </div>
               </div>
               <div class="w3-quarter w3-container w3-margin-bottom">
-                    <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <img src="{{ drink['drink']['drink_image'] }}" style="width:100%">
                     <div class="w3-container w3-white">
                         <p><b>{{drink['drink']['drink_name']}}</b></p>
                         <p>{{drink['drink']['instructions']}}</p>
@@ -66,7 +66,7 @@
               </div>
           {% else %}
                 <div class="w3-quarter w3-container w3-margin-bottom">
-                    <img src="{{ drink['drink']['drink_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <img src="{{ drink['drink']['drink_image'] }}" style="width:100%">
                     <div class="w3-container w3-white">
                         <p><b>{{drink['drink']['drink_name']}}</b></p>
                         <p>{{drink['drink']['instructions']}}</p>

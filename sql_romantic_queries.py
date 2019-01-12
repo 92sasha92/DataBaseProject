@@ -1,7 +1,6 @@
-import my_details
-import sshtunnel
 import pymysql
 import mysql_recipe_queries
+import my_connect
 
 meat_keywords = ['beef', 'chicken', 'lamb', 'turkey', 'pork', 'meat', 'steak', 'burger', 'sausage', 'kebab',
                  'chops']
@@ -18,19 +17,9 @@ salad_keywords = ['salad', 'slaw', 'chopped']
 
 
 def get_romantic_meal_results_by_params(main_ingredient, side_ingredient, dessert_taste, max_prep_time):
-    with sshtunnel.SSHTunnelForwarder(
-            ('nova.cs.tau.ac.il', 22),
-            ssh_username=my_details.username,
-            ssh_password=my_details.password,
-            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
-            local_bind_address=('localhost', 3305)
-    ) as server:
+    with my_connect.tunnel() as server:
         print(server.local_bind_port)
-        conn = pymysql.connect(host="localhost",
-                               port=3305,
-                               user="DbMysql06",
-                               passwd="DbMysql06",
-                               db="DbMysql06")
+        conn = my_connect.connect_to_db()
         res = []
         max_prep_time_in_sec = str(max_prep_time*3600)
         print(max_prep_time_in_sec)
@@ -51,12 +40,13 @@ def get_romantic_meal_results_by_params(main_ingredient, side_ingredient, desser
 
 def get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient, dessert_ingredient, max_prep_time_in_sec,
                                                conn):
-    x = conn.cursor(pymysql.cursors.DictCursor)
+    x = conn.cursor(my_connect.my_cursor)
     try:
         query = "SELECT DISTINCT sides.recipe_id AS side_recipe_id, mains.recipe_id AS main_recipe_id," \
                 " desserts.recipe_id AS dessert_recipe_id FROM " \
                 "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
-                "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Side Dishes') AS sides, " \
+                "WHERE Recipe.recipe_id = ListOfCourses.recipe_id " \
+                "AND course_name = 'Side Dishes' ORDER BY RAND()) AS sides, " \
                 "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
                 "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Main Dishes') AS mains, " \
                 "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
@@ -79,7 +69,6 @@ def get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient,
         else:
             query += "AND desserts.recipe_id IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
                      "WHERE LOWER(ingredient_name) LIKE '%" + dessert_ingredient + "%')"
-        print("haha")
         query += get_recipe_difference() + " LIMIT 20"
         print(query)
         x.execute(query)

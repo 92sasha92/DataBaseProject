@@ -111,7 +111,7 @@ def get_snacks_from_db(conn):
     sql_get = "SELECT Recipe.* " \
               "FROM Recipe, ListOfCourses " \
               "WHERE Recipe.recipe_id = ListOfCourses.recipe_id " \
-              "AND course_name = 'Snacks' LIMIT 30"
+              "AND course_name = 'Snacks' ORDER BY RAND() LIMIT 30"
 
     cur.execute(sql_get)
     try:
@@ -133,6 +133,7 @@ def get_snacks_results(side_dish, conn):
         snack = {}
         snack_id = snack_res['recipe_id']
         snack['snack'] = snack_res
+        snack['snack']['prep_time'] = mysql_recipe_queries.get_time_str(snack['snack']['prep_time'])
         snack['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(snack_id, conn)
         print(snack['ingredients'])
         res.append(snack)
