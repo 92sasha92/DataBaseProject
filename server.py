@@ -6,6 +6,7 @@ import sql_romantic_queries
 import sql_easy_recipes_queries
 import sql_birthday_queries
 import sql_professional_recipes_queries
+import sql_veggie_queries
 
 app = Flask(__name__)
 
@@ -100,23 +101,22 @@ def romantic():
         return 'failed to load page or to send request'
 
 
-@app.route('/breakfast_start')
-def breakfast_page():
-    return render_template('pages/breakfast_start.html')
+@app.route('/meatless_monday_start')
+def meatless_monday_page():
+    return render_template('pages/meatless_monday_start.html')
 
 
-@app.route('/breakfast', methods=['POST', 'GET'])
-def breakfast():
+@app.route('/meatless-monday', methods=['POST', 'GET'])
+def meatless_monday():
     if request.method == 'GET':
-        return render_template('pages/breakfast.html')
+        return render_template('pages/meatless-monday.html')
     elif request.method == 'POST':
-        typeOfBreakfast = request.form['Type Of Breakfast']
-        numberOfSalads = request.form['Number Of Salads']
-        typeOfBread = request.form['Type Of Bread']
-        return 'RESULT PAGE'
+        # get the time in minutes
+        min_veg_num = request.form['Minimun Vegtables']
+        meals = sql_veggie_queries.get_veg_recipes_results_by_params(min_veg_num)
+        return render_template('easy_recipes_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
-
 
 @app.route('/easy_recipes_start')
 def easy_recipe_page():
