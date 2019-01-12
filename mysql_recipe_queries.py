@@ -1,29 +1,18 @@
-import my_details
-import sshtunnel
-import pymysql
-from paramiko import SSHClient
+import my_connect
 
 
 def get_ethnic_meal_results_by_params(max_prep_time, courses, cuisine):
-    # TODO: take care of case 4+ hours max prep time
-    with sshtunnel.SSHTunnelForwarder(
-            ('nova.cs.tau.ac.il', 22),
-            ssh_username=my_details.username,
-            ssh_password=my_details.password,
-            remote_bind_address=('mysqlsrv1.cs.tau.ac.il', 3306),
-            local_bind_address=('localhost', 3305)
-    ) as server:
+    with my_connect.tunnel() as server:
         print(server.local_bind_port)
-        conn = pymysql.connect(host="localhost",
-                               port=3305,
-                               user="DbMysql06",
-                               passwd="DbMysql06",
-                               db="DbMysql06")
+        conn = my_connect.connect_to_db()
         print("ok")
         res = []
+        unlimited = False
+        if int(max_prep_time) == 4:
+            unlimited = True
+
         max_prep_time_in_sec = int(max_prep_time)*3600
-        print(max_prep_time_in_sec)
-        meals_by_id = get_recipe_from_db_by_ethnic_meal_filter(max_prep_time_in_sec, courses, cuisine, conn)
+        meals_by_id = get_recipe_from_db_by_ethnic_meal_filter(unlimited, max_prep_time_in_sec, courses, cuisine, conn)
         print(meals_by_id)
         for meal_res in meals_by_id:
             meals = {}
@@ -36,7 +25,7 @@ def get_ethnic_meal_results_by_params(max_prep_time, courses, cuisine):
 
 
 def get_recipe_ingredients_from_db(recipe_id, conn):
-    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur = conn.cursor(my_connect.my_cursor)
     sql_get = "SELECT ingredient_name" \
               " FROM ListOfIngredients" \
               " WHERE recipe_id='%s'" % recipe_id
@@ -67,7 +56,7 @@ def get_time_str(str_seconds):
 
 
 def get_recipe_and_ingredients_by_id(recipe_id, conn):
-    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur = conn.cursor(my_connect.my_cursor)
     res = {}
     try:
         recipe_query = "SELECT * FROM Recipe WHERE Recipe.recipe_id = '" + recipe_id + "'"
@@ -94,13 +83,20 @@ def get_recipe_and_ingredients_by_id(recipe_id, conn):
     return res
 
 
-def get_recipe_from_db_by_ethnic_meal_filter(max_prep_time_in_sec, courses, cuisine, conn):
-    cur = conn.cursor(pymysql.cursors.DictCursor)
+def time_check_str(unlimited, max_prep_time_in_sec, courses):
+    if unlimited:
+        return ""
+    else:
+        return "(" + get_sum_of_preps(courses) + (") <= %d" % max_prep_time_in_sec)
+
+
+def get_recipe_from_db_by_ethnic_meal_filter(unlimited, max_prep_time_in_sec, courses, cuisine, conn):
+    cur = conn.cursor(my_connect.my_cursor)
     try:
         query = "SELECT DISTINCT " + get_courses_to_select(courses) + \
                 " FROM " + get_inner_tables_by_courses_and_cuisine(courses, cuisine) + \
-                "WHERE (" + get_sum_of_preps(courses) + (") <= %d" % max_prep_time_in_sec) + \
-                get_course_difference(courses) + " ORDER BY RANDOM() LIMIT 20"
+                " WHERE " + time_check_str(unlimited, max_prep_time_in_sec, courses) + \
+                get_course_difference(unlimited, courses) + " ORDER BY RAND() LIMIT 20"
         print(query)
 
         cur.execute(query)
@@ -156,7 +152,6 @@ def get_inner_tables_by_courses_and_cuisine(courses, cuisine):
         else:
             res += " "
         idx += 1
-    print(res)
     return res
 
 
@@ -191,16 +186,18 @@ def get_all_options_of_column(column_name, values):
     return res
 
 
-def get_course_difference(courses):
+def get_course_difference(unlimited, courses):
     res = ""
-    idx = 0
 
     if len(courses) == 1:
         return res
 
     for i in range(1, len(courses)+1):
         for j in range(i+1, len(courses)+1):
-            res += (" AND " + courses[i-1].lower() + "s.recipe_id != " + courses[j-1].lower() + "s.recipe_id")
+            if unlimited and i == 1 and j == i+1:
+                res += (courses[i - 1].lower() + "s.recipe_id != " + courses[j - 1].lower() + "s.recipe_id")
+            else:
+                res += (" AND " + courses[i-1].lower() + "s.recipe_id != " + courses[j-1].lower() + "s.recipe_id")
     return res
 
 

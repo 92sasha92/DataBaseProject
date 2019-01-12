@@ -1,5 +1,6 @@
 import mysql_recipe_queries
 import my_connect
+import random
 
 gluten_keywords = ['gluten', 'flour', 'wheat', 'durum', 'emmer', 'semolina', 'spelt', 'farina',
                    'farro', 'graham', 'rye', 'barely', 'triticale', 'malt', 'yeast', 'pasta', 'spaghetti', 'ravioli',
@@ -17,7 +18,7 @@ egg_keywords = ['egg', 'mayo', 'meringue', 'surimi', 'marzipan', 'marshmallow', 
 peanut_keywords = ['peanut', 'arachis', 'nut', 'goobers', 'lupin', 'mandelonas', 'marzipan', 'nougat', 'seed']
 
 
-def get_birthday_meal_results_by_params(allergies, is_kids_party, min_num_of_servings, max_prep_time):
+def get_birthday_meal_results_by_params(allergies, is_kids_party, max_prep_time):
     with my_connect.tunnel() as server:
         print(server.local_bind_port)
         conn = my_connect.connect_to_db()
@@ -25,8 +26,12 @@ def get_birthday_meal_results_by_params(allergies, is_kids_party, min_num_of_ser
         res = []
         max_prep_time_in_sec = str(max_prep_time*3600)
         print(is_kids_party)
-        meals_by_id = get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party,
-                                                                 min_num_of_servings, max_prep_time_in_sec, conn)
+        meals_by_id = get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time_in_sec, conn)
+        print("before shufle")
+        meals_by_id = random.sample(meals_by_id, len(meals_by_id))
+        print("after shufle")
+        if len(meals_by_id) > 20:
+            meals_by_id = meals_by_id[0:20]
         for meal_res in meals_by_id:
             meals = {}
             recipe_id = meal_res["snack_recipe_id"]
@@ -46,11 +51,6 @@ def get_birthday_meal_results_by_params(allergies, is_kids_party, min_num_of_ser
 def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time, conn):
     x = conn.cursor(my_connect.my_cursor)
     try:
-        print("hi")
-        print("SELECT DISTINCT snacks.recipe_id AS snack_recipe_id, sides.recipe_id AS side_recipe_id, "
-              "mains.recipe_id AS main_recipe_id, cakes.recipe_id AS cake_recipe_id " +
-              "FROM (SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses" +
-              (", ListOfCuisines" if is_kids_party else ""))
         query = "SELECT DISTINCT snacks.recipe_id AS snack_recipe_id, sides.recipe_id AS side_recipe_id, " \
                 "mains.recipe_id AS main_recipe_id, cakes.recipe_id AS cake_recipe_id " \
                 "FROM (SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses" + \
@@ -74,7 +74,7 @@ def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_pre
                 (" AND Recipe.recipe_id = ListOfCuisines.recipe_id "
                  "AND cuisine_name LIKE '%Kid%'" if is_kids_party else "") + \
                 ") AS cakes WHERE (snacks.prep_time + sides.prep_time + mains.prep_time + cakes.prep_time) <= "\
-                + max_prep_time + get_ingredient_related_related(is_kids_party, allergies) + " LIMIT 20"
+                + max_prep_time + get_ingredient_related_related(is_kids_party, allergies) + " LIMIT 1000"
 
         print(query)
         x.execute(query)

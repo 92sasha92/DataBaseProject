@@ -154,11 +154,9 @@ def birthday():
         return render_template('pages/birthday.html')
     elif request.method == 'POST':
         prep_time = int(request.form['Maximum Preparation Time'])
-        num_of_guests = request.form['Number Of Guests']
         include_children = request.form['with children'] == 'True'
         allergies = request.form.getlist('Allergy')
-        meals = sql_birthday_queries.get_birthday_meal_results_by_params(allergies, include_children,
-                                                                         num_of_guests, prep_time)
+        meals = sql_birthday_queries.get_birthday_meal_results_by_params(allergies, include_children, prep_time)
         return render_template('birthday_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'

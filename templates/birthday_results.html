@@ -12,7 +12,6 @@
 
 </head>
 <body>
-<h3>For getting the full recipe description click on the recipe image</h3>
 <div class="w3-main" style="margin-left:auto">
       {% for meal in meals %}
         <div class="w3-row-padding">
@@ -20,7 +19,7 @@
               <div class="w3-quarter w3-container w3-margin-bottom">
                   <h3 style="text-align: center">APPETIZER</h3>
                 <a href="{{meal['snack']['dish']['recipe_instructions']}}">
-                    <img src="{{ meal['snack']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <img src="{{ meal['snack']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
                 </a>
                 <div class="w3-container w3-white">
                     <p><b>{{meal['snack']['dish']['name']}}</b></p>
@@ -37,7 +36,7 @@
               <div class="w3-quarter w3-container w3-margin-bottom">
                   <h3 style="text-align: center">MAIN DISH</h3>
                 <a href="{{meal['main']['dish']['recipe_instructions']}}">
-                    <img src="{{ meal['main']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <img src="{{ meal['main']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
                 </a>
                 <div class="w3-container w3-white">
                     <p><b>{{meal['main']['dish']['name']}}</b></p>
@@ -54,7 +53,7 @@
               <div class="w3-quarter w3-container w3-margin-bottom">
                 <h3 style="text-align: center">SIDE DISH</h3>
                 <a href="{{meal['side']['dish']['recipe_instructions']}}">
-                    <img src="{{ meal['side']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <img src="{{ meal['side']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
                 </a>
                 <div class="w3-container w3-white">
                     <p><b>{{meal['side']['dish']['name']}}</b></p>
@@ -71,7 +70,7 @@
               <div class="w3-quarter w3-container w3-margin-bottom">
                   <h3 style="text-align: center">BIRTHDAY CAKE</h3>
                 <a href="{{meal['dessert']['dish']['recipe_instructions']}}">
-                    <img src="{{ meal['dessert']['dish']['recipe_image'] }}" style="width:100%" class="w3-hover-opacity">
+                    <img src="{{ meal['dessert']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
                 </a>
                 <div class="w3-container w3-white">
                     <p><b>{{meal['dessert']['dish']['name']}}</b></p>
