@@ -92,7 +92,7 @@ def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients
         res = []
         drinks_by_id = get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients, conn)
 
-        print("hi")
+        print("get_drink_results_by_params function in sql_drink_queries")
         for drink_res in drinks_by_id:
             drink = {}
             drink_id = drink_res['drink_id']
@@ -113,6 +113,7 @@ def get_snacks_from_db(conn):
               "WHERE Recipe.recipe_id = ListOfCourses.recipe_id " \
               "AND course_name = 'Snacks' ORDER BY RAND() LIMIT 30"
 
+    print(sql_get)
     cur.execute(sql_get)
     try:
         conn.commit()

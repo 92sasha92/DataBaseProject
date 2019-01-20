@@ -62,12 +62,14 @@ def get_recipe_ids_to_select(num_of_dishes):
 
 def get_inner_selection(num_of_dishes, holiday):
     res = ""
-    base_query = "(SELECT DISTINCT ListOfHolidays.recipe_id, prep_time, num_of_servings " \
+    base_query = "(SELECT DISTINCT ListOfHolidays.recipe_id, prep_time, num_of_servings, rating " \
                  "FROM Recipe, ListOfHolidays, ListOfCourses " \
                  "WHERE Recipe.recipe_id = ListOfHolidays.recipe_id " \
                  "AND Recipe.recipe_id = ListOfCourses.recipe_id " \
                  "AND holiday_name = '" + holiday + "' AND course_name NOT IN " \
-                 "('Afternoon Tea', 'Beverages', 'Cocktails', 'Condiments and Sauces')) AS options"
+                 "('Afternoon Tea', 'Beverages', 'Cocktails', 'Condiments and Sauces') " \
+                                                    "ORDER BY rating DESC " \
+                                                    "LIMIT 20) AS options"
     for i in range(1, num_of_dishes+1):
         res += (base_query + str(i))
         if i != num_of_dishes:
