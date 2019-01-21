@@ -46,28 +46,32 @@ def get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient,
                 " desserts.recipe_id AS dessert_recipe_id FROM " \
                 "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
                 "WHERE Recipe.recipe_id = ListOfCourses.recipe_id " \
-                "AND course_name = 'Side Dishes' ORDER BY RAND()) AS sides, " \
+                "AND course_name = 'Side Dishes' " + \
+                ("AND (" + get_query_of_recipes_like_keywords(side_ingredient) + ")"
+                 if side_ingredient.lower() == 'salad' else "ORDER BY RAND() LIMIT 50") + ") AS sides, " \
                 "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
-                "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Main Dishes') AS mains, " \
+                "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Main Dishes'" \
+                " AND (" + get_query_of_recipes_like_keywords(main_ingredient) + ")) AS mains, " \
                 "(SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, ListOfCourses " \
-                "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Desserts') AS desserts " \
-                "WHERE (sides.prep_time + mains.prep_time + desserts.prep_time) <= " + max_prep_time_in_sec + \
-                " AND (" + get_query_of_recipes_like_keywords(main_ingredient) + ") AND "
-        if side_ingredient.lower() == 'salad':
-            query += ("(" + get_query_of_recipes_like_keywords(side_ingredient) + ") ")
-        else:
-            query += ("sides.recipe_id IN (SELECT DISTINCT recipe_id FROM ListOfIngredients "
-                      "WHERE LOWER(ingredient_name) LIKE '%" + side_ingredient + "%') ")
+                "WHERE Recipe.recipe_id = ListOfCourses.recipe_id AND course_name = 'Desserts'" \
+                ") AS desserts " \
+                "WHERE (sides.prep_time + mains.prep_time + desserts.prep_time) <= " + max_prep_time_in_sec
+        if side_ingredient.lower() != 'salad':
+            query += (" AND EXISTS (SELECT DISTINCT recipe_id FROM ListOfIngredients "
+                      "WHERE ListOfIngredients.recipe_id = sides.recipe_id AND "
+                      "ingredient_name LIKE '%" + side_ingredient + "%') ")
 
         if dessert_ingredient.lower() == "nosugar":
-            query += "AND desserts.recipe_id NOT IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
-                     "WHERE LOWER(ingredient_name) LIKE '%sugar%')"
+            query += " AND NOT EXISTS (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
+                     "WHERE ListOfIngredients.recipe_id = desserts.recipe_id AND " \
+                     "ingredient_name LIKE '%sugar%')"
         elif dessert_ingredient.lower() == "fruit":
-            query += ("AND (" + get_query_of_recipes_like_keywords(dessert_ingredient) + ") ")
+            query += (" AND (" + get_query_of_recipes_like_keywords(dessert_ingredient) + ") ")
         else:
-            query += "AND desserts.recipe_id IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
-                     "WHERE LOWER(ingredient_name) LIKE '%" + dessert_ingredient + "%')"
-        query += get_recipe_difference() + " LIMIT 20"
+            query += " AND EXISTS (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
+                     "WHERE ListOfIngredients.recipe_id = desserts.recipe_id AND " \
+                     "ingredient_name LIKE '%" + dessert_ingredient + "%')"
+        query += get_recipe_difference() + " ORDER BY RAND() LIMIT 20"
         print(query)
         x.execute(query)
 
@@ -86,7 +90,7 @@ def get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient,
 def get_query_of_recipes_like_keywords(main_ingredient):
 
     res = ""
-    base_query = "mains.recipe_id LIKE '%"
+    base_query = "ListOfCourses.recipe_id LIKE '%"
     keywords = []
     if main_ingredient.lower() == 'meat':
         keywords = meat_keywords
@@ -95,10 +99,10 @@ def get_query_of_recipes_like_keywords(main_ingredient):
     elif main_ingredient.lower() == 'fish':
         keywords = fish_keywords
     if main_ingredient.lower() == 'salad':
-        base_query = "sides.recipe_id LIKE '%"
+        base_query = "ListOfCourses.recipe_id LIKE '%"
         keywords = salad_keywords
     elif main_ingredient.lower() == 'fruit':
-        base_query = "desserts.recipe_id LIKE '%"
+        base_query = "ListOfCourses.recipe_id LIKE '%"
         keywords = fruit_keywords
 
     idx = 0
