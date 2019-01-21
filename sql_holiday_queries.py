@@ -28,7 +28,8 @@ def get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec, min
 
     try:
         query = "SELECT DISTINCT " + get_recipe_ids_to_select(num_of_dishes) + "FROM " \
-                + get_inner_selection(num_of_dishes, holiday) + "WHERE (" + \
+                + get_inner_selection(num_of_dishes, holiday) + "WHERE " +\
+                " AND (" + \
                 get_query_sum_of_attribute(num_of_dishes, "prep_time") + \
                 ") <= " + max_prep_time_in_sec + " AND (" + \
                 get_query_sum_of_attribute(num_of_dishes, "num_of_servings") + ") >= " + \
