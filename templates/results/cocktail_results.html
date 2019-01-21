@@ -25,14 +25,14 @@
     <div class="w3-top">
             <div class="w3-center">
                 <ul style="background-color: white;">
-                    <li><a href="/home_page">Main</a></li>
+                    <li><a href="/">Main</a></li>
                     <li style="float:left"><img src="static/images/logo.png" style="height:75px;"></li>
                 </ul>
             </div>
     </div>
 </head>
 <body>
-<div class="w3-main" style="margin-left:auto">
+<div class="w3-main" style="margin-left:auto; margin-top:100px;">
     {% if drinks %}
       {% for drink in drinks %}
           {% if ((snacks and (loop.index0 is divisibleby 3)) or ((not snacks) and (loop.index0 is divisibleby 4))) %}
@@ -104,7 +104,34 @@
       {% endfor %}
     {% else %}
         {% if snacks %}
-            <!-- no drink but there are snacks -->
+            <!-- no drink but there are snacks -->+
+            {% for snack in snacks %}
+              {% if (loop.index0 is divisibleby 4) %}
+                <div class="w3-row-padding">
+              {% endif%}
+                  <div class="w3-quarter w3-container w3-margin-bottom">
+                        <a href="{{ snacks[loop.index0]['snack']['recipe_instructions'] }}">
+                            <img src="{{ snacks[loop.index0]['snack']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
+                        </a>
+                        <div class="w3-container w3-white">
+                            <p><b>{{ snacks[loop.index0]['snack']['name'] }}</b></p>
+                            <p>Prep time: {{ snacks[loop.index0]['snack']['prep_time'] }}</p>
+                            <table>
+                                  <tr>
+                                    <th>Ingredient Name</th>
+                                  </tr>
+                             {% for ingredient in snacks[loop.index0]['ingredients'] %}
+                                <tr>
+                                   <td> {{ ingredient['ingredient_name'] }} </td>
+                                </tr>
+                             {% endfor %}
+                            </table>
+                        </div>
+                  </div>
+              {% if (loop.index is divisibleby 4) %}
+                 </div>
+              {% endif %}
+        {% endfor %}
         {% else %}
             <h1>No results found.</h1>
             <h2>Maybe you chose Non alcoholic together with an alcoholic main ingredient</h2>

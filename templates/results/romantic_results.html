@@ -5,14 +5,21 @@
     <link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="/static/styles/navbar_style.css">
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
     </style>
-    <!--<link rel="stylesheet" type="text/css" href="static/styles/regular.css">-->
-
+    <div class="w3-top">
+            <div class="w3-center">
+                <ul style="background-color: white;">
+                    <li><a href="/">Main</a></li>
+                    <li style="float:left"><img src="static/images/logo.png" style="height:75px;"></li>
+                </ul>
+            </div>
+    </div>
 </head>
 <body>
-<div class="w3-main" style="margin-left:auto">
+<div class="w3-main" style="margin-left:auto; margin-top:100px;">
       {% for meal in meals %}
         <div class="w3-row-padding">
             {% if meal['main'] %}

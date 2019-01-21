@@ -207,7 +207,7 @@ position: relative;
 <div class= "w3-top">
 <div class= "w3-center">
 <ul style="background-color: white;">
-<li ><a href="/home_page">Main</a></li>
+<li ><a href="/">Main</a></li>
 <li style="float:left"><img src="static/images/logo.png" style="height:75px;" ></li>
 </ul>
 </div>
@@ -310,11 +310,14 @@ for (i = 0; i < x.length; i++) {
   /*for each element, create a new DIV that will contain the option list:*/
   b = document.createElement("DIV");
   b.setAttribute("class", "select-items select-hide");
-  for (j = 1; j < selElmnt.length; j++) {
+  for (j = 0; j < selElmnt.length; j++) {
     /*for each option in the original select element,
     create a new DIV that will act as an option item:*/
     c = document.createElement("DIV");
     c.innerHTML = selElmnt.options[j].innerHTML;
+    if(j == 0) {
+        c.setAttribute("class", "same-as-selected");
+    }
     c.addEventListener("click", function(e) {
         /*when an item is clicked, update the original select box,
         and the selected item:*/

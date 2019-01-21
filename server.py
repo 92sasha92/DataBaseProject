@@ -13,11 +13,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def start():
-    return render_template('first_page.html')
-
-
-@app.route('/home_page')
-def home_page():
     return render_template('pages/main_page.html')
 
 
@@ -37,7 +32,7 @@ def ethnic_cuisines():
         cuisine = request.form['Cuisine']
         meals = mysql_recipe_queries.get_ethnic_meal_results_by_params(prep_time, type_of_meals, cuisine)
         print(meals)
-        return render_template('ethnic_cuisines_results.html', meals=meals)
+        return render_template('results/ethnic_cuisines_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
@@ -51,7 +46,7 @@ def professional_recipes_page():
 @app.route('/professional_recipes')
 def professional_recipes():
     meals = sql_professional_recipes_queries.get_professional_meals_results()
-    return render_template('recipes_results.html', meals=meals)
+    return render_template('results/recipes_results.html', meals=meals)
 
 
 @app.route('/holiday_start')
@@ -74,7 +69,7 @@ def holiday():
                                                                        min_num_of_servings,
                                                                        number_of_dishes)
         print(meals)
-        return render_template('holiday_results.html', meals=meals, num_of_dishes=number_of_dishes)
+        return render_template('results/holiday_results.html', meals=meals, num_of_dishes=number_of_dishes)
     else:
         return 'failed to load holiday result page or to send request'
 
@@ -96,7 +91,7 @@ def romantic():
         dessert = request.form['Dessert']
         meals = sql_romantic_queries.get_romantic_meal_results_by_params(main_ingredient, side_ingredient,
                                                                          dessert, prep_time)
-        return render_template('romantic_results.html', meals=meals)
+        return render_template('results/romantic_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
@@ -115,7 +110,7 @@ def meatless_monday():
         # get the time in minutes
         min_veg_num = request.form['Minimum Vegetables']
         meals = sql_veggie_queries.get_veg_recipes_results_by_params(min_veg_num)
-        return render_template('recipes_results.html', meals=meals)
+        return render_template('results/recipes_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
@@ -137,7 +132,7 @@ def easy_recipes():
         ingredients_common_level = request.form['Common Level']
         meals = sql_easy_recipes_queries.get_easy_meals_results_by_params(max_prep_time, max_ingredients,
                                                                           ingredients_common_level)
-        return render_template('recipes_results.html', meals=meals)
+        return render_template('results/recipes_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
@@ -157,7 +152,7 @@ def birthday():
         include_children = request.form['with children'] == 'True'
         allergies = request.form.getlist('Allergy')
         meals = sql_birthday_queries.get_birthday_meal_results_by_params(allergies, include_children, prep_time)
-        return render_template('birthday_results.html', meals=meals)
+        return render_template('results/birthday_results.html', meals=meals)
     else:
         return 'failed to load page or to send request'
 
@@ -188,7 +183,7 @@ def cocktail():
             print("drink result is no empty")
         print(snacks)
         print("333 check: end of cocktail in server.py")
-        return render_template('cocktail_results.html', drinks=qry, snacks=snacks)
+        return render_template('results/cocktail_results.html', drinks=qry, snacks=snacks)
     else:
         return 'failed to load page or to send request'
 

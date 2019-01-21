@@ -14,7 +14,7 @@
     <div class="w3-top">
             <div class="w3-center">
                 <ul style="background-color: white;">
-                    <li><a href="/home_page">Main</a></li>
+                    <li><a href="/">Main</a></li>
                     <li style="float:left"><img src="static/images/logo.png" style="height:75px;"></li>
                 </ul>
             </div>
@@ -22,7 +22,7 @@
 </head>
 <body>
     <h3>If you want to see the full recipe description just click on the recipe image</h3>
-    <div class="w3-main" style="margin-left:auto">
+    <div class="w3-main" style="margin-left:auto; margin-top:100px;">
           {% for meal in meals %}
             <div class="w3-row-padding">
                 {% for i in range(1, num_of_dishes + 1) %}
