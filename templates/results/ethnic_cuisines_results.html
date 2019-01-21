@@ -76,6 +76,10 @@
           {% endif%}
         </div>
       {% endfor %}
+    {% if not meals %}
+        <h1>There are no results.</h1>
+        <h2>Select at least one type of meal.</h2>
+    {% endif %}
 </div>
 </body>
 </html>

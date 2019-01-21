@@ -29,6 +29,9 @@ def ethnic_cuisines():
     elif request.method == 'POST':
         prep_time = request.form['Maximum Preparation Time']
         type_of_meals = request.form.getlist('Type Of Meal')
+        if type_of_meals == []:
+            return render_template('results/ethnic_cuisines_results.html', meals=[])
+        #print("HERE:          ",type_of_meals)
         cuisine = request.form['Cuisine']
         meals = mysql_recipe_queries.get_ethnic_meal_results_by_params(prep_time, type_of_meals, cuisine)
         print(meals)

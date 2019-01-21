@@ -53,6 +53,10 @@
                 {% endfor %}
             </div>
           {% endfor %}
+        {% if not meals %}
+            <h1>There are no results.</h1>
+            <h2>Try to select other parameters.</h2>
+        {% endif %}
     </div>
 </body>
 </html>
