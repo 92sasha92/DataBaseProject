@@ -21,6 +21,7 @@
 </head>
 <body>
 <div class="w3-main" style="margin-left:auto">
+    {% if drinks %}
       {% for drink in drinks %}
           {% if ((snacks and (loop.index0 is divisibleby 3)) or ((not snacks) and (loop.index0 is divisibleby 4))) %}
             <div class="w3-row-padding">
@@ -89,6 +90,15 @@
              </div>
           {% endif %}
       {% endfor %}
+    {% else %}
+        {% if snacks %}
+            <!-- no drink but there are snacks -->
+        {% else %}
+            <h1>No results found.</h1>
+            <h2>Maybe you chose Non alcoholic together with an alcoholic main ingredient</h2>
+        {% endif %}
+
+    {% endif %}
 </div>
 </body>
 </html>

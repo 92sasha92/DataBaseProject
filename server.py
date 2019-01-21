@@ -182,7 +182,12 @@ def cocktail():
                                                                     preferable_glasses, max_ingredients,
                                                                     side_dish)
         print(qry)
+        if qry == [ ]:
+            print("drink result is empty")
+        else:
+            print("drink result is no empty")
         print(snacks)
+        print("333 check: end of cocktail in server.py")
         return render_template('cocktail_results.html', drinks=qry, snacks=snacks)
     else:
         return 'failed to load page or to send request'

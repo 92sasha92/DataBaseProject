@@ -63,9 +63,7 @@ def get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient,
             query += "AND desserts.recipe_id NOT IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
                      "WHERE LOWER(ingredient_name) LIKE '%sugar%')"
         elif dessert_ingredient.lower() == "fruit":
-            print("fruitttttt")
             query += ("AND (" + get_query_of_recipes_like_keywords(dessert_ingredient) + ") ")
-            print(query)
         else:
             query += "AND desserts.recipe_id IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " \
                      "WHERE LOWER(ingredient_name) LIKE '%" + dessert_ingredient + "%')"
