@@ -86,24 +86,22 @@ def get_drink_ingredients_from_db(drink_id, conn):
 
 
 def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients, side_dish):
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        res = []
-        drinks_by_id = get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients, conn)
+    conn = my_connect.connect_to_db()
+    res = []
+    drinks_by_id = get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients, conn)
 
-        print("get_drink_results_by_params function in sql_drink_queries")
-        for drink_res in drinks_by_id:
-            drink = {}
-            drink_id = drink_res['drink_id']
-            drink['drink'] = drink_res
-            drink['ingredients'] = get_drink_ingredients_from_db(drink_id, conn)
-            print(drink['ingredients'])
-            res.append(drink)
-        print(res)
-        res_snacks = get_snacks_results(side_dish, conn)
-        conn.close()
-        return res, res_snacks
+    print("get_drink_results_by_params function in sql_drink_queries")
+    for drink_res in drinks_by_id:
+        drink = {}
+        drink_id = drink_res['drink_id']
+        drink['drink'] = drink_res
+        drink['ingredients'] = get_drink_ingredients_from_db(drink_id, conn)
+        print(drink['ingredients'])
+        res.append(drink)
+    print(res)
+    res_snacks = get_snacks_results(side_dish, conn)
+    conn.close()
+    return res, res_snacks
 
 
 def get_snacks_from_db(conn):

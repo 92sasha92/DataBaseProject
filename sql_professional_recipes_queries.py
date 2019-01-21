@@ -35,19 +35,17 @@ def get_recipes_from_db_by_professional_meal_filter(conn):
 
 
 def get_professional_meals_results():
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        print("connected")
-        res = []
-        meals_by_id = get_recipes_from_db_by_professional_meal_filter(conn)
-        for meal_res in meals_by_id:
-            meal = {}
-            recipe_id = meal_res['recipe_id']
-            meal['meal'] = meal_res
-            meal['meal']['prep_time'] = mysql_recipe_queries.get_time_str(meal['meal']['prep_time'])
-            meal['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(recipe_id, conn)
-            res.append(meal)
-        print(res)
-        conn.close()
-        return res
+    conn = my_connect.connect_to_db()
+    print("connected")
+    res = []
+    meals_by_id = get_recipes_from_db_by_professional_meal_filter(conn)
+    for meal_res in meals_by_id:
+        meal = {}
+        recipe_id = meal_res['recipe_id']
+        meal['meal'] = meal_res
+        meal['meal']['prep_time'] = mysql_recipe_queries.get_time_str(meal['meal']['prep_time'])
+        meal['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(recipe_id, conn)
+        res.append(meal)
+    print(res)
+    conn.close()
+    return res

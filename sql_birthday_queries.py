@@ -19,33 +19,31 @@ peanut_keywords = ['peanut', 'arachis', 'nut', 'goobers', 'lupin', 'mandelonas',
 
 
 def get_birthday_meal_results_by_params(allergies, is_kids_party, max_prep_time):
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        print("ok")
-        res = []
-        max_prep_time_in_sec = str(max_prep_time*3600)
-        print(is_kids_party)
-        meals_by_id = get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time_in_sec, conn)
-        # print("before shufle")
-        # meals_by_id = random.sample(meals_by_id, len(meals_by_id))
-        # print("after shufle")
-        # if len(meals_by_id) > 20:
-        #     meals_by_id = meals_by_id[0:20]
-        for meal_res in meals_by_id:
-            meals = {}
-            recipe_id = meal_res["snack_recipe_id"]
-            meals["snack"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            recipe_id = meal_res["main_recipe_id"]
-            meals["main"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            recipe_id = meal_res["side_recipe_id"]
-            meals["side"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            recipe_id = meal_res["cake_recipe_id"]
-            meals["dessert"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            res.append(meals)
-        print(res)
-        conn.close()
-        return res
+    conn = my_connect.connect_to_db()
+    print("ok")
+    res = []
+    max_prep_time_in_sec = str(max_prep_time * 3600)
+    print(is_kids_party)
+    meals_by_id = get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time_in_sec, conn)
+    # print("before shufle")
+    # meals_by_id = random.sample(meals_by_id, len(meals_by_id))
+    # print("after shufle")
+    # if len(meals_by_id) > 20:
+    #     meals_by_id = meals_by_id[0:20]
+    for meal_res in meals_by_id:
+        meals = {}
+        recipe_id = meal_res["snack_recipe_id"]
+        meals["snack"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        recipe_id = meal_res["main_recipe_id"]
+        meals["main"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        recipe_id = meal_res["side_recipe_id"]
+        meals["side"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        recipe_id = meal_res["cake_recipe_id"]
+        meals["dessert"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        res.append(meals)
+    print(res)
+    conn.close()
+    return res
 
 
 def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time, conn):
