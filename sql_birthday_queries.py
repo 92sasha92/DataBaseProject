@@ -27,11 +27,11 @@ def get_birthday_meal_results_by_params(allergies, is_kids_party, max_prep_time)
         max_prep_time_in_sec = str(max_prep_time*3600)
         print(is_kids_party)
         meals_by_id = get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time_in_sec, conn)
-        print("before shufle")
-        meals_by_id = random.sample(meals_by_id, len(meals_by_id))
-        print("after shufle")
-        if len(meals_by_id) > 20:
-            meals_by_id = meals_by_id[0:20]
+        # print("before shufle")
+        # meals_by_id = random.sample(meals_by_id, len(meals_by_id))
+        # print("after shufle")
+        # if len(meals_by_id) > 20:
+        #     meals_by_id = meals_by_id[0:20]
         for meal_res in meals_by_id:
             meals = {}
             recipe_id = meal_res["snack_recipe_id"]
@@ -57,24 +57,26 @@ def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_pre
                 (", ListOfCuisines" if is_kids_party else "") + " WHERE Recipe.recipe_id = ListOfCourses.recipe_id " \
                 + ("AND Recipe.recipe_id = ListOfCuisines.recipe_id " if is_kids_party else "") + \
                 "AND course_name = 'Side Dishes' " + (" AND cuisine_name LIKE '%Kid%'" if is_kids_party else "") + \
-                ") AS sides, (SELECT DISTINCT Recipe.recipe_id, prep_time " \
+                " ORDER BY RAND() LIMIT 16) AS sides, (SELECT DISTINCT Recipe.recipe_id, prep_time " \
                 "FROM Recipe, ListOfCourses" + (", ListOfCuisines" if is_kids_party else "") + \
                 " WHERE Recipe.recipe_id = ListOfCourses.recipe_id " + \
                 ("AND Recipe.recipe_id = ListOfCuisines.recipe_id " if is_kids_party else "") + \
                 "AND course_name IN ('Snacks', 'Appetizers') " + \
                 (" AND cuisine_name LIKE '%Kid%'" if is_kids_party else "") + \
-                ") AS snacks, (SELECT DISTINCT Recipe.recipe_id, prep_time " \
+                " ORDER BY RAND() LIMIT 16) AS snacks, (SELECT DISTINCT Recipe.recipe_id, prep_time " \
                 "FROM Recipe, ListOfCourses" + (", ListOfCuisines" if is_kids_party else "") + \
                 " WHERE Recipe.recipe_id = ListOfCourses.recipe_id " + \
                 ("AND Recipe.recipe_id = ListOfCuisines.recipe_id" if is_kids_party else "") + \
                 " AND course_name = 'Main Dishes' " + ("AND cuisine_name LIKE '%Kid%'" if is_kids_party else "") + \
-                ") AS mains, (SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, " \
+                " ORDER BY RAND() LIMIT 16) AS mains, (SELECT DISTINCT Recipe.recipe_id, prep_time FROM Recipe, " \
                 "ListOfCourses" + (", ListOfCuisines" if is_kids_party else "") + " WHERE Recipe.recipe_id = " \
-                "ListOfCourses.recipe_id AND course_name = 'Desserts' AND LOWER(Recipe.name) LIKE '%cake'" + \
+                "ListOfCourses.recipe_id AND Recipe.name LIKE '%cake' AND course_name = 'Desserts'" + \
                 (" AND Recipe.recipe_id = ListOfCuisines.recipe_id "
                  "AND cuisine_name LIKE '%Kid%'" if is_kids_party else "") + \
-                ") AS cakes WHERE (snacks.prep_time + sides.prep_time + mains.prep_time + cakes.prep_time) <= "\
-                + max_prep_time + get_ingredient_related_related(is_kids_party, allergies) + " LIMIT 1000"
+                " ORDER BY RAND() LIMIT 16) AS cakes WHERE (snacks.prep_time + sides.prep_time + " \
+                "mains.prep_time + cakes.prep_time) <= "\
+                + max_prep_time + get_ingredient_allergy_related(is_kids_party, allergies) + " ORDER BY RAND()" \
+                                                                                             " LIMIT 20"
 
         print(query)
         x.execute(query)
@@ -91,7 +93,7 @@ def get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_pre
     return x.fetchall()
 
 
-def get_ingredient_related_related(is_kids_party, allergies):
+def get_ingredient_allergy_related(is_kids_party, allergies):
     res = ""
     if len(allergies) == 0 and (not is_kids_party):
         return res
@@ -100,9 +102,9 @@ def get_ingredient_related_related(is_kids_party, allergies):
 
     for dish in dishes:
         res += " AND "
-        res += (dish + ".recipe_id NOT IN (SELECT DISTINCT recipe_id FROM ListOfIngredients " +
-                get_query_of_ingredients_like_keywords(allergies) +
-                (" GROUP BY recipe_id, ingredient_name HAVING (COUNT(*) > 10)) " if is_kids_party else ""))
+        res += ("NOT EXISTS (SELECT DISTINCT recipe_id FROM ListOfIngredients WHERE ListOfIngredients.recipe_id = " +
+                dish + ".recipe_id " + get_query_of_ingredients_like_keywords(allergies) +
+                (" GROUP BY recipe_id, ingredient_name HAVING (COUNT(*) > 10)) " if is_kids_party else ") "))
     return res
 
 
@@ -110,8 +112,8 @@ def get_query_of_ingredients_like_keywords(allergies):
     if len(allergies) == 0:
         return ""
 
-    res = "WHERE "
-    base_query = "LOWER(ingredient_name) LIKE '%"
+    res = "AND ("
+    base_query = "ingredient_name LIKE '%"
     keywords = []
 
     idx = 0
@@ -130,7 +132,7 @@ def get_query_of_ingredients_like_keywords(allergies):
             res += base_query + keyword + "%' "
             idx += 1
 
-    return res
+    return res + ") "
 
 
 def get_recipe_difference():

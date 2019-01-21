@@ -23,20 +23,46 @@ def get_holiday_meal_results_by_params(holiday, max_prep_time, min_num_of_guests
         return res
 
 
+def get_unique_recipe_permutations(num_of_dishes):
+    res = ""
+
+    if num_of_dishes == 1:
+        return res
+
+    for i in range(1, num_of_dishes):
+        print(str(i))
+        if i == 1:
+            res += ("options" + str(i) + ".recipe_id < " + "options" + str(i + 1) + ".recipe_id")
+        else:
+            res += (" AND " + "options" + str(i) + ".recipe_id < " + "options" + str(i + 1) + ".recipe_id")
+
+    return res + " AND"
+
+
+def get_exist_main_course_check(num_of_dishes):
+    res = ""
+    query = " EXISTS (SELECT DISTINCT recipe_id FROM ListOfCourses " \
+            "WHERE course_name IN ('Main Dishes', 'Lunch') AND ListOfCourses.recipe_id = options"
+    for i in range(1, num_of_dishes+1):
+        res += (query + str(i) + ".recipe_id) ")
+        if i != num_of_dishes:
+            res += "OR"
+    return res
+
+
 def get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec, min_num_of_guests, num_of_dishes, conn):
     x = conn.cursor(pymysql.cursors.DictCursor)
-
     try:
         query = "SELECT DISTINCT " + get_recipe_ids_to_select(num_of_dishes) + "FROM " \
-                + get_inner_selection(num_of_dishes, holiday) + "WHERE " +\
-                " AND (" + \
+                + get_inner_selection(num_of_dishes, holiday) + "WHERE " + \
+                get_unique_recipe_permutations(num_of_dishes) + \
+                " (" + \
                 get_query_sum_of_attribute(num_of_dishes, "prep_time") + \
                 ") <= " + max_prep_time_in_sec + " AND (" + \
                 get_query_sum_of_attribute(num_of_dishes, "num_of_servings") + ") >= " + \
-                min_num_of_guests + " AND EXISTS (SELECT DISTINCT recipe_id FROM ListOfCourses " \
-                "WHERE (" + get_courses_join_to_options(num_of_dishes) + \
-                ") AND course_name IN ('Main Dishes', 'Lunch')) " + get_recipe_difference(num_of_dishes) + \
-                "ORDER BY RAND() LIMIT 10"
+                min_num_of_guests + " AND (" + get_exist_main_course_check(num_of_dishes) + \
+                ") " + \
+                " ORDER BY RAND() LIMIT 20"
         print(query)
         x.execute(query)
 
@@ -70,7 +96,7 @@ def get_inner_selection(num_of_dishes, holiday):
                  "AND holiday_name = '" + holiday + "' AND course_name NOT IN " \
                  "('Afternoon Tea', 'Beverages', 'Cocktails', 'Condiments and Sauces') " \
                                                     "ORDER BY rating DESC " \
-                                                    "LIMIT 20) AS options"
+                                                    ") AS options"
     for i in range(1, num_of_dishes+1):
         res += (base_query + str(i))
         if i != num_of_dishes:
