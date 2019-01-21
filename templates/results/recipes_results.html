@@ -12,15 +12,14 @@
     <div class="w3-top">
             <div class="w3-center">
                 <ul style="background-color: white;">
-                    <li><a href="/home_page">Main</a></li>
+                    <li><a href="/">Main</a></li>
                     <li style="float:left"><img src="static/images/logo.png" style="height:75px;"></li>
                 </ul>
             </div>
     </div>
 </head>
 <body>
-    <h1>Results</h1>
-    <div class="w3-main" style="margin-left:auto">
+    <div class="w3-main" style="margin-left:auto; margin-top:100px;">
           {% for meal in meals %}
               {% if loop.index0 is divisibleby 4 %}
                 <div class="w3-row-padding">
@@ -43,6 +42,10 @@
                  </div>
               {% endif %}
           {% endfor %}
+        {% if not meals %}
+            <h1>There are no results.</h1>
+            <h2>Try to select other parameters.</h2>
+        {% endif %}
     </div>
 </body>
 </html>

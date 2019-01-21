@@ -5,36 +5,26 @@
     <link href='https://fonts.googleapis.com/css?family=Gaegu' rel='stylesheet'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="/static/styles/navbar_style.css">
     <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
     </style>
-    <!--<link rel="stylesheet" type="text/css" href="static/styles/regular.css">-->
-
+    <div class="w3-top">
+            <div class="w3-center">
+                <ul style="background-color: white;">
+                    <li><a href="/">Main</a></li>
+                    <li style="float:left"><img src="static/images/logo.png" style="height:75px;"></li>
+                </ul>
+            </div>
+    </div>
 </head>
 <body>
-<div class="w3-main" style="margin-left:auto">
+<div class="w3-main" style="margin-left:auto; margin-top:100px;">
       {% for meal in meals %}
         <div class="w3-row-padding">
-          {% if meal['first'] %}
+            {% if meal['main'] %}
               <div class="w3-third w3-container w3-margin-bottom">
-                <h3 style="text-align: center">First course</h3>
-                <a href="{{meal['first']['dish']['recipe_instructions']}}">
-                    <img src="{{ meal['first']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
-                </a>
-                <div class="w3-container w3-white">
-                    <p><b>{{meal['first']['dish']['name']}}</b></p>
-                    <p>Prep time: {{meal['first']['dish']['prep_time']}}</p>
-                    <p>Ingredients:
-                        {% for ingredient in meal['first']['ingredients'] %}
-                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
-                        {% endfor %}
-                    </p>
-                </div>
-              </div>
-          {% endif%}
-          {% if meal['main'] %}
-              <div class="w3-third w3-container w3-margin-bottom">
-                  <h3 style="text-align: center">Main course</h3>
+                  <h3 style="text-align: center">MAIN DISH</h3>
                 <a href="{{meal['main']['dish']['recipe_instructions']}}">
                     <img src="{{ meal['main']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
                 </a>
@@ -49,9 +39,26 @@
                 </div>
               </div>
           {% endif%}
+          {% if meal['side'] %}
+              <div class="w3-third w3-container w3-margin-bottom">
+                <h3 style="text-align: center">SIDE DISH</h3>
+                <a href="{{meal['side']['dish']['recipe_instructions']}}">
+                    <img src="{{ meal['side']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
+                </a>
+                <div class="w3-container w3-white">
+                    <p><b>{{meal['side']['dish']['name']}}</b></p>
+                    <p>Prep time: {{meal['side']['dish']['prep_time']}}</p>
+                    <p>Ingredients:
+                        {% for ingredient in meal['side']['ingredients'] %}
+                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+              </div>
+          {% endif%}
           {% if meal['dessert'] %}
               <div class="w3-third w3-container w3-margin-bottom">
-                  <h3 style="text-align: center">Dessert</h3>
+                  <h3 style="text-align: center">DESSERT</h3>
                 <a href="{{meal['dessert']['dish']['recipe_instructions']}}">
                     <img src="{{ meal['dessert']['dish']['recipe_image'] }}" title="Click for full recipe description" style="width:100%" class="w3-hover-opacity">
                 </a>
@@ -68,11 +75,10 @@
           {% endif%}
         </div>
       {% endfor %}
+            {% if not meals %}
+            <h1>There are no results.</h1>
+            <h2>Try to select other parameters.</h2>
+        {% endif %}
 </div>
 </body>
 </html>
-
-
-
-
-<!--({first:{dish:{}, ingredients: {}}, main:{dish:{}, ingredients: {}}, dessert:{dish:{}, ingredients: {}}}, {})-->
