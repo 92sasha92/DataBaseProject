@@ -51,19 +51,17 @@ def get_veg_recipes_from_db(min_veg_num, conn):
 
 
 def get_veg_recipes_results_by_params(min_veg_num):
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        res = []
-        recipes = get_veg_recipes_from_db(min_veg_num, conn)
-        for recipe in recipes:
-            meal = {}
-            recipe_id = recipe['recipe_id']
-            meal['meal'] = recipe
-            meal['meal']['prep_time'] = mysql_recipe_queries.get_time_str(meal['meal']['prep_time'])
-            meal['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(recipe_id, conn)
-            print(meal['ingredients'])
-            res.append(meal)
-        print(res)
-        conn.close()
-        return res
+    conn = my_connect.connect_to_db()
+    res = []
+    recipes = get_veg_recipes_from_db(min_veg_num, conn)
+    for recipe in recipes:
+        meal = {}
+        recipe_id = recipe['recipe_id']
+        meal['meal'] = recipe
+        meal['meal']['prep_time'] = mysql_recipe_queries.get_time_str(meal['meal']['prep_time'])
+        meal['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(recipe_id, conn)
+        print(meal['ingredients'])
+        res.append(meal)
+    print(res)
+    conn.close()
+    return res

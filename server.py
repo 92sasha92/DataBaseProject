@@ -191,5 +191,8 @@ def cocktail():
         return 'failed to load page or to send request'
 
 
+'''if __name__ == "__main__":
+    app.run()'''
+
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0',port='40101', threaded=True)

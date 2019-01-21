@@ -17,25 +17,26 @@ salad_keywords = ['salad', 'slaw', 'chopped']
 
 
 def get_romantic_meal_results_by_params(main_ingredient, side_ingredient, dessert_taste, max_prep_time):
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        res = []
-        max_prep_time_in_sec = str(max_prep_time*3600)
-        print(max_prep_time_in_sec)
-        meals_by_id = get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient, dessert_taste, max_prep_time_in_sec,  conn)
-        for meal_res in meals_by_id:
-            meals = {}
-            recipe_id = meal_res["main_recipe_id"]
-            meals["main"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            recipe_id = meal_res["side_recipe_id"]
-            meals["side"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            recipe_id = meal_res["dessert_recipe_id"]
-            meals["dessert"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            res.append(meals)
-        print(res)
-        conn.close()
-        return res
+    '''with my_connect.tunnel() as server:
+        print(server.local_bind_port)'''
+    conn = my_connect.connect_to_db()
+    res = []
+    max_prep_time_in_sec = str(max_prep_time * 3600)
+    print(max_prep_time_in_sec)
+    meals_by_id = get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient, dessert_taste,
+                                                             max_prep_time_in_sec, conn)
+    for meal_res in meals_by_id:
+        meals = {}
+        recipe_id = meal_res["main_recipe_id"]
+        meals["main"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        recipe_id = meal_res["side_recipe_id"]
+        meals["side"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        recipe_id = meal_res["dessert_recipe_id"]
+        meals["dessert"] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        res.append(meals)
+    print(res)
+    conn.close()
+    return res
 
 
 def get_recipe_from_db_by_romantic_meal_filter(main_ingredient, side_ingredient, dessert_ingredient, max_prep_time_in_sec,

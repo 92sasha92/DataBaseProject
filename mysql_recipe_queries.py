@@ -2,26 +2,24 @@ import my_connect
 
 
 def get_ethnic_meal_results_by_params(max_prep_time, courses, cuisine):
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        print("ok")
-        res = []
-        unlimited = False
-        if int(max_prep_time) == 4:
-            unlimited = True
+    conn = my_connect.connect_to_db()
+    print("ok")
+    res = []
+    unlimited = False
+    if int(max_prep_time) == 4:
+        unlimited = True
 
-        max_prep_time_in_sec = int(max_prep_time)*3600
-        meals_by_id = get_recipe_from_db_by_ethnic_meal_filter(unlimited, max_prep_time_in_sec, courses, cuisine, conn)
-        print(meals_by_id)
-        for meal_res in meals_by_id:
-            meals = {}
-            for course in courses:
-                recipe_id = meal_res[course.lower()+"_recipe_id"]
-                meals[course.lower()] = get_recipe_and_ingredients_by_id(recipe_id, conn)
-            res.append(meals)
-        conn.close()
-        return res
+    max_prep_time_in_sec = int(max_prep_time) * 3600
+    meals_by_id = get_recipe_from_db_by_ethnic_meal_filter(unlimited, max_prep_time_in_sec, courses, cuisine, conn)
+    print(meals_by_id)
+    for meal_res in meals_by_id:
+        meals = {}
+        for course in courses:
+            recipe_id = meal_res[course.lower() + "_recipe_id"]
+            meals[course.lower()] = get_recipe_and_ingredients_by_id(recipe_id, conn)
+        res.append(meals)
+    conn.close()
+    return res
 
 
 def get_recipe_ingredients_from_db(recipe_id, conn):

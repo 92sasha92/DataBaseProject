@@ -39,21 +39,19 @@ def get_recipes_from_db_by_easy_meal_filter(max_prep_time_in_sec, max_ingredient
 
 
 def get_easy_meals_results_by_params(max_prep_time, max_ingredients, ingredients_common_level):
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        print("connected")
-        res = []
-        max_prep_time_in_sec = str(int(max_prep_time)*60)
-        meals_by_id = get_recipes_from_db_by_easy_meal_filter(max_prep_time_in_sec, max_ingredients,
-                                                              ingredients_common_level, conn)
-        for meal_res in meals_by_id:
-            meal = {}
-            snack_id = meal_res['recipe_id']
-            meal['meal'] = meal_res
-            meal['meal']['prep_time'] = mysql_recipe_queries.get_time_str(meal['meal']['prep_time'])
-            meal['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(snack_id, conn)
-            res.append(meal)
-        print(res)
-        conn.close()
-        return res
+    conn = my_connect.connect_to_db()
+    print("connected")
+    res = []
+    max_prep_time_in_sec = str(int(max_prep_time) * 60)
+    meals_by_id = get_recipes_from_db_by_easy_meal_filter(max_prep_time_in_sec, max_ingredients,
+                                                          ingredients_common_level, conn)
+    for meal_res in meals_by_id:
+        meal = {}
+        snack_id = meal_res['recipe_id']
+        meal['meal'] = meal_res
+        meal['meal']['prep_time'] = mysql_recipe_queries.get_time_str(meal['meal']['prep_time'])
+        meal['ingredients'] = mysql_recipe_queries.get_recipe_ingredients_from_db(snack_id, conn)
+        res.append(meal)
+    print(res)
+    conn.close()
+    return res

@@ -4,23 +4,21 @@ import my_connect
 
 
 def get_holiday_meal_results_by_params(holiday, max_prep_time, min_num_of_guests, num_of_dishes):
-    with my_connect.tunnel() as server:
-        print(server.local_bind_port)
-        conn = my_connect.connect_to_db()
-        res = []
-        max_prep_time_in_sec = str(max_prep_time*3600)
-        print(max_prep_time_in_sec)
-        meals_by_id = get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec,
-                                                                min_num_of_guests, num_of_dishes, conn)
-        for meal_res in meals_by_id:
-            meals = {}
-            for num in range(1, num_of_dishes+1):
-                recipe_id = meal_res["recipe_id_"+str(num)]
-                meals["recipe_"+str(num)] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
-            res.append(meals)
-        print(res)
-        conn.close()
-        return res
+    conn = my_connect.connect_to_db()
+    res = []
+    max_prep_time_in_sec = str(max_prep_time * 3600)
+    print(max_prep_time_in_sec)
+    meals_by_id = get_recipe_from_db_by_holiday_meal_filter(holiday, max_prep_time_in_sec,
+                                                            min_num_of_guests, num_of_dishes, conn)
+    for meal_res in meals_by_id:
+        meals = {}
+        for num in range(1, num_of_dishes + 1):
+            recipe_id = meal_res["recipe_id_" + str(num)]
+            meals["recipe_" + str(num)] = mysql_recipe_queries.get_recipe_and_ingredients_by_id(recipe_id, conn)
+        res.append(meals)
+    print(res)
+    conn.close()
+    return res
 
 
 def get_unique_recipe_permutations(num_of_dishes):
