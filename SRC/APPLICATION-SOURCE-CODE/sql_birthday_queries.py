@@ -115,6 +115,9 @@ def get_query_of_ingredients_like_keywords(allergies):
             keywords = dairy_keywords
         elif allergy.lower() == 'gluten':
             keywords = gluten_keywords
+        elif allergy.lower() == 'egg':
+            keywords = egg_keywords
+
         for keyword in keywords:
             if idx != 0:
                 res += "OR "
