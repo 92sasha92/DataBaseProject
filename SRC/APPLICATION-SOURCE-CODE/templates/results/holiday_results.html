@@ -46,7 +46,7 @@
                             <p>Prep time: {{meal['recipe_'~i]['dish']['prep_time']}}</p>
                             <p>Ingredients:
                                 {% for ingredient in meal['recipe_'~i]['ingredients'] %}
-                                    {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                                    {{ ingredient['ingredient_name'] }}{% if not loop.last %},{% endif %}
                                 {% endfor %}
                             </p>
                         </div>

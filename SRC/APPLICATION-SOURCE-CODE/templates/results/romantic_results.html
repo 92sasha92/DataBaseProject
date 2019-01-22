@@ -33,7 +33,7 @@
                     <p>Prep time: {{meal['main']['dish']['prep_time']}}</p>
                     <p>Ingredients:
                         {% for ingredient in meal['main']['ingredients'] %}
-                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                            {{ ingredient['ingredient_name'] }}{% if not loop.last %},{% endif %}
                         {% endfor %}
                     </p>
                 </div>
@@ -50,7 +50,7 @@
                     <p>Prep time: {{meal['side']['dish']['prep_time']}}</p>
                     <p>Ingredients:
                         {% for ingredient in meal['side']['ingredients'] %}
-                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                            {{ ingredient['ingredient_name'] }}{% if not loop.last %},{% endif %}
                         {% endfor %}
                     </p>
                 </div>
@@ -67,7 +67,7 @@
                     <p>Prep time: {{meal['dessert']['dish']['prep_time']}}</p>
                     <p>Ingredients:
                         {% for ingredient in meal['dessert']['ingredients'] %}
-                            {{ ingredient['ingredient_name'] }}{% if loop.nextitem is defined %},{% endif %}
+                            {{ ingredient['ingredient_name'] }}{% if not loop.last %},{% endif %}
                         {% endfor %}
                     </p>
                 </div>
