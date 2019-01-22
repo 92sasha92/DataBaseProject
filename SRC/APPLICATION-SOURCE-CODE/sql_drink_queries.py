@@ -89,7 +89,6 @@ def get_drink_results_by_params(alcoholic, ingredients, glasses, max_ingredients
     res = []
     drinks_by_id = get_drinks_from_db(alcoholic, ingredients, glasses, max_ingredients, conn)
 
-    print("get_drink_results_by_params function in sql_drink_queries")
     for drink_res in drinks_by_id:
         drink = {}
         drink_id = drink_res['drink_id']
