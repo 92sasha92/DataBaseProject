@@ -253,163 +253,98 @@ p {color:white;}
 </head>
 <body>
 
-<form action="/birthday" method="POST" id="birthdayForm">
-<!-- Navbar (sit on top) -->
-<div class= "w3-top">
-<div class= "w3-center">
-<ul style="background-color: white;">
-<li ><a href="/">Main</a></li>
-<li style="float:left"><img src="static/images/logo.png" style="height:75px;" ></li>
-</ul>
-</div>
-</div>
+    <form action="/birthday" method="POST" id="birthdayForm">
+        <!-- Navbar (sit on top) -->
+        <div class="w3-top">
+            <div class="w3-center">
+                <ul style="background-color: white;">
+                    <li><a href="/">Main</a></li>
+                    <li style="float:left"><img src="static/images/logo.png" style="height:75px;"></li>
+                </ul>
+            </div>
+        </div>
 
-<!--1 row -->
-<div class="row">
-<div class="column">
-   <div class="mybox">
-   <p></p>
-      <p>Maximum Preparation Time</p>
-<div class="custom-select" style="width:200px;">
-  <select name="Maximum Preparation Time">
-    <option value="2">2 hours</option>
-    <option value="3">3 hours</option>
-    <option value="4">4 hours</option>
-    <option value="5">5 hours</option>
-  </select>
-</div>
-</div>
-</div><!-- end 1 col -->
-<div class="column">
-    <div class="mybox">
-   <p>Minimum Guests</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-<div class="custom-select" style="width:200px;">
-  <select name="Number Of Guests">
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="20">20</option>
-    <option value="40">40</option>
-  </select>
-</div>
-   </div>
-</div><!-- end 2 col -->
-<div class="column">
-  <div class="mybox">
-   <p >Party For Kids</p>
-      <div class="row"> <p></p></div>
-   <div class="row"><p></p> </div>  
-  <label class="toggle-check">
-        <input type="checkbox" name="with children" value="True" class="toggle-check-input" />
-        <input type="hidden"   name="with children" value="False" />
-        <span class="toggle-check-text"></span>
-    </label>
-</div>
-</div><!-- end 3 col -->
-<!--<div class="column">-->
-   <!--<div class="mybox">-->
-   <!--<p></p>-->
-      <!--<p>What Time Is It?</p>-->
-<!--<div class="custom-select" style="width:200px;">-->
-  <!--<select name="Time">-->
-    <!--<option value="Winter">Winter</option>-->
-    <!--<option value="Spring">Spring</option>-->
-    <!--<option value="Summer">Summer</option>-->
-    <!--<option value="Autumn">Autumn</option>-->
-  <!--</select>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>&lt;!&ndash; end 4 col &ndash;&gt;-->
-<!--</div>&lt;!&ndash; end 1 row &ndash;&gt;-->
-
-
-<!--&lt;!&ndash;2 row &ndash;&gt;-->
-<!--<div class="row">-->
-    <!--<div class="column">-->
-   <!--<div class="mybox">-->
-   <!--<p>Cake Flavor</p>-->
-<!--<div class="custom-select w3-card-4 mycheck">-->
- <!--<select >-->
-  <!--<input class="w3-check" type="checkbox" name="Cake Flavor" value="Chocolate">-->
-  <!--<label> Chocolate</label>-->
-     <!--<div class="row">-->
-  <!--<input class="w3-check" type="checkbox" name="Cake Flavor" value="Cheese">-->
-  <!--<label> Cheese</label>-->
-         <!--</div>-->
-  <!--<div class="row">-->
-  <!--<input class="w3-check" type="checkbox" name="Cake Flavor" value="Mousse">-->
-  <!--<label> Mousse</label>-->
-      <!--</div>-->
-     <!--<div class="row">-->
-  <!--<input class="w3-check" type="checkbox" name="Cake Flavor" value="Pie">-->
-  <!--<label> Pie</label>-->
-  <!--</div>-->
-
-  <!--</select>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>&lt;!&ndash; end 1 col &ndash;&gt;-->
-<!--<div class="column">-->
-   <!--<div class="mybox">-->
-     <!--<h3 style="text-align:right;">(optional)</h3>-->
-   <!--<p>Special</p>-->
-<!--<div class="custom-select w3-card-4 mycheck">-->
- <!--<select >-->
-  <!--<input class="w3-check" type="checkbox" name="Special" value="Vegetarian">-->
-  <!--<label> Vegetarian  </label>-->
-    <!--<div class="row"> -->
-  <!--<input class="w3-check" type="checkbox" name="Special" value="Vegan">-->
-  <!--<label> Vegan</label> -->
-  <!--</div>-->
-  <!--<div class="row"> -->
-  <!--<input class="w3-check" type="checkbox" name="Special" value="Without meat">-->
-  <!--<label> Without meat </label>-->
-<!--</div>-->
-  <!--</select>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>&lt;!&ndash; end 2 col &ndash;&gt;-->
-<div class="column">
-   <div class="mybox">
-    <h3 style="text-align:right;">(optional)</h3>
-   <p>Allergy</p>
-<div class="custom-select w3-card-4 mycheck">
- <select >
-  <input class="w3-check" type="checkbox" name="Allergy" value="Sesame">
-  <label> Sesame  </label>
-  <input class="w3-check" type="checkbox" name="Allergy" value="Egg">
-  <label> Egg</label> 
-  <div class="row"> 
-  <input class="w3-check" type="checkbox" name="Allergy" value="Peanuts">
-  <label> Peanuts</label>
-  <input class="w3-check" type="checkbox" name="Allergy" value="Dairy">
-  <label> Dairy</label>
-  </div>
-  <div class="row">
-  <input class="w3-check" type="checkbox" name="Allergy" value="Gluten">
-  <label> Gluten</label>
-</div>
-  </select>
-</div>
-</div>
-</div><!-- end 3 col -->
-<div class="column">
-   <div class="mybox">
-   <p style="font-size:20px; color:red;">finish?!</p>
-   <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-      <div class="row"><p> </p></div>
-   <div class="row"><p> </p></div>
-    <input type="submit" value="Submit">
-</div>
-</div><!-- end 4 col -->
-</div><!-- end 2 row -->
-
-
-
-</form>
-
+        <!--1 row -->
+        <div class="row">
+            <div class="column">
+                <div class="mybox">
+                    <p></p>
+                    <p>Maximum Preparation Time</p>
+                    <div class="custom-select" style="width:200px;">
+                        <select name="Maximum Preparation Time">
+                            <option value="2">2 hours</option>
+                            <option value="3">3 hours</option>
+                            <option value="4">4 hours</option>
+                            <option value="5">5 hours</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 1 col -->
+            <div class="column">
+                <div class="mybox">
+                    <p>Party For Kids</p>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <label class="toggle-check">
+                        <input type="checkbox" name="with children" value="True" class="toggle-check-input" />
+                        <input type="hidden" name="with children" value="False" />
+                        <span class="toggle-check-text"></span>
+                    </label>
+                </div>
+            </div>
+            <!-- end 2 col -->
+            <div class="column">
+                <div class="mybox">
+                    <h3 style="text-align:right;">(optional)</h3>
+                    <p>Allergy</p>
+                    <div class="custom-select w3-card-4 mycheck">
+                        <select>
+                            <input class="w3-check" type="checkbox" name="Allergy" value="Sesame">
+                            <label> Sesame </label>
+                            <input class="w3-check" type="checkbox" name="Allergy" value="Egg">
+                            <label> Egg</label>
+                            <div class="row">
+                                <input class="w3-check" type="checkbox" name="Allergy" value="Peanuts">
+                                <label> Peanuts</label>
+                                <input class="w3-check" type="checkbox" name="Allergy" value="Dairy">
+                                <label> Dairy</label>
+                            </div>
+                            <div class="row">
+                                <input class="w3-check" type="checkbox" name="Allergy" value="Gluten">
+                                <label> Gluten</label>
+                            </div>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end 3 col -->
+            <div class="column">
+                <div class="mybox">
+                    <p style="font-size:20px; color:red;">finish?!</p>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <div class="row">
+                        <p> </p>
+                    </div>
+                    <input type="submit" value="Submit">
+                </div>
+            </div>
+            <!-- end 4 col -->
+        </div>
+        <!-- end 2 row -->
+    </form>
 </body>
 <script>
 var x, i, j, selElmnt, a, b, c;

@@ -18,16 +18,9 @@ peanut_keywords = ['peanut', 'arachis', 'nut', 'goobers', 'lupin', 'mandelonas',
 
 def get_birthday_meal_results_by_params(allergies, is_kids_party, max_prep_time):
     conn = my_connect.connect_to_db()
-    print("ok")
     res = []
     max_prep_time_in_sec = str(max_prep_time * 3600)
-    print(is_kids_party)
     meals_by_id = get_recipe_from_db_by_birthday_meal_filter(allergies, is_kids_party, max_prep_time_in_sec, conn)
-    # print("before shufle")
-    # meals_by_id = random.sample(meals_by_id, len(meals_by_id))
-    # print("after shufle")
-    # if len(meals_by_id) > 20:
-    #     meals_by_id = meals_by_id[0:20]
     for meal_res in meals_by_id:
         meals = {}
         recipe_id = meal_res["snack_recipe_id"]
